@@ -15,5 +15,6 @@ class CameraController():
     
     def run(self):
         while True:
+            print("1")
             self.set_frame()
             time.sleep(4)
