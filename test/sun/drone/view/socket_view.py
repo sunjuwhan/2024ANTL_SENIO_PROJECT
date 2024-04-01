@@ -37,6 +37,7 @@ class SocketView():
             #for i in range(20) :
                 #self.video_socket.sendto(bytes([i]) + s[i*46080:(i+1)*46080],(UDP_IP,UDP_PORT))
             #print(self.__video_model.get_frame())
+            self.__video_model.set_frame()
             self.video_socket.sendto((self.__video_model.get_frame().encode() ),("165.229.185.195",5002))
             
     def __data_recv(self):
