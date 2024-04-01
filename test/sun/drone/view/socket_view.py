@@ -52,6 +52,7 @@ class SocketView():
         try:
             print("making thread")
             self.make_socket()
+            print("2")
             send_thread=Thread(target=self.__data_send)
             recv_thread=Thread(target=self.__data_recv)
             print("22222")
