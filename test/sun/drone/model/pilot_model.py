@@ -52,7 +52,7 @@ class Key:
 
     ##get
     def get_key(self):
-        return (self.__yaw,self.__throttle,self.__roll,self.__pitch)
+        return (float(self.__yaw),float(self.__throttle),float(self.__roll),float(self.__pitch))
 
 
 class PilotModel:
