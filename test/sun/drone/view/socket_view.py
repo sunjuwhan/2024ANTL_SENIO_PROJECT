@@ -5,6 +5,7 @@ from threading import *
 from model.pilot_model import *
 from model.video_mode import *
 import socket
+import time
 class SocketView():
     def __init__(self,model:PilotModel,video:VideoModel) -> None:
         self.video_socket=None
@@ -37,8 +38,11 @@ class SocketView():
             #for i in range(20) :
                 #self.video_socket.sendto(bytes([i]) + s[i*46080:(i+1)*46080],(UDP_IP,UDP_PORT))
             #print(self.__video_model.get_frame())
-            self.__video_model.set_frame()
+            a=1
+            self.__video_model.set_frame(a)
             self.video_socket.sendto((self.__video_model.get_frame().encode() ),("165.229.185.195",5002))
+            a+=1
+            time.sleep(1)
             
     def __data_recv(self):
         while True:
