@@ -14,6 +14,7 @@ class Main():
     def run(self):
         camera_thread=Thread(target=self.__controller.get_camera)
         camera_thread.run()
+        print('as')
         self.__view.run()
         
         
