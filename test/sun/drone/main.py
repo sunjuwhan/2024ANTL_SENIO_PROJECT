@@ -11,9 +11,11 @@ class Main():
         self.__controller=controller.MasterController(self.__pilot_model,self.__camera_model)
         self.__view= view.SocketView(self.__pilot_model,self.__camera_model)
 
-    async def run(self):
+    def run(self):
         camera_thread=Thread(target=self.__controller.run_camera())
         self.__view.run()
+        
+        
     async def run_pilot(self) :
         await self.__controller.run_pilot()
         
