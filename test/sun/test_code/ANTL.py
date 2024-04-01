@@ -9,14 +9,14 @@ from threading import Thread
 
 
 ###라파 한테 받을곳 
-HOST='127.0.0.1'
-server_port=5001
+HOST='165.229.185.195'
+server_port=5000
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((HOST,server_port))  #라즈베리파이로 부터 데이터 받을 소켓이고 
 
 #다시 vm ware로 싸줘야하는곳 
 HOST_2='192.168.232.136'
-PORT_2=5000  
+PORT_2=5001
 sock_2=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
 def recv_joystick():
@@ -32,11 +32,13 @@ def recv_joystick():
 def recv_video():
     host_antl='127.0.0.1'
     prot=5002
+    print("dfasdfad")
     sock_antl = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock_antl.bind((host_antl,prot))  #라즈베리파이로 부터 데이터 받을 소켓이고 
     
     while True:
-        data=sock_antl.recvfrom(1024)
+        print("asdf")
+        data,addr=sock_antl.recvfrom(1024)
         print("vmware로 부터 받은 데이터는 ",data)
         
         
