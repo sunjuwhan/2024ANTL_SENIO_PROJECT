@@ -14,12 +14,12 @@ class Main():
     async def run(self):
         camera_thread=Thread(target=self.__controller.run_camera())
         self.__view.run()
-        asyncio.run(self.__controller.run_pilot())
     
-    
+        
 if __name__=="__main__":
     main_function=Main()
     main_function.run()
+    asyncio.run(main_function.__controller.run_pilot())
         
         
     
