@@ -62,12 +62,13 @@ class PilotModel:
         self.__mode = mode
         return
 
-    def set_key(self, key):
+    def set_data(self, key,mode):
         try:
             self.__key.set_key(
                 yaw=key[0], throttle=key[1], 
                 pitch=key[2], roll=key[3]
                 )
+            self.__mode=mode
         except:
             print("ERROR :: Bad key request")
             self.__key.set_key(
