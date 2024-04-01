@@ -10,7 +10,9 @@ class MasterController():
         self.__camera_controller=CameraController(self.__camera_model)
    
     def get_camera(self):
-        return self.__camera_controller
+        while True:
+            print('1')
+            time.sleep(1)
     def run_camera(self):
         print("run_camera 1")
         self.__camera_controller.run()

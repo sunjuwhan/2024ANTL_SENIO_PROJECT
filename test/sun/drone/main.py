@@ -12,12 +12,7 @@ class Main():
         self.__view= view.SocketView(self.__pilot_model,self.__camera_model)
 
     def run(self):
-        camera_thread=Thread(target=self.__controller.get_camera().run)
-        
-        
-        
-        
-        
+        camera_thread=Thread(target=self.__controller.get_camera)
         camera_thread.run()
         self.__view.run()
         
