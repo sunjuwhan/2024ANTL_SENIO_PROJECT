@@ -42,15 +42,12 @@ class SocketView():
     def __data_recv(self):
         while True:
             try:
-                print("before_receive")
                 recv_data=self.pilot_socket.recv(1024)
                 decoded_data=recv_data.decode()
-                print("after") 
                 data=decoded_data.split(' ')
                 key_data=data[0:4] 
                 mode_data=data[4]
                 #data 를 interface인 pilot_mode에다가 저장해주고
-                print(key_data)
                 self.__pilot_mode.set_data(key_data,mode_data) 
 
             except Exception as e:
