@@ -17,7 +17,7 @@ class SocketView():
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         print('b')
         self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        print(c)
+        print('c')
         self.pilot_socket.bind(("127.0.0.1"),5000) 
         print('d')
     def __data_send(self): #이미지 전송할 함수
