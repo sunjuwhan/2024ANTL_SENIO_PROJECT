@@ -9,7 +9,8 @@ class MasterController():
         self.__camera_model=video_model
         self.__camera_controller=CameraController(self.__camera_model)
    
-   
+    def get_camera(self):
+        return self.__camera_controller
     def run_camera(self):
         print("run_camera 1")
         self.__camera_controller.run()
