@@ -19,6 +19,6 @@ class PilotController:
             #print(throttle)
             if(mode=="0"):
                 await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
-            asyncio.sleep(0.1)
+                asyncio.sleep(0.1)
               
         
