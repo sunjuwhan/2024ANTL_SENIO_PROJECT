@@ -3,10 +3,10 @@ from controller.camera_controller import *
 from model.pilot_model import *
 from model.video_mode import *
 class MasterController():
-    def __init__(self) :
+    def __init__(self,pilot_model:PilotModel,video_model:VideoModel) :
         self.__pilot_controller=None
-        self.__pilot_model=PilotModel()
-        self.__camera_model=VideoModel()
+        self.__pilot_model=pilot_model
+        self.__camera_model=video_model
         self.__camera_controller=CameraController(self.__camera_model)
    
    

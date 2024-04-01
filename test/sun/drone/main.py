@@ -6,8 +6,10 @@ from threading import *
 class Main():
     def __init__(self) -> None:
 
-        self.__controller=controller.MasterController()
-        self.__view= view.SocketView()
+        self.__pilot_model=model.PilotModel()
+        self.__camera_model=model.VideoModel()
+        self.__controller=controller.MasterController(self.__pilot_model,self.__camera_model)
+        self.__view= view.SocketView(self.__pilot_model,self.__camera_model)
 
     async def run(self):
         camera_thread=Thread(target=self.__controller.run_camera())

@@ -16,7 +16,7 @@ sock.bind((HOST,server_port))  #라즈베리파이로 부터 데이터 받을 �
 
 #다시 vm ware로 싸줘야하는곳 
 HOST_2='192.168.232.136'
-PORT_2=65433
+PORT_2=5000  
 sock_2=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
 def recv_joystick():
