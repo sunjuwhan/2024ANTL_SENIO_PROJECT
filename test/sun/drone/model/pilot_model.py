@@ -10,8 +10,8 @@ class Drone:
     async def make_drone(self):
         self.antl_drone=System()
         #await self.antl_drone.connect(system_address="serial:///dev/ttyAMA0")
-        
-        await self.antl_drone.connect(system_address="upd://14540")
+        print("Start connect") 
+        await self.antl_drone.connect(system_address="udp://14540")
         print("Wating for drone to connect...")  #drone connect 
         
         async for state in self.antl_drone.core.connection_state():
