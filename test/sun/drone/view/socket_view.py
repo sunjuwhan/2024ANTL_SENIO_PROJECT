@@ -13,10 +13,13 @@ class SocketView():
         self.__video_model=video
     
     def make_socket(self):
+        print('a')
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        print('b')
         self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        
+        print(c)
         self.pilot_socket.bind(("127.0.0.1"),5000) 
+        print('d')
     def __data_send(self): #이미지 전송할 함수
        while True :  
            ###여기에 추후 type을 check해서 real_sense를 보낼지 pi camera를 보낼지 아니면 임시 데이터를 보낼지 판단해야하는 부분
