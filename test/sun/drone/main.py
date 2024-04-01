@@ -13,6 +13,7 @@ class Main():
 
     def run(self):
         camera_thread=Thread(target=self.__controller.run_camera())
+        print('asdfadfs')
         self.__view.run()
         
         
