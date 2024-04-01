@@ -12,7 +12,7 @@ class Main():
         self.__view= view.SocketView(self.__pilot_model,self.__camera_model)
 
     def run(self):
-        camera_thread=Thread(target=self.__controller.run_camera())
+        camera_thread=Thread(target=self.__controller.run_camera)
         camera_thread.run()
         print('asdfadfs')
         self.__view.run()
