@@ -1,16 +1,20 @@
 from controller.pilot_controller import *
 from controller.camera_controller import *
+from model.pilot_model import *
+from model.video_mode import *
 class MasterController():
     def __init__(self) :
         self.__pilot_controller=None
-        self.__camera_controller=CameraController()
+        self.__pilot_model=PilotModel()
+        self.__camera_model=VideoModel()
+        self.__camera_controller=CameraController(self.__camera_model)
    
    
     def run_camera(self):
         self.__camera_controller.run()
     async def run_pilot(self):    #asyncio .run()으로 실행하고 나머지는 thread로 실행해야할거같은데
         try:
-            self.__pilot_controller=PilotController()
+            self.__pilot_controller=PilotController(self.__pilot_model)
             await self.__pilot_controller.init_dron()
             await self.__pilot_controller.run()
         except Exception as E:
