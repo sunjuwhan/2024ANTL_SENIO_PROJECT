@@ -6,7 +6,7 @@ class PilotController:
         self.__drone=Drone()
         
     async def init_dron(self):
-        self.__drone.make_drone()
+        await self.__drone.make_drone()
         pass
     
     def __recv_data(self,key,mode): #master 부터 recv해서 드론 컨트롤 하는 부분 
