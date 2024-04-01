@@ -22,6 +22,7 @@ class Main():
         
 if __name__=="__main__":
     main_function=Main()
+    print("start")
     main_function.run()
     asyncio.run(main_function.run_pilot())
         
