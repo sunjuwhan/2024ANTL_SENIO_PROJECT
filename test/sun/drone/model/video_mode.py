@@ -5,4 +5,6 @@ class VideoModel():
     def set_frame(self,data):
         self.frame=data
     def get_frame(self):
+        if(self.frame==None):
+            self.frame=0
         return self.frame   
