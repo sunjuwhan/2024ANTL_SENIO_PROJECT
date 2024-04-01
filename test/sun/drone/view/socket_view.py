@@ -6,7 +6,7 @@ from model.pilot_model import *
 from model.video_mode import *
 import socket
 class SocketView():
-    def __init__(self,controller,model:PilotModel,video:VideoModel) -> None:
+    def __init__(self,model:PilotModel,video:VideoModel) -> None:
         self.video_socket=None
         self.pilot_socket=None
         self.__pilot_mode=model
