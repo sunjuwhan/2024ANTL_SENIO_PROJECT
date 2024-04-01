@@ -19,7 +19,7 @@ class SocketView():
         self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         print('c')
         try:
-            self.pilot_socket.bind(("127.0.0.1"),5000) 
+            self.pilot_socket.bind(("127.0.0.1",5000)) 
         except Exception as e:
             print(e)
             
