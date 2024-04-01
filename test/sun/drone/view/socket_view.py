@@ -50,11 +50,13 @@ class SocketView():
             
     def run(self):
         try:
+            print("making thread")
             self.make_socket()
             send_thread=Thread(target=self.__data_send)
             recv_thread=Thread(target=self.__data_recv)
             send_thread.start()
             recv_thread.start()
+            print("socket thread satar")
         except:
             print("socket_view thread is dead")
     
