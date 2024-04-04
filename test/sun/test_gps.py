@@ -21,6 +21,9 @@ async def run():
 async def print_position(drone):
     async for position in drone.telemetry.position():
         print(position.latitude_deg)
+        print(position.longitude_deg)
+        print(position.absolute_altitude_m)
+        
 
 
 if __name__ == "__main__":

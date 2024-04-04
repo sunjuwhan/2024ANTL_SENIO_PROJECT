@@ -1,9 +1,16 @@
+from model import *
 import asyncio
 class GpsController:
-    def __init__(self,model) -> None:
+    def __init__(self,model:GpsModel,drone:Drone) -> None:
         self.__gps_mode=model
-    def run_gps(self):   #gps 
-    
+        self.__drone=Drone
+        
     async def run_gps(self):
-        async for 
+        async for position in self.__drone.telemetry.position():
+            
+            self.__gps_mode.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,position.relative_altitude_m)
+            
+            
+            
+            
     

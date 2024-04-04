@@ -85,10 +85,3 @@ class PilotModel:
     def get_data(self):
         return (self.__key,self.__mode)
 
-class GPS:
-    def __init__(self) -> None:
-        pass
-    def set_gps(self):
-        pass
-    def get_gps(self):
-        pass

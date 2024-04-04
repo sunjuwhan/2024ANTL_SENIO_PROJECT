@@ -8,9 +8,9 @@ class Main():
 
         self.__pilot_model=model.PilotModel()
         self.__camera_model=model.VideoModel()
-        self.__controller=controller.MasterController(self.__pilot_model,self.__camera_model)
+        self.__gps_model=model.GpsModel()
+        self.__controller=controller.MasterController(self.__pilot_model,self.__camera_model,self.__gps_model)
         self.__view= view.SocketView(self.__pilot_model,self.__camera_model)
-        self.__gps_mode=model.GpsModel()
     def run(self):
         #camera_thread=Thread(target=self.__controller.get_camera)
         #camera_thread.run()
