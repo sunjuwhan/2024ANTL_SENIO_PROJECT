@@ -17,7 +17,7 @@ class SocketView():
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         try:
-            self.pilot_socket.bind(("192.168.232.136",5001)) 
+            self.pilot_socket.bind(("192.168.232.137",5001)) 
         except Exception as e:
             print(e)
     def __data_send(self): #이미지 전송할 함수

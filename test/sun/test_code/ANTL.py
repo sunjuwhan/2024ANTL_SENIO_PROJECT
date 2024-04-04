@@ -15,7 +15,7 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((HOST,server_port))  #라즈베리파이로 부터 데이터 받을 소켓이고 
 
 #다시 vm ware로 싸줘야하는곳 
-HOST_2='192.168.232.136'
+HOST_2='192.168.232.137'
 PORT_2=5001
 sock_2=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
