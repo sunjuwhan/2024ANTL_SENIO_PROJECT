@@ -19,6 +19,7 @@ class SocketView():
         try:
             self.pilot_socket.bind(("192.168.232.137",5001)) 
         except Exception as e:
+            print("make_socket Error here")
             print(e)
     def __data_send(self): #이미지 전송할 함수
        while True : 
