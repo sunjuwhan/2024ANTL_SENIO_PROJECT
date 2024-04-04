@@ -10,7 +10,8 @@ async def run():
     await drone.connect(system_address="udp://:14540")
 
     # Start the tasks
-    asyncio.ensure_future(print_position(drone))
+    #asyncio.ensure_future(print_position(drone))
+    await print_position(drone)
     while True:
         await asyncio.sleep(2)
 
