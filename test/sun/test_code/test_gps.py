@@ -19,7 +19,7 @@ async def run():
 
 async def print_position(drone):
     async for position in drone.telemetry.position():
-        print(position)
+        print(type(position))
         asyncio.sleep(1)
 
 
