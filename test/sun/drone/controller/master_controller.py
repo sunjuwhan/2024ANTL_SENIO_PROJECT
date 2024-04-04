@@ -19,8 +19,8 @@ class MasterController():
         try:
             self.__pilot_controller=PilotController(self.__pilot_model,self.__gps_model)
             await self.__pilot_controller.init_dron()
-            self.__drone=self.__pilot_controller.get_dron_from_controller()  
-            self.__gps_controller=GpsController(self.__gps_model,self.__drone) #만든 드론을 넣고 
+            #self.__drone=self.__pilot_controller.get_dron_from_controller()  
+            #self.__gps_controller=GpsController(self.__gps_model,self.__drone) #만든 드론을 넣고 
             #await self.__gps_controller.run_gps()  #gps 시작하고 
             await self.__pilot_controller.run()  #controller 시작하고 
         except Exception as E:
