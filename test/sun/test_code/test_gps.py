@@ -31,7 +31,7 @@ async def print_in_air(drone):
 
 
 async def print_position(drone):
-    async for position in drone.telemetry.position():
+    for position in drone.telemetry.position():
         print(position)
 
 
