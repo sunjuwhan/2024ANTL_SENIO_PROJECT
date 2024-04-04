@@ -9,7 +9,7 @@ class PilotController:
         await self.__drone.make_drone()
         pass
     def get_dron_from_controller(self):
-        return self.__drone
+        return self.__drone.get_drone()
     
     
     
