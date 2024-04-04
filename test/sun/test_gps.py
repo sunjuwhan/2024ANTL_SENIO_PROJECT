@@ -2,7 +2,7 @@
 
 import asyncio
 import numpy
-from sun_mavsdk import System
+from sun_mavsdk.system import System
 
 
 async def run():
