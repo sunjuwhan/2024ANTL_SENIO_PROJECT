@@ -2,7 +2,7 @@
 
 import asyncio
 import numpy
-from sun_mavsdk.mavsdk import System
+from mavsdk import System
 
 
 async def run():
@@ -20,8 +20,7 @@ async def run():
 
 async def print_position(drone):
     async for position in drone.telemetry.position():
-        print(position.get_gps())
-        asyncio.sleep(1)
+        print(position.latitude_deg)
 
 
 if __name__ == "__main__":
