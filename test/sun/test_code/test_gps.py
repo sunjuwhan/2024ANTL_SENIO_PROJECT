@@ -10,9 +10,9 @@ async def run():
     await drone.connect(system_address="udp://:14540")
 
     # Start the tasks
-    asyncio.ensure_future(print_battery(drone))
-    asyncio.ensure_future(print_gps_info(drone))
-    asyncio.ensure_future(print_in_air(drone))
+    #asyncio.ensure_future(print_battery(drone))
+    #asyncio.ensure_future(print_gps_info(drone))
+    #asyncio.ensure_future(print_in_air(drone))
     asyncio.ensure_future(print_position(drone))
 
     while True:
@@ -35,8 +35,7 @@ async def print_in_air(drone):
 
 
 async def print_position(drone):
-    async for position in drone.telemetry.position():
-        print(position)
+    print(drone.telemetry.position())
 
 
 if __name__ == "__main__":
