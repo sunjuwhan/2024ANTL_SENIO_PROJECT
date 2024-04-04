@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import asyncio
 from mavsdk import System
 
@@ -7,13 +9,18 @@ async def run():
     drone = System()
     await drone.connect(system_address="udp://:14540")
 
-    # Start the task
+    # Start the tasks
+    #asyncio.ensure_future(print_position(drone))
     await print_position(drone)
+    #while True:
+        #await asyncio.sleep(2)
+
 
 
 async def print_position(drone):
-    position = drone.telemetry.position()
-    print(f"Latitude: {position.latitude_deg}, Longitude: {position.longitude_deg}, Altitude: {position.absolute_altitude_m}")
+    async for position in drone.telemetry.position():
+        print(position[0])
+        asyncio.sleep(1)
 
 
 if __name__ == "__main__":
