@@ -3,7 +3,7 @@ import asyncio
 class GpsController:
     def __init__(self,model:GpsModel,drone:Drone) -> None:
         self.__gps_mode=model
-        self.__drone=Drone
+        self.__drone=drone
         
     async def run_gps(self):
         print("herer")
