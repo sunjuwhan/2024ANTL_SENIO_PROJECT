@@ -27,12 +27,9 @@ class PilotController:
                 b=position.longitude_deg
                 c=position.absolute_altitude_m
                 d=position.relative_altitude_m 
-                print(a)
                 break
-            
-            print("1")
+            print(throttle,mode)
             if(mode=="0"):
-                print("0")
                 await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
             elif (mode=="1") : #gps mode
                 (go_a,go_b,go_c,go_d)=(a,b,c,d)

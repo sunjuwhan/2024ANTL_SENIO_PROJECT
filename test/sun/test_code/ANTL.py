@@ -22,6 +22,7 @@ sock_2=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 def recv_joystick():
     while True:
         data,addr=sock.recvfrom(1024)
+        print(data)
         sock_2.sendto(data,(HOST_2,PORT_2)) #vm ware로 쏴주고
 
 
