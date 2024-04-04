@@ -82,8 +82,11 @@ def run():
     vry_pos=float(stabil_vry(vry_pos)/1000)
     vrx_pos_2=float((stabil_vrx_2(vrx_pos_2)-500)/500)
     vry_pos_2=float((stabil_vry_2(vry_pos_2)-500)/500)
-    
-    mode="0"
+    if(swt_val>500) :
+      
+      mode="0"
+    else:
+      mode="1"
     msg=f"{vrx_pos} {vry_pos} {vrx_pos_2} {vry_pos_2} "+mode  #yaw throtle  roll pirch
     print(msg)
     sock.sendto(msg.encode(),(HOST,PORT))

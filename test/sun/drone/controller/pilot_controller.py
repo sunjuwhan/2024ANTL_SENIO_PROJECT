@@ -1,10 +1,11 @@
 import asyncio
 from model.pilot_model import *
+from model.gps_model import *
 class PilotController:
-    def __init__(self,pilotmodel:PilotModel) -> None:
+    def __init__(self,pilotmodel:PilotModel,gpsmodel:GpsModel) -> None:
         self.__pilot_model=pilotmodel  
         self.__drone=Drone()
-        
+        self.__gps_model= gpsmodel
     async def init_dron(self):  #자자 이친구 잘 꺼내씁니다. return 해서 써 
         await self.__drone.make_drone()
         pass
@@ -20,12 +21,18 @@ class PilotController:
         while True:
             (key,mode)=self.__pilot_model.get_data()
             (yaw,throttle,roll,pitch)=key.get_key()
+            (a,b,c,d)=self.__gps_model.get_gps()
             #print(throttle)
             if(mode=="0"):
-                
                 await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
             elif (mode=="1") : #gps mode
-                
+                (go_a,go_b,go_c,go_d)=(a,b,c,d)
+                while True:
+                    (key,mode)=self.__pilot_model.get_data()
+                    if(mode!="1") :
+                        break
+                    await self.__drone.get_drone().goto_location(go_a,go_b,go_c,go_d)
+                    
                 pass
             elif (mode=="2"):
                 pass 

@@ -17,7 +17,7 @@ class MasterController():
         self.__camera_controller.run()
     async def run_pilot(self):    #asyncio .run()으로 실행하고 나머지는 thread로 실행해야할거같은데
         try:
-            self.__pilot_controller=PilotController(self.__pilot_model)
+            self.__pilot_controller=PilotController(self.__pilot_model,self.__gps_model)
             await self.__pilot_controller.init_dron()
             self.__drone=self.__pilot_controller.get_dron_from_controller()  
             self.__gps_controller=GpsController(self.__gps_model,self.__drone) #만든 드론을 넣고 
