@@ -344,7 +344,8 @@ class Position:
                 ])
 
         return f"Position: [{struct_repr}]"
-
+    def get_gps(self):
+        return (self.latitude_deg,self.longitude_deg,self.absolute_altitude_m,self.relative_altitude_m)
     @staticmethod
     def translate_from_rpc(rpcPosition):
         """ Translates a gRPC struct to the SDK equivalent """
