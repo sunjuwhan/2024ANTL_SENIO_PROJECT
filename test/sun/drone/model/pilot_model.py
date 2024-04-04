@@ -13,17 +13,14 @@ class Drone:
         print("Start connect") 
         await self.antl_drone.connect(system_address="udp://:14540")
         print("Wating for drone to connect...")  #drone connect 
-        
         async for state in self.antl_drone.core.connection_state():
             if state.is_connected:
                 print(f"-- Connected to drone!")
                 break
-            
         async for health in self.antl_drone.telemetry.health():
             if health.is_global_position_ok and health.is_home_position_ok:
                 print("-- Global position state is good enough for flying.")
                 break
-
         print("-- Arming")
         await self.antl_drone.action.arm()
         await asyncio.sleep(3)
@@ -88,3 +85,10 @@ class PilotModel:
     def get_data(self):
         return (self.__key,self.__mode)
 
+class GPS:
+    def __init__(self) -> None:
+        pass
+    def set_gps(self):
+        pass
+    def get_gps(self):
+        pass

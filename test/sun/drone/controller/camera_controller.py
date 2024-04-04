@@ -1,20 +1,19 @@
 import time
 from model.video_mode import *
+import cv2
 class CameraController():
     def __init__(self,model:VideoModel) -> None:
         self.__model=model
-        self.__frame=0
-        pass
-    
+        self.__cap=model.get_cap()
     def set_frame(self):
-        self.__model.set_frame(self.__frame)
-        self.__frame+=1
+        ret,frame=self.__cap.read()
+        d=frame.flattend()
+        s=d.tostring()
+        self.__model.set_frame(s)
         
     def get_frame(self):
-        pass
+        return self._
     
     def run(self):
         while True:
-            print("1")
             self.set_frame()
-            time.sleep(4)
