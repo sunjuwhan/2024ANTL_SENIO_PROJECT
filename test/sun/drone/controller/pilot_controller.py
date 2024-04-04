@@ -22,7 +22,7 @@ class PilotController:
             (key,mode)=self.__pilot_model.get_data()
             (yaw,throttle,roll,pitch)=key.get_key()
             #(a,b,c,d)=self.__gps_model.get_gps()
-            async for position in self.__drone.telemetry.position():
+            async for position in self.__drone.get_drone().telemetry.position():
                 a=position.latitude_deg
                 b=position.longitude_deg
                 c=position.absolute_altitude_m
