@@ -12,7 +12,7 @@ async def run():
 
 
 async def print_position(drone):
-    position = await drone.telemetry.position()
+    position = drone.telemetry.position()
     print(f"Latitude: {position.latitude_deg}, Longitude: {position.longitude_deg}, Altitude: {position.absolute_altitude_m}")
 
 
