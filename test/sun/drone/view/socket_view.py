@@ -22,9 +22,11 @@ class SocketView():
             print("make_socket Error here")
             print(e)
     def __data_send(self): #이미지 전송할 함수
-       #while True : 
+        while True : 
            # pass 
-        print("hello ")
+    
+            print("hello ")
+            time.sleep(10)
             #s=self.__video_model.get_frame()
             #for i in range(20):
                 #self.video_socket.sendto(bytes[i] + s[i*46080:(i+1) *46080],("165.229.185.195",5002)) 
