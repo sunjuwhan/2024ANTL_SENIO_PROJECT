@@ -10,6 +10,7 @@ class GpsModel:
         self.__absolute_altitude=absolute
         self.__relative_altitude=relative
         
+
     def get_gps(self):
         return(self.__latitude_deg,self.__longitude_deg,self.__absolute_altitude,self.__relative_altitude)
     
