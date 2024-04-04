@@ -31,6 +31,7 @@ class SocketView():
     def __data_recv(self):
         while True:
             try:
+                print("before receive")
                 recv_data=self.pilot_socket.recv(1024)
                 decoded_data=recv_data.decode()
                 data=decoded_data.split(' ')
