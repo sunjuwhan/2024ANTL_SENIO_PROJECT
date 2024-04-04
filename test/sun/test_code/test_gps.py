@@ -31,8 +31,9 @@ async def print_in_air(drone):
 
 
 async def print_position(drone):
-    for position in drone.telemetry.position():
+    async for position in drone.telemetry.position():
         print(position)
+        asyncio.sleep(1)
 
 
 if __name__ == "__main__":
