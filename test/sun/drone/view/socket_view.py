@@ -55,7 +55,7 @@ class SocketView():
             recv_thread=Thread(target=self.__data_recv)
             send_thread.start()
             recv_thread.start()
-            print("socket thread satar")
+            print("socket thread started")
         except:
             print("socket_view thread is dead")
     

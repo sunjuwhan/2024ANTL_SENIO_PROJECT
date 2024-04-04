@@ -22,16 +22,16 @@ class PilotController:
             (key,mode)=self.__pilot_model.get_data()
             (yaw,throttle,roll,pitch)=key.get_key()
             #(a,b,c,d)=self.__gps_model.get_gps()
-            async for position in self.__drone.get_drone().telemetry.position():
-                a=position.latitude_deg
-                b=position.longitude_deg
-                c=position.absolute_altitude_m
-                d=position.relative_altitude_m 
-                break
+            #async for position in self.__drone.get_drone().telemetry.position():
+                #a=position.latitude_deg
+                #b=position.longitude_deg
+                #c=position.absolute_altitude_m
+                #d=position.relative_altitude_m 
+                #break
             if(mode=="0"):
                 await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
             elif (mode=="1") : #gps mode
-                (go_a,go_b,go_c,go_d)=(a,b,c,d)
+                (go_a,go_b,go_c,go_d)=(0,0,0,0)
                 while True:
                     (key,mode)=self.__pilot_model.get_data()
                     if(mode!="1") :
