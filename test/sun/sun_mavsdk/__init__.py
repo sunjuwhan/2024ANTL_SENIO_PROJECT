@@ -4,7 +4,7 @@ import asyncio
 import platform
 import sys
 
-from .system import System
+from sun_mavsdk.system import System
 
 # Check for compatibility
 (major, minor, _) = platform.python_version_tuple()
