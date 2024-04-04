@@ -31,7 +31,6 @@ def recv_joystick():
 def recv_video():
     host_antl='165.229.185.195'
     prot=5002
-    print("dfasdfad")
     sock_antl = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock_antl.bind((host_antl,prot))  #라즈베리파이로 부터 데이터 받을 소켓이고 
     

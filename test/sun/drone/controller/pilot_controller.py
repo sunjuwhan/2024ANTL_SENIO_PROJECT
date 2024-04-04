@@ -21,7 +21,14 @@ class PilotController:
         while True:
             (key,mode)=self.__pilot_model.get_data()
             (yaw,throttle,roll,pitch)=key.get_key()
-            (a,b,c,d)=self.__gps_model.get_gps()
+            #(a,b,c,d)=self.__gps_model.get_gps()
+            async for position in self.__drone.telemetry.position():
+                a=position.latitude_deg
+                b=position.longitude_deg
+                c=position.absolute_altitude_m
+                d=position.relative_altitude_m 
+                break
+            #print(position.latitude_deg,position.longitude_deg)
             #print(throttle)
             if(mode=="0"):
                 await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
