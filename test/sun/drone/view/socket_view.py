@@ -14,37 +14,17 @@ class SocketView():
         self.__video_model=video
     
     def make_socket(self):
-        print('a')
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        print('b')
         self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        print('c')
         try:
             self.pilot_socket.bind(("192.168.232.136",5001)) 
         except Exception as e:
             print(e)
-            
-        print('d')
     def __data_send(self): #이미지 전송할 함수
        while True :  
-           ###여기에 추후 type을 check해서 real_sense를 보낼지 pi camera를 보낼지 아니면 임시 데이터를 보낼지 판단해야하는 부분
-           
-            #frame=self.__video_model.get_frame() #이거는 파이 frame인지 real_sense frame인지에 따라서 변할수있는것
-            
-            #color_frame=frame.get_color_frame()
-            #color_image=np.asanyarray(color_frame.get_data())
-            #d=color_image.flatten()
-            #s=d.tostring()
-            #for i in range(20) :
-                #self.video_socket.sendto(bytes([i]) + s[i*46080:(i+1)*46080],(UDP_IP,UDP_PORT))
-            #print(self.__video_model.get_frame())
-            self.__video_model.set_frame()
-            frame=self.__video_model.get_frame()
-            a="1"
-            self.__video_model.set_frame(a)
-            self.video_socket.sendto((self.__video_model.get_frame().encode() ),("165.229.185.195",5002))
-            a+="1"
-            time.sleep(1)
+            s=self.__video_model.get_frame()
+            for i in range(20):
+                self.video_socket.sendto(bytes[i] + s[i*46080:(i+1) *46080],("165.229.185.195",5002)) 
             
     def __data_recv(self):
         while True:
