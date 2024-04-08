@@ -1,10 +1,14 @@
 import spidev
 import time
 import os
+import socket
+import numpy
+import cv2
+from threading import *
 
 import socket
-HOST='165.229.185.195'
-PORT = 5000
+HOST='192.168.50.221'  #내가 쏴야하는 곳 
+PORT = 5001
 
 def set_spi(num):
   spi=spidev.SpiDev()
@@ -90,5 +94,43 @@ def run():
     print(msg)
     sock.sendto(msg.encode(),(HOST,PORT))
     time.sleep(delay)
+def run_recv():
+  sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
   
-run()
+  UDP_IP = "192.168.50.52"  #내가 받을곳
+  UDP_PORT = 5002
+
+  sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  sock.bind((UDP_IP, UDP_PORT))
+
+  s = [b'\xff' * 46080 for x in range(20)]
+
+  fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+  out = cv2.VideoWriter('output.avi', fourcc, 25.0, (640, 480))
+
+  while True:
+      picture = b''
+
+      data, addr = sock.recvfrom(46081)
+      s[data[0]] = data[1:46081]
+
+      if data[0] == 19:
+          for i in range(20):
+              picture += s[i]
+
+          frame = numpy.fromstring(picture, dtype=numpy.uint8)
+          frame = frame.reshape(480, 640, 3)
+          cv2.imshow("frame", frame)
+          out.write(frame)
+
+          if cv2.waitKey(1) & 0xFF == ord('q'):
+              cv2.destroyAllWindows()
+              break
+
+
+
+
+thread_a=Thread(target=run)
+thread_b=Thread(target=run_recv)
+thread_a.start()
+thread_b.start()

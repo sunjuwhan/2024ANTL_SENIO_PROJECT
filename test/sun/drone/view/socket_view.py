@@ -17,7 +17,7 @@ class SocketView():
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         try:
-            self.pilot_socket.bind(("192.168.232.137",5001)) 
+            self.pilot_socket.bind(("192.168.50.221",5001)) 
         except Exception as e:
             print("make_socket Error here")
             print(e)
@@ -25,7 +25,7 @@ class SocketView():
         while True : 
             s=self.__video_model.get_frame()
             for i in range(20):
-                self.video_socket.sendto(bytes[i] + s[i*46080:(i+1) *46080],("165.229.185.195",5002)) 
+                self.video_socket.sendto(bytes[i] + s[i*46080:(i+1) *46080],("192.168.50.52",5002)) 
             
             
     def __data_recv(self):
