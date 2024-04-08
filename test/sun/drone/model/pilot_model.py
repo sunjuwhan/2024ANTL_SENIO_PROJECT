@@ -17,6 +17,7 @@ class Drone:
             if state.is_connected:
                 print(f"-- Connected to drone!")
                 break
+            
         async for health in self.antl_drone.telemetry.health():
             if health.is_global_position_ok and health.is_home_position_ok:
                 print("-- Global position state is good enough for flying.")

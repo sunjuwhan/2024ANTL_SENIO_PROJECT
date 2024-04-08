@@ -82,8 +82,7 @@ def run():
     vry_pos=float(stabil_vry(vry_pos)/1000)
     vrx_pos_2=float((stabil_vrx_2(vrx_pos_2)-500)/500)
     vry_pos_2=float((stabil_vry_2(vry_pos_2)-500)/500)
-    if(swt_val>500) :
-      
+    if(swt_val>700) :
       mode="0"
     else:
       mode="1"

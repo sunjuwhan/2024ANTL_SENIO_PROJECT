@@ -1,6 +1,5 @@
 from controller.pilot_controller import *
 from controller.camera_controller import *
-from controller.gps_controller import  *
 from model.pilot_model import *
 from model.video_mode import *
 from model.gps_model import *
@@ -19,9 +18,7 @@ class MasterController():
         try:
             self.__pilot_controller=PilotController(self.__pilot_model,self.__gps_model)
             await self.__pilot_controller.init_dron()
-            #self.__drone=self.__pilot_controller.get_dron_from_controller()  
-            #self.__gps_controller=GpsController(self.__gps_model,self.__drone) #만든 드론을 넣고 
-            #await self.__gps_controller.run_gps()  #gps 시작하고 
+            self.__drone=self.__pilot_controller.get_dron_from_controller()  
             await self.__pilot_controller.run()  #controller 시작하고 
         except Exception as E:
             print(E)

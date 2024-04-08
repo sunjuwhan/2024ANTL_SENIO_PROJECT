@@ -30,16 +30,14 @@ class PilotController:
             asyncio.ensure_future(self.get_gps())
 
             if(mode=="0"):
-                print(self.__gps_model.get_gps())
                 await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
             elif (mode=="1") : #gps mode
-                (go_a,go_b,go_c,go_d)=(0,0,0,0)
+                (go_a,go_b,go_c,go_d)=(self.__gps_model.get_gps())
                 while True:
                     (key,mode)=self.__pilot_model.get_data()
                     if(mode!="1") :
                         break
                     await self.__drone.get_drone().goto_location(go_a,go_b,go_c,go_d)
-                    
                 pass
             elif (mode=="2"):
                 pass 
