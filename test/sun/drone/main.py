@@ -3,6 +3,7 @@ import model
 import view 
 import asyncio
 from threading import *
+import time
 class Main():
     def __init__(self) -> None:
 
@@ -16,6 +17,7 @@ class Main():
         camera_thread=Thread(target=self.__controller.run_camera)
         
         camera_thread.start()
+        time.sleep(3)
         self.__view.run()
         print("end camera & socket setting ")
         
