@@ -17,7 +17,7 @@ class SocketView():
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         try:
-            self.pilot_socket.bind(("192.168.50.63",5001)) 
+            self.pilot_socket.bind(("192.168.50.63",8080)) 
         except Exception as e:
             print("make_socket Error here")
             print(e)
