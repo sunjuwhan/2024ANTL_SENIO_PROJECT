@@ -15,7 +15,7 @@ class Main():
         print("run camera thread")
         camera_thread=Thread(target=self.__controller.run_camera)
         
-        camera_thread.run()
+        camera_thread.start()
         self.__view.run()
         print("end camera & socket setting ")
         
