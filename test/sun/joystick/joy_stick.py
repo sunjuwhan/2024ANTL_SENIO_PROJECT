@@ -91,7 +91,7 @@ def run():
     else:
       mode="1"
     msg=f"{vrx_pos} {vry_pos} {vrx_pos_2} {vry_pos_2} "+mode  #yaw throtle  roll pirch
-    print(msg)
+    #print(msg)
     sock.sendto(msg.encode(),(HOST,PORT))
     time.sleep(delay)
 def run_recv():
@@ -103,7 +103,7 @@ def run_recv():
   sock_2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   sock_2.bind((UDP_IP, UDP_PORT))
 
-  s = [b'\xff' * 46080 for x in range(20)]
+  s = [b'\xff' * 3840 for x in range(20)]
 
   fourcc = cv2.VideoWriter_fourcc(*'DIVX')
   out = cv2.VideoWriter('output.avi', fourcc, 25.0, (320,240))  #320 240  640   480
