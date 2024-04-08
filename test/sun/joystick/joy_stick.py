@@ -91,17 +91,17 @@ def run():
     else:
       mode="1"
     msg=f"{vrx_pos} {vry_pos} {vrx_pos_2} {vry_pos_2} "+mode  #yaw throtle  roll pirch
-    print(msg)
+    #print(msg)
     sock.sendto(msg.encode(),(HOST,PORT))
     time.sleep(delay)
 def run_recv():
-  sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+  sock_2=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
   
   UDP_IP = "192.168.50.52"  #내가 받을곳
   UDP_PORT = 5002
 
-  sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-  sock.bind((UDP_IP, UDP_PORT))
+  sock_2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  sock_2.bind((UDP_IP, UDP_PORT))
 
   s = [b'\xff' * 46080 for x in range(20)]
 
@@ -111,7 +111,7 @@ def run_recv():
   while True:
       picture = b''
 
-      data, addr = sock.recvfrom(46081)
+      data, addr = sock_2.recvfrom(46081)
       s[data[0]] = data[1:46081]
 
       if data[0] == 19:
