@@ -8,7 +8,7 @@ class CameraController():
         self.__cap=model.get_cap()
     def set_frame(self):
         ret,frame=self.__cap.read()
-        d=frame.flattend()
+        d=frame.flatten()
         s=d.tostring()
         self.__model.set_frame(s)
     def run(self):
