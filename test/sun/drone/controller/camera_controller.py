@@ -10,9 +10,8 @@ class CameraController():
         ret,frame=self.__cap.read()
         d=frame.flatten()
         s=d.tostring()
-        print("==",s[0])
         self.__model.set_frame(s)
     def run(self):
-        time.sleep(2)
+        time.sleep(3)
         while True:
             self.set_frame()
