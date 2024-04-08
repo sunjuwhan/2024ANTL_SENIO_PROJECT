@@ -131,7 +131,7 @@ def run_recv():
 
 
 
-thread_a=Thread(target=run)
+#thread_a=Thread(target=run)
 thread_b=Thread(target=run_recv)
-thread_a.start()
+#thread_a.start()
 thread_b.start()
