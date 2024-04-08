@@ -8,6 +8,7 @@ class CameraController():
         self.__cap=model.get_cap()
     def set_frame(self):
         ret,frame=self.__cap.read()
+        frame=cv2.resize(frame,(320,240))
         d=frame.flatten()
         s=d.tostring()
         self.__model.set_frame(s)
