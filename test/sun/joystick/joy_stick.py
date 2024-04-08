@@ -117,7 +117,7 @@ def run_recv():
               picture += s[i]
 
           frame = numpy.fromstring(picture, dtype=numpy.uint8)
-          frame = frame.reshape(320, 240, 3)
+          frame = frame.reshape(240, 320, 3)
           cv2.imshow("frame", frame)
           out.write(frame)
 
