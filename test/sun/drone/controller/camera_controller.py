@@ -11,10 +11,6 @@ class CameraController():
         d=frame.flattend()
         s=d.tostring()
         self.__model.set_frame(s)
-        
-    def get_frame(self):
-        return self._
-    
     def run(self):
         while True:
             self.set_frame()
