@@ -23,9 +23,9 @@ class SocketView():
             print(e)
     def __data_send(self): #이미지 전송할 함수
         while True : 
-            s=self.__video_model.get_frame()
+            s=self.__video_model.get_frame()  #46080
             for i in range(20):
-                self.video_socket.sendto(bytes([i]) + s[i*46080:(i+1) * 46080],("192.168.50.52",8005)) 
+                self.video_socket.sendto(bytes([i]) + s[i*3840:(i+1) * 3840],("192.168.50.52",8005)) 
             
             
     def __data_recv(self):
