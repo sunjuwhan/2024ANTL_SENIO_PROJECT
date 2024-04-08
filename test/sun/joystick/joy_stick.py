@@ -110,7 +110,7 @@ def run_recv():
   print("start")
   while True:
       picture = b''
-
+      print("before")
       data, addr = sock_2.recvfrom(46081)
       print(data[0])
       s[data[0]] = data[1:46081]
