@@ -9,6 +9,7 @@ class Drone:
     
     async def make_drone(self):
         self.antl_drone=System()
+        print("wating connect drone")
         await self.antl_drone.connect(system_address="serial:///dev/ttyAMA0")
         print("Start connect") 
         #await self.antl_drone.connect(system_address="udp://:14540")

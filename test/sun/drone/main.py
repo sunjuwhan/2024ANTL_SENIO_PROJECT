@@ -12,10 +12,12 @@ class Main():
         self.__controller=controller.MasterController(self.__pilot_model,self.__camera_model,self.__gps_model)
         self.__view= view.SocketView(self.__pilot_model,self.__camera_model)
     def run(self):
+        print("run camera thread")
         camera_thread=Thread(target=self.__controller.run_camera)
+        
         camera_thread.run()
         self.__view.run()
-        
+        print("end camera & socket setting ")
         
     async def run_pilot(self) :
         await self.__controller.run_pilot()
