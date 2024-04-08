@@ -91,7 +91,7 @@ def run():
     else:
       mode="1"
     msg=f"{vrx_pos} {vry_pos} {vrx_pos_2} {vry_pos_2} "+mode  #yaw throtle  roll pirch
-    #print(msg)
+    print(msg)
     sock.sendto(msg.encode(),(HOST,PORT))
     time.sleep(delay)
 def run_recv():
@@ -107,12 +107,9 @@ def run_recv():
 
   fourcc = cv2.VideoWriter_fourcc(*'DIVX')
   out = cv2.VideoWriter('output.avi', fourcc, 25.0, (640, 480))
-  print("start")
   while True:
       picture = b''
-      print("before")
       data, addr = sock_2.recvfrom(46081)
-      print(data[0])
       s[data[0]] = data[1:46081]
 
       if data[0] == 19:
@@ -131,7 +128,7 @@ def run_recv():
 
 
 
-#thread_a=Thread(target=run)
 thread_b=Thread(target=run_recv)
-#thread_a.start()
+thread_a=Thread(target=run)
 thread_b.start()
+thread_a.start()
