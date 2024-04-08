@@ -24,7 +24,6 @@ class SocketView():
     def __data_send(self): #이미지 전송할 함수
         while True : 
             s=self.__video_model.get_frame()
-            print(s[0])
             for i in range(20):
                 self.video_socket.sendto(bytes([i]) + s[i*46080:(i+1) * 46080],("192.168.50.52",8005)) 
             
@@ -37,6 +36,7 @@ class SocketView():
                 data=decoded_data.split(' ')
                 key_data=data[0:4] 
                 mode_data=data[4]
+                print(key_data)
                 #data 를 interface인 pilot_mode에다가 저장해주고
                 self.__pilot_mode.set_data(key_data,mode_data) 
 
