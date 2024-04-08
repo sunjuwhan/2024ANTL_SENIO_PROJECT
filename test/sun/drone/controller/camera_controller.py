@@ -12,5 +12,6 @@ class CameraController():
         s=d.tostring()
         self.__model.set_frame(s)
     def run(self):
+        time.sleep(2)
         while True:
             self.set_frame()
