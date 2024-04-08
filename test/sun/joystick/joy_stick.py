@@ -7,7 +7,7 @@ import cv2
 from threading import *
 
 import socket
-HOST='192.168.50.221'  #내가 쏴야하는 곳 
+HOST='192.168.50.63'  #내가 쏴야하는 곳 
 PORT = 5001
 
 def set_spi(num):
