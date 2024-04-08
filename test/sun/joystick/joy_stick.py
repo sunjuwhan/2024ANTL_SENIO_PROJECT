@@ -107,11 +107,12 @@ def run_recv():
 
   fourcc = cv2.VideoWriter_fourcc(*'DIVX')
   out = cv2.VideoWriter('output.avi', fourcc, 25.0, (640, 480))
-
+  print("start")
   while True:
       picture = b''
 
       data, addr = sock_2.recvfrom(46081)
+      print(data[0])
       s[data[0]] = data[1:46081]
 
       if data[0] == 19:
