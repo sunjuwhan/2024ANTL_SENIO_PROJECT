@@ -9,19 +9,19 @@ class Drone:
     
     async def make_drone(self):
         self.antl_drone=System()
-        #await self.antl_drone.connect(system_address="serial:///dev/ttyAMA0")
+        await self.antl_drone.connect(system_address="serial:///dev/ttyAMA0")
         print("Start connect") 
-        await self.antl_drone.connect(system_address="udp://:14540")
+        #await self.antl_drone.connect(system_address="udp://:14540")
         print("Wating for drone to connect...")  #drone connect 
         async for state in self.antl_drone.core.connection_state():
             if state.is_connected:
                 print(f"-- Connected to drone!")
                 break
             
-        async for health in self.antl_drone.telemetry.health():
-            if health.is_global_position_ok and health.is_home_position_ok:
-                print("-- Global position state is good enough for flying.")
-                break
+        #async for health in self.antl_drone.telemetry.health():
+            #if health.is_global_position_ok and health.is_home_position_ok:
+                #print("-- Global position state is good enough for flying.")
+                #break
         print("-- Arming")
         await self.antl_drone.action.arm()
         await asyncio.sleep(3)
