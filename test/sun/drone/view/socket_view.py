@@ -26,7 +26,7 @@ class SocketView():
             s=self.__video_model.get_frame()
             print(s)
             for i in range(20):
-                self.video_socket.sendto(bytes[i] + s[i*46080:(i+1) *46080],("192.168.50.52",8005)) 
+                self.video_socket.sendto(bytes([i]) + s[i*46080:(i+1) * 46080],("192.168.50.52",8005)) 
             
             
     def __data_recv(self):
