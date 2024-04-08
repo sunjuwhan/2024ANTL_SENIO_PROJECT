@@ -97,7 +97,7 @@ def run():
 def run_recv():
   sock_2=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
   
-  UDP_IP = "192.168.50.51"  #내가 받을곳
+  UDP_IP = "127.0.0.1"  #내가 받을곳
   UDP_PORT = 5002
 
   sock_2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
