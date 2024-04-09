@@ -1,4 +1,4 @@
-import drone_controller_information
+import drone_controller.drone_controller_information
 from threading import Thread, Lock
 import socket
 import pickle

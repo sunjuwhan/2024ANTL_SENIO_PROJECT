@@ -1,18 +1,18 @@
-import drone_controller_switch
-import drone_controller_joystick
-import drone_controller_information
-import drone_controller_videostreamer
-import drone_controller_datasender
+from drone_controller.drone_controller_switch import *
+from drone_controller.drone_controller_joystick import *
+from drone_controller.drone_controller_information import *
+from drone_controller.drone_controller_videostreamer import *
+from drone_controller.drone_controller_datasender import *
 from threading import Thread, Lock
 import os
 
 class class_Drone_Controller_System:
     def __init__(self):
-        self.info = drone_controller_information.class_Drone_Controller_Information()
-        self.controllerJoystick_L = drone_controller_joystick.class_Drone_Controller_Joystick(0, 0, 1, 2, 0, 1, self.info)
-        self.controllerJoystick_R = drone_controller_joystick.class_Drone_Controller_Joystick(1, 0, 1, 2, 0, 2, self.info)
-        self.videoStreamer = drone_controller_videostreamer.class_Drone_Controller_VideoStreamer()
-        self.dataSender = drone_controller_datasender.class_drone_controller_datasender(self.info)
+        self.info = class_Drone_Controller_Information()
+        self.controllerJoystick_L = class_Drone_Controller_Joystick(0, 0, 1, 2, 0, 1, self.info)
+        self.controllerJoystick_R = class_Drone_Controller_Joystick(1, 0, 1, 2, 0, 2, self.info)
+        self.videoStreamer = class_Drone_Controller_VideoStreamer()
+        self.dataSender = class_drone_controller_datasender(self.info)
 
     def start_Drone_Controller(self):
         print("SYSTEM ALARM::Drone Controller Started")
