@@ -41,7 +41,7 @@ class SocketView():
                 self.__pilot_mode.set_data(key_data,mode_data) 
 
             except Exception as e:
-                print("recved dead")
+                print("receve dead")
                 print(e)
             
     def run(self):
