@@ -4,7 +4,7 @@ import socket
 
 class class_Drone_Controller_VideoStreamer:
     def __init__(self):
-        self.ip_address = '192.168.50.52'    #내 ip
+        self.ip_address = '192.168.32.3'    #내 ip
         self.port = 8005
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.socket.bind((self.ip_address, self.port))
