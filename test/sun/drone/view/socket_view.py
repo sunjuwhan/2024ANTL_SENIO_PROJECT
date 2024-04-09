@@ -15,9 +15,10 @@ class SocketView():
     
     def make_socket(self):
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         try:
             self.pilot_socket.bind(("192.168.50.63",8080)) 
+            self.pilot_socket.listen(1)
         except Exception as e:
             print("make_socket Error here")
             print(e)
