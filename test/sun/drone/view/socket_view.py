@@ -12,13 +12,14 @@ class SocketView():
         self.pilot_socket=None
         self.__pilot_mode=model
         self.__video_model=video
-    
+        self.__client_socket=None 
     def make_socket(self):
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         try:
             self.pilot_socket.bind(("192.168.50.63",8080)) 
             self.pilot_socket.listen(1)
+            self.__client_socket,clien_address=self.pilot_socket.accept()
         except Exception as e:
             print("make_socket Error here")
             print(e)
@@ -32,7 +33,7 @@ class SocketView():
     def __data_recv(self):
         while True:
             try:
-                recv_data=self.pilot_socket.recv(1024)
+                recv_data=self.__client_socket.recv(1024)
                 decoded_data=recv_data.decode()
                 data=decoded_data.split(' ')
                 key_data=data[0:4] 
