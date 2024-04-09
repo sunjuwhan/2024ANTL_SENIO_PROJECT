@@ -14,9 +14,8 @@ class class_drone_controller_datasender:
     def send_joystick_data(self, data):
         try:
             # 데이터를 직렬화하고 전송
-            serialized_data = pickle.dumps(data)
-            with self.socket_lock:
-                self.socket.sendall(serialized_data)
+            
+            self.socket.sendall(data.encode())
         except Exception as e:
             print(f"Error sending joystick data: {e}")
 
