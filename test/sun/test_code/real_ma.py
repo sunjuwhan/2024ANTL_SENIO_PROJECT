@@ -18,13 +18,13 @@ from mavsdk import System
 
 # Test set of manual inputs. Format: [roll, pitch, throttle, yaw]
 manual_inputs = [
-    [0, 0, 0.5, 0],  # no movement
-    [-1, 0, 0.5, 0],  # minimum roll
-    [1, 0, 0.5, 0],  # maximum roll
-    [0, -1, 0.5, 0],  # minimum pitch
-    [0, 1, 0.5, 0],  # maximum pitch
-    [0, 0, 0.5, -1],  # minimum yaw
-    [0, 0, 0.5, 1],  # maximum yaw
+    [0, 0, 0.0, 0],  # no movement
+    [-1, 0, 0.0, 0],  # minimum roll
+    [1, 0, 0.0, 0],  # maximum roll
+    [0, -1, 0.0, 0],  # minimum pitch
+    [0, 1, 0.0, 0],  # maximum pitch
+    [0, 0, 0.0, -1],  # minimum yaw
+    [0, 0, 0.0, 1],  # maximum yaw
     [0, 0, 1, 0],  # max throttle
     [0, 0, 0, 0],  # minimum throttle
 ]
