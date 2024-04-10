@@ -18,7 +18,7 @@ from mavsdk import System
 from threading import*
 import socket
 sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-sock.bind(("192.168.232.137",65433))
+sock.bind(("192.168.50.63",65433))
 
 # Test set of manual inputs. Format: [roll, pitch, throttle, yaw]
 manual_inputs = [
@@ -38,8 +38,8 @@ async def manual_controls():
     """Main function to connect to the drone and input manual controls"""
     # Connect to the Simulation
     drone = System()
-    await drone.connect(system_address="udp://:14540")
-
+    #await drone.connect(system_address="udp://:14540")
+    await drone.connect(system_address="serail:///dev/ttyAMA0")
     # This waits till a mavlink based drone is connected
     print("Waiting for drone to connect...")
     async for state in drone.core.connection_state():
