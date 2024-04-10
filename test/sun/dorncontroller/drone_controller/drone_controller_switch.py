@@ -4,7 +4,7 @@ import drone_controller.drone_controller_information
 
 class class_Drone_Controller_Switch:
     def __init__(self, ctrl_info):
-        self.switch1_pin = 11
+        self.switch1_pin = 11   
         self.switch2_pin = 13
         self.ctrl_info = ctrl_info
         # GPIO 설정

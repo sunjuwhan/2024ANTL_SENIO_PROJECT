@@ -4,6 +4,7 @@ from socket import *
 from threading import *
 from model.pilot_model import *
 from model.video_mode import *
+from view.constant import *
 import socket
 import time
 class SocketView():
@@ -17,7 +18,7 @@ class SocketView():
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         try:
-            self.pilot_socket.bind(("192.168.32.1",8080)) 
+            self.pilot_socket.bind((IP_DRONE,PORT_DRONE))   #여기는 내가 받아야하니까 내 주소 drone주소
             self.pilot_socket.listen(1)
             self.__client_socket,clien_address=self.pilot_socket.accept()
         except Exception as e:
@@ -27,7 +28,7 @@ class SocketView():
         while True : 
             s=self.__video_model.get_frame()  #46080
             for i in range(20):
-                self.video_socket.sendto(bytes([i]) + s[i*11520:(i+1) * 11520],("192.168.32.3",8005)) 
+                self.video_socket.sendto(bytes([i]) + s[i*11520:(i+1) * 11520],(IP_CONTROLLER,PORT_CONTROLLER))  #쏴야하니까 controller ip port
             
             
     def __data_recv(self):
@@ -38,7 +39,7 @@ class SocketView():
                 data=decoded_data.split(' ')
                 key_data=data[0:4] 
                 mode_data=data[4]
-                print(key_data)
+                print(data)
                 #data 를 interface인 pilot_mode에다가 저장해주고
                 self.__pilot_mode.set_data(key_data,mode_data) 
 

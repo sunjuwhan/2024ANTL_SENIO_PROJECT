@@ -16,6 +16,8 @@ class PilotController:
     
     def __recv_data(self,key,mode): #master 부터 recv해서 드론 컨트롤 하는 부분 
         self.__pilot_model.set_data(key,mode)
+        
+        
     async def get_gps(self) :
 
         async for position in self.__drone.get_drone().telemetry.position():
@@ -28,16 +30,29 @@ class PilotController:
             (key,mode)=self.__pilot_model.get_data()
             (yaw,throttle,roll,pitch)=key.get_key()
             asyncio.ensure_future(self.get_gps())
-            if(mode=="0"):
+            
+            
+            if (mode=="arm"):
+                print("-- Arming")
+                await self.__drone.get_drone().action.arm()
+                await asyncio.sleep(2)
+
+            elif (mode=="takeoff") :
+                print("--  Takeoff")
+                await self.__drone.get_drone().action.takeoff()
+                await asyncio.sleep(1)
+
+            elif (mode=="land"):
+                print("-- land")
+                await self.__drone.get_drone().action.land()
+             
+            elif (mode=="manual"):
                 await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
-            elif (mode=="1") : #gps mode
+            elif (mode=="gps") : #gps mode
                 (go_a,go_b,go_c,go_d)=(self.__gps_model.get_gps())
                 while True:
                     (key,mode)=self.__pilot_model.get_data()
                     if(mode!="1") :
                         break
                     await self.__drone.get_drone().goto_location(go_a,go_b,go_c,go_d)
-                pass
-            elif (mode=="2"):
-                pass 
         
