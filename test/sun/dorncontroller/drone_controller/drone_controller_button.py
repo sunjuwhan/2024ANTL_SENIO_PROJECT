@@ -1,6 +1,6 @@
 from drone_controller.drone_controller_information import *
 import RPi.GPIO as GPIO
-
+import time
 from threading import Thread
 
 
@@ -26,15 +26,21 @@ class class_drone_controller_button:
         while True:
             if GPIO.input(self.button1_pin) == GPIO.HIGH:
                 self.info.button1=(self.info.button1+1)%2
+                time.sleep(0.5)      
             if GPIO.input(self.button2_pin) == GPIO.HIGH:
                 self.info.button2=(self.info.button2+1)%2
+                time.sleep(0.5)
             if GPIO.input(self.button3_pin) == GPIO.HIGH:
                 self.info.button3=(self.info.button3+1)%2
+                time.sleep(0.5)
             if GPIO.input(self.button4_pin) == GPIO.HIGH:
                 self.info.button4=(self.info.button4+1)%2
+                time.sleep(0.5)
             if GPIO.input(self.button5_pin) == GPIO.HIGH:
                 self.info.button5=(self.info.button5+1)%2
+                time.sleep(0.5)
             if GPIO.input(self.button6_pin) == GPIO.HIGH:
                 self.info.button6=(self.info.button6+1)%2
+                time.sleep(0.5)
 
  
