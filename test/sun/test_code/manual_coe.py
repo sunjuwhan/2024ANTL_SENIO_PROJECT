@@ -75,7 +75,8 @@ async def manual_controls():
     # start manual control
     #print("-- Starting manual control")
     #await drone.manual_control.start_position_control()
-
+    print("-- Starting manual control")
+    await drone.manual_control.start_position_control()
     while True:
         try:
             data=sock.recv(300).decode()
