@@ -54,9 +54,7 @@ class PilotController:
             elif (mode=="manual"):
                 print("manul")
                 #await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
-                await self.__drone.get_drone().manual_control.set_manual_control_input(
-        float(0), float(0), float(0.0), float(0)
-    )
+                #await self.__drone.get_drone().manual_control.set_manual_control_input(float(0), float(0), float(0.0), float(0))
                 asyncio.sleep(0.01)
             elif (mode=="gps") : #gps mode
                 (go_a,go_b,go_c,go_d)=(self.__gps_model.get_gps())
