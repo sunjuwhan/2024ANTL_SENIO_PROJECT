@@ -59,8 +59,8 @@ class class_Drone_Controller_Joystick:
         if self.classifyNum == 1:
             self.ctrl_info.joystick_Left_x = self.stabil_vrx(x_pos)
             self.ctrl_info.joystick_Left_y = self.stabil_vry(y_pos)
-            if(self.ctrl_info.joystick_Left_y>0.7):
-                self.ctrl_info.joystick_Left_y=0.7
+            #if(self.ctrl_info.joystick_Left_y>0.7):
+            #    self.ctrl_info.joystick_Left_y=0.7
             if(self.ctrl_info.joystick_Left_y<0.2):
                 self.ctrl_info.joystick_Left_y=0.2
             self.ctrl_info.joystick_Left_val = switch_val
