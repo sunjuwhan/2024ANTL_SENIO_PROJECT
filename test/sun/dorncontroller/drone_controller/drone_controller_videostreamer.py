@@ -3,7 +3,7 @@ import numpy
 import socket
 AP_IP="192.168.32.1"
 PORT=8005
-MY_IP="192.168.50.63"
+MY_IP="192.168.50.52"
 class class_Drone_Controller_VideoStreamer:
     def __init__(self):
         self.ip_address = MY_IP    #내 ip   ap로 
