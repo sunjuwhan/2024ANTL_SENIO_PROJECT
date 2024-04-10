@@ -39,7 +39,7 @@ async def manual_controls():
     # Connect to the Simulation
     drone = System()
     #await drone.connect(system_address="udp://:14540")
-    await drone.connect(system_address="serail:///dev/ttyAMA0")
+    await drone.connect(system_address="serial:///dev/ttyAMA0")
     # This waits till a mavlink based drone is connected
     print("Waiting for drone to connect...")
     async for state in drone.core.connection_state():
@@ -78,7 +78,7 @@ async def manual_controls():
 
     while True:
         try:
-            data=sock.recv(30).decode()
+            data=sock.recv(300).decode()
             data=data.split(" ")
             print(data)
             yaw=float(data[0])
