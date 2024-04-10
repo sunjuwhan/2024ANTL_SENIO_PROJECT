@@ -57,6 +57,7 @@ class PilotController:
                     print("manul start")
                     await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
                     await asyncio.sleep(0.1)
+                    print(throttle)
                     print("manul_end")
                 except Exception as e:
                     print(e)
