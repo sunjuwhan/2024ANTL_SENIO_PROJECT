@@ -36,13 +36,14 @@ class SocketView():
         while True:
             try:
                 recv_data=self.__client_socket.recv(1024)
+                time.sleep(0.1)
                 decoded_data=recv_data.decode()
                 data=decoded_data.split(' ')
                 key_data=data[0:4] 
                 mode_data=data[4]
                 #data 를 interface인 pilot_mode에다가 저장해주고
                 self.__pilot_mode.set_data(key_data,mode_data) 
-
+                
             except Exception as e:
                 print("receve dead")
                 print(e)

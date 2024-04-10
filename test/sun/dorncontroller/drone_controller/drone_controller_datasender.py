@@ -10,7 +10,7 @@ class class_drone_controller_datasender:
     def __init__(self, info:class_Drone_Controller_Information):
         self.info = info
         self.socket_lock = Lock()  # 소켓 동기화를 위한 Lock 객체
-        self.target_ip = AP_IP  # 드론 IP 주소   ap 192.168.32.3    drone 192.168.50.63
+        self.target_ip = DRONE_IP# 드론 IP 주소   ap 192.168.32.3    drone 192.168.50.63
         self.target_port = PORT# port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((self.target_ip, self.target_port))
