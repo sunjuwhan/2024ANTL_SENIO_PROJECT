@@ -51,7 +51,7 @@ class Key:
 
     ##get
     def get_key(self):
-        return (float(self.__yaw),float(self.__throttle),float(self.__roll),float(self.__pitch))
+        return (self.__yaw,self.__throttle,self.__roll,self.__pitch)
 
 
 class PilotModel:
@@ -66,15 +66,15 @@ class PilotModel:
     def set_data(self, key,mode):
         try:
             self.__key.set_key(
-                yaw=key[0], throttle=key[1], 
-                pitch=key[2], roll=key[3]
+                yaw=float(key[0]), throttle=float(key[1]), 
+                pitch=float(key[2]), roll=float(key[3])
                 )
             self.__mode=mode
         except:
             print("ERROR :: Bad key request")
             self.__key.set_key(
-                yaw=0, throttle=0.5, 
-                pitch=0, roll=0
+                yaw=float(0), throttle=float(0.5), 
+                pitch=float(0), roll=float(0)
                 )
         return 
     
