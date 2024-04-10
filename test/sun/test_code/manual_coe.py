@@ -77,7 +77,7 @@ async def manual_controls():
     #await drone.manual_control.start_position_control()
 
     while True:
-        data=sock.recv(1024)
+        data=sock.recv(30).decode()
         data=data.split(" ")
         print(data)
         yaw=float(data[0])
