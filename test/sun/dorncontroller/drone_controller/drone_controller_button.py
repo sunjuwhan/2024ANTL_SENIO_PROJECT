@@ -1,5 +1,5 @@
 from drone_controller.drone_controller_information import *
-import RPI.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 from threading import Thread
 
