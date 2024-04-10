@@ -4,7 +4,7 @@ import socket
 
 class class_Drone_Controller_VideoStreamer:
     def __init__(self):
-        self.ip_address = '192.168.50.52'    #내 ip   
+        self.ip_address = '192.168.50.52'    #내 ip   ap로 
         self.port = 8005  #고정
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.socket.bind((self.ip_address, self.port))
@@ -18,7 +18,7 @@ class class_Drone_Controller_VideoStreamer:
             picture = b''
 
             data, addr = self.socket.recvfrom(11521)
-            s[data[1]] = data[1:11521]
+            s[data[0]] = data[1:11521]
 
             if data[0] == 19:
                 for i in range(20):
