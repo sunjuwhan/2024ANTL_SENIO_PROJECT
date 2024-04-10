@@ -35,7 +35,7 @@ class SocketView():
     def __data_recv(self):
         while True:
             try:
-                
+                print("recevied_before")
                 recv_data=self.__client_socket.recv(1024)
                 decoded_data=recv_data.decode()
                 data=decoded_data.split(' ')
