@@ -21,6 +21,7 @@ class class_drone_controller_datasender:
 
     def run_data_sender(self):
         while True:
+            mode=""
             if(self.info.button1==1):
                 mode="arm"
             elif (self.info.button2==1) :
