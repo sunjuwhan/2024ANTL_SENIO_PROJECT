@@ -2,6 +2,7 @@ from drone_controller.drone_controller_information import *
 from threading import Thread, Lock
 import socket
 import pickle
+import time
 class class_drone_controller_datasender:
     def __init__(self, info:class_Drone_Controller_Information):
         self.info = info
@@ -16,6 +17,7 @@ class class_drone_controller_datasender:
             # 데이터를 직렬화하고 전송
             print(data)
             self.socket.sendall(data.encode())
+            time.sleep(0.2)  
         except Exception as e:
             print(f"Error sending joystick data: {e}")
 
