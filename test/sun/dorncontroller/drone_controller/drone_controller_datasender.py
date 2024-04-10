@@ -18,7 +18,6 @@ class class_drone_controller_datasender:
     def send_joystick_data(self, data):
         try:
             # 데이터를 직렬화하고 전송
-            print(data)
             self.socket.sendall(data.encode())
             time.sleep(0.2)  
         except Exception as e:
