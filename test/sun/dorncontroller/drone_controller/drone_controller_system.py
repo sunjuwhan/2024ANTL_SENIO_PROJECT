@@ -36,6 +36,7 @@ class class_Drone_Controller_System:
                                                          self.info.joystick_Right_val))
         print(f"button state 1: {self.info.button1}  2: {self.info.button2}  3: {self.info.button3} 4: {self.info.button4} 5: {self.info.button5} 6: {self.info.button6}")
         print("=" * 50)
+        time.sleep(0.5)
         os.system('clear')
 
             
