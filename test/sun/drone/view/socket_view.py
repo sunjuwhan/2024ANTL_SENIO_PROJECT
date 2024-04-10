@@ -35,7 +35,7 @@ class SocketView():
     def __data_recv(self):
         while True:
             try:
-                recv_data=self.__client_socket.recv(50)
+                recv_data=self.__client_socket.recv(100)
                 decoded_data=recv_data.decode()
                 data=decoded_data.split(' ')
                 key_data=data[0:4] 
