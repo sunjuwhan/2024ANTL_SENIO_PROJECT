@@ -1,11 +1,13 @@
 import cv2
 import numpy
 import socket
-
+AP_IP="192.168.32.1"
+PORT=8005
+MY_IP="192.168.50.63"
 class class_Drone_Controller_VideoStreamer:
     def __init__(self):
-        self.ip_address = '192.168.50.52'    #내 ip   ap로 
-        self.port = 8005  #고정
+        self.ip_address = AP_IP    #내 ip   ap로 
+        self.port = PORT  #고정
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.socket.bind((self.ip_address, self.port))
 

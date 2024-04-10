@@ -6,6 +6,7 @@ class PilotController:
         self.__pilot_model=pilotmodel  
         self.__drone=Drone()
         self.__gps_model= gpsmodel
+        self.flag_arm=0
     async def init_dron(self):  #자자 이친구 잘 꺼내씁니다. return 해서 써 
         await self.__drone.make_drone()
         pass
@@ -33,10 +34,14 @@ class PilotController:
             print(key.get_key())
             
             if (mode=="arm"):
-                print("-- Arming")
-                await self.__drone.get_drone().action.arm()
-                await asyncio.sleep(2)
-
+                if(self.flag_arm==0):
+                    
+                    print("-- Arming")
+                    await self.__drone.get_drone().action.arm()
+                    await asyncio.sleep(2)
+                    self.flag_arm=1
+                else:
+                    continue 
             elif (mode=="takeoff") :
                 print("--  Takeoff")
                 await self.__drone.get_drone().action.takeoff()
