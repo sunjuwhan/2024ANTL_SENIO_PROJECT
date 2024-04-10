@@ -10,7 +10,7 @@ class class_drone_controller_datasender:
         self.target_port = 8080# port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((self.target_ip, self.target_port))
-
+        print("send connect complete")
     def send_joystick_data(self, data):
         try:
             # 데이터를 직렬화하고 전송

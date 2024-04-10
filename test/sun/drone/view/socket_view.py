@@ -21,6 +21,7 @@ class SocketView():
             self.pilot_socket.bind((IP_DRONE,PORT_DRONE))   #여기는 내가 받아야하니까 내 주소 drone주소
             self.pilot_socket.listen(1)
             self.__client_socket,clien_address=self.pilot_socket.accept()
+            print("make_socket end")
         except Exception as e:
             print("make_socket Error here")
             print(e)
@@ -34,6 +35,7 @@ class SocketView():
     def __data_recv(self):
         while True:
             try:
+                
                 recv_data=self.__client_socket.recv(1024)
                 decoded_data=recv_data.decode()
                 data=decoded_data.split(' ')

@@ -18,8 +18,7 @@ class class_Drone_Controller_VideoStreamer:
             picture = b''
 
             data, addr = self.socket.recvfrom(11521)
-            print(data[0])
-            s[data[0]] = data[1:11521]
+            s[data[1]] = data[1:11521]
 
             if data[0] == 19:
                 for i in range(20):
