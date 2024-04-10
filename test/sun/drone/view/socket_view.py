@@ -16,11 +16,12 @@ class SocketView():
         self.__client_socket=None 
     def make_socket(self):
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        #self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         try:
             self.pilot_socket.bind((IP_DRONE,PORT_DRONE))   #여기는 내가 받아야하니까 내 주소 drone주소
-            self.pilot_socket.listen(1)
-            self.__client_socket,clien_address=self.pilot_socket.accept()
+            #self.pilot_socket.listen(1)
+            #self.__client_socket,clien_address=self.pilot_socket.accept()
             print("make_socket end")
         except Exception as e:
             print("make_socket Error here")
@@ -35,7 +36,7 @@ class SocketView():
     def __data_recv(self):
         while True:
             try:
-                recv_data=self.__client_socket.recv(300)
+                recv_data=self.pilot_socket.recv(1024)
                 decoded_data=recv_data.decode()
                 data=decoded_data.split(' ')
                 print(data)
