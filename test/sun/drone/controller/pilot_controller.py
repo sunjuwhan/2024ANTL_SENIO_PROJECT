@@ -45,7 +45,9 @@ class PilotController:
             elif (mode=="land"):
                 print("-- land")
                 await self.__drone.get_drone().action.land()
-             
+            elif( mode=="disarm") :
+                print("--disarm")
+                await self.__drone.get_drone().action.disarm()
             elif (mode=="manual"):
                 await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
             elif (mode=="gps") : #gps mode
