@@ -79,6 +79,7 @@ async def manual_controls():
     while True:
         data=sock.recv(1024)
         data=data.split(" ")
+        print(data)
         yaw=float(data[0])
         throttle=float(data[1])
         roll=float(data[2])
