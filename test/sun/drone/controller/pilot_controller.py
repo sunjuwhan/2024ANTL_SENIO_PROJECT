@@ -28,7 +28,7 @@ class PilotController:
             
             
     async def run(self):
-        time.sleep(8)
+        time.sleep(3)
         while True:
             (key,mode)=self.__pilot_model.get_data()
             (yaw,throttle,roll,pitch)=key.get_key()

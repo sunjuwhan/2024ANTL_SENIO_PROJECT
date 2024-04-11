@@ -34,14 +34,14 @@ class Drone:
         await self.antl_drone.action.arm()
         await asyncio.sleep(1)
         
-        print("--take off")
-        await self.antl_drone.action.takeoff()
-        await asyncio.sleep(5)
+        #print("--take off")
+        #await self.antl_drone.action.takeoff()
+        #await asyncio.sleep(5)
 
     def get_drone(self):
         return self.antl_drone
     
-class Key:
+class Key:#
 
     def __init__(self):
         self.__yaw = 0
