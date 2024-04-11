@@ -9,7 +9,10 @@ import asyncio
 
 from mavsdk import System
 from mavsdk.offboard import (Attitude, OffboardError)
+import socket
 
+sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+sock.bind(("192.168.232.137",5001))
 
 async def run():
     """ Does Offboard control using attitude commands. """
@@ -44,31 +47,17 @@ async def run():
         print("-- Disarming")
         await drone.action.disarm()
         return
+    while True:
+        data=sock.recv(100)
+        data=data.decode()
+        yaw=data[0]
+        throttle=data[1]
+        roll=data[2]
+        pitch=data[3]
+        print(roll," ",pitch," ",yaw," ",throttle) #roll ? ? throttle
+        await drone.offboard.set_attitude(Attitude(roll, pitch, yaw, throttle))
+        await asyncio.sleep(0.1)
 
-    print("-- Go up at 70% thrust")
-    await drone.offboard.set_attitude(Attitude(0.0, 0.0, 0.0, 1.0))
-    await asyncio.sleep(2)
-
-    print("-- Roll 30 at 60% thrust")
-    await drone.offboard.set_attitude(Attitude(30.0, 0.0, 0.0, 0.1))
-    await asyncio.sleep(2)
-
-    print("-- Roll -30 at 60% thrust")
-    await drone.offboard.set_attitude(Attitude(-30.0, 0.0, 0.0, 0.9))
-    await asyncio.sleep(2)
-
-    print("-- Hover at 60% thrust")
-    await drone.offboard.set_attitude(Attitude(0.0, 0.0, 0.0, 0.1))
-    await asyncio.sleep(2)
-
-    print("-- Stopping offboard")
-    try:
-        await drone.offboard.stop()
-    except OffboardError as error:
-        print(f"Stopping offboard mode failed with error code: \
-              {error._result.result}")
-
-    await drone.action.land()
 
 
 if __name__ == "__main__":
