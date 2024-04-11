@@ -32,7 +32,7 @@ class PilotController:
         while True:
             (key,mode)=self.__pilot_model.get_data()
             (yaw,throttle,roll,pitch)=key.get_key()
-            print(mode,"  ",throttle)
+            print(mode,"  ",yaw,throttle,roll,pitch)
             asyncio.ensure_future(self.get_gps())
             if (mode=="arm"):
                 if(self.flag_arm==0):
