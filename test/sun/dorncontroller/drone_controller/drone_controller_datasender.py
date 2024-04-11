@@ -4,8 +4,8 @@ import socket
 import pickle
 import time
 AP_IP="192.168.32.3"
-#PORT=8080
-PORT=65433
+PORT=8080
+#PORT=65433
 DRONE_IP="192.168.50.63"
 class class_drone_controller_datasender:
     def __init__(self, info:class_Drone_Controller_Information):
