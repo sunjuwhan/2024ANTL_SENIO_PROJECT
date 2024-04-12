@@ -12,7 +12,7 @@ from mavsdk.offboard import (Attitude, OffboardError)
 import socket
 
 sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-sock.bind(("192.168.232.137",5001))
+sock.bind(("192.168.232.137",65433))
 
 async def run():
     """ Does Offboard control using attitude commands. """
