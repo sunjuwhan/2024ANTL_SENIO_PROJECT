@@ -50,9 +50,11 @@ class PilotController:
             elif (mode=="land"):
                 print("-- land")
                 await self.__drone.get_drone().action.land()
+                
             elif( mode=="disarm") :
                 print("--disarm")
                 await self.__drone.get_drone().action.disarm()
+                
             elif (mode=="manual"):
                 try:
                     #print("manul start")
@@ -64,11 +66,13 @@ class PilotController:
                     #print("manul_end")
                 except Exception as e:
                     print(e)
+                    
             elif (mode=="gps") : #gps mode
                 (go_a,go_b,go_c,go_d)=(self.__gps_model.get_gps())
                 while True:
                     (key,mode)=self.__pilot_model.get_data()
                     if(mode!="1") :
                         break
+                    print(go_a,go_b,go_c)
                     await self.__drone.get_drone().goto_location(go_a,go_b,go_c,go_d)
         
