@@ -16,9 +16,8 @@ sock.bind(("192.168.232.137",5001))
 
 async def run():
     """ Does Offboard control using attitude commands. """
-
     drone = System()
-    await drone.connect(system_address="serial:///dev/ttyAMA0")
+    await drone.connect(system_address="udp://:14540")
 
     print("Waiting for drone to connect...")
     async for state in drone.core.connection_state():
@@ -36,7 +35,7 @@ async def run():
     await drone.action.arm()
 
     print("-- Setting initial setpoint")
-    await drone.offboard.set_attitude(Attitude(0.0, 0.0, 0.0, 0.0))
+    await drone.offboard.set_velocity_ned(VelocityNedYaw(0.0, 0.0, 0.0, 0.0))
 
     print("-- Starting offboard")
     try:
@@ -47,16 +46,55 @@ async def run():
         print("-- Disarming")
         await drone.action.disarm()
         return
+
+    # print("-- Go up 2 m/s")
+    # await drone.offboard.set_velocity_ned(VelocityNedYaw(0.0, 0.0, -2.0, 0.0))
+    # await asyncio.sleep(4)
+
+    # print("-- Go North 2 m/s, turn to face East")
+    # await drone.offboard.set_velocity_ned(VelocityNedYaw(2.0, 0.0, 0.0, 90.0))
+    # await asyncio.sleep(4)
+
+    # print("-- Go South 2 m/s, turn to face West")
+    # await drone.offboard.set_velocity_ned(
+    #     VelocityNedYaw(-2.0, 0.0, 0.0, 270.0))
+    # await asyncio.sleep(4)
+
+    # print("-- Go West 2 m/s, turn to face East")
+    # await drone.offboard.set_velocity_ned(VelocityNedYaw(0.0, -2.0, 0.0, 90.0))
+    # await asyncio.sleep(4)
+
+    # print("-- Go East 2 m/s")
+    # await drone.offboard.set_velocity_ned(VelocityNedYaw(0.0, 2.0, 0.0, 90.0))
+    # await asyncio.sleep(4)
+
+    # print("-- Turn to face South")
+    # await drone.offboard.set_velocity_ned(VelocityNedYaw(0.0, 0.0, 0.0, 180.0))
+    # await asyncio.sleep(2)
+
+    # print("-- Go down 1 m/s, turn to face North")
+    # await drone.offboard.set_velocity_ned(VelocityNedYaw(0.0, 0.0, 1.0, 0.0))
+    # await asyncio.sleep(4)
     while True:
-        data=sock.recv(100)
-        data=data.decode()
-        yaw=data[0]
-        throttle=data[1]
-        roll=data[2]
-        pitch=data[3]
-        print(roll," ",pitch," ",yaw," ",throttle) #roll ? ? throttle
-        await drone.offboard.set_attitude(Attitude(roll, pitch, yaw, throttle))
-        await asyncio.sleep(0.1)
+        try:
+            data=sock.recv(300).decode()
+            data=data.split(" ")
+            print(data)
+            yaw=float(data[0])
+            throttle=float(data[1])
+            roll=float(data[2])
+            pitch=float(data[3]) 
+            await drone.offboard.set_velocity_ned(VelocityNedYaw(0.0, 0.0, 1.0, 0.0))
+            await asyncio.sleep(0.1)
+        except Exception as e:
+            print(e) 
+    print("-- Stopping offboard")
+    try:
+        await drone.offboard.stop()
+    except OffboardError as error:
+        print(f"Stopping offboard mode failed with error code: \
+              {error._result.result}")
+
 
 
 
