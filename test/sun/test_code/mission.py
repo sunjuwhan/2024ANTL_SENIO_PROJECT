@@ -37,11 +37,12 @@ async def run():
         observe_is_in_air(drone, running_tasks))
 
     mission_items = []
-    mission_items.append(my_mission_item)
+    for _ in range(4):
+        mission_items.append(my_mission_item)
 
     mission_plan = MissionPlan(mission_items)
 
-    await drone.mission.set_return_to_launch_after_mission(True)
+    await drone.mission.set_return_to_launch_after_mission(False)
 
     print("-- Uploading mission")
     await drone.mission.upload_mission(mission_plan)
