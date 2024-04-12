@@ -37,7 +37,7 @@ async def run():
         observe_is_in_air(drone, running_tasks))
 
     mission_items = []
-    mission_items.append(my_mission_item for _ in range(4))
+    mission_items.append(my_mission_item)
 
     mission_plan = MissionPlan(mission_items)
 
