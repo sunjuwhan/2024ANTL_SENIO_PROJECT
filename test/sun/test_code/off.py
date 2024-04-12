@@ -8,7 +8,7 @@
 import asyncio
 
 from mavsdk import System
-from mavsdk.offboard import (Attitude, OffboardError)
+from mavsdk.offboard import (OffboardError, VelocityNedYaw)
 import socket
 
 sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
