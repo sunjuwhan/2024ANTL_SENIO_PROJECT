@@ -71,28 +71,6 @@ async def run():
 
     print("-- Starting mission")
     await drone.mission.start_mission()
-    print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-    mission_items.pop()
-    mission_items.append(MissionItem(47.398039859999997,
-                                    8.5455725400000002,
-                                    25,
-                                    10,
-                                    True,
-                                    float('nan'),
-                                    float('nan'),
-                                    MissionItem.CameraAction.NONE,
-                                    float('nan'),
-                                    float('nan'),
-                                    float('nan'),
-                                    float('nan'),
-                                    float('nan'),
-                                    MissionItem.VehicleAction.NONE))
-
-    mission_plan=MissionPlan(mission_items)
-    await drone.mission.set_return_to_launch_after_mission(False)
-    await drone.mission.upload_mission(mission_plan)
-    print("two ")
-    await drone.mission.start_mission()
     await termination_task
     
 async def get_gps(drone,gpsmodel:GpsModel) :
@@ -102,9 +80,7 @@ async def get_gps(drone,gpsmodel:GpsModel) :
     
 async def print_mission_progress(drone):
     async for mission_progress in drone.mission.mission_progress():
-        print(f"Mission progress: "
-              f"{mission_progress.current}/"
-              f"{mission_progress.total}")
+        print("hello")
 
 
 async def observe_is_in_air(drone, running_tasks):
