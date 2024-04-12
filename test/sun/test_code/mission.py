@@ -56,7 +56,7 @@ async def run():
 
         mission_items.append(MissionItem(latitude,
                                          longitude,
-                                         25,
+                                         5,
                                          10,
                                          True,
                                          float('nan'),
@@ -70,7 +70,7 @@ async def run():
                                          MissionItem.VehicleAction.NONE))
 
         mission_plan = MissionPlan(mission_items)
-        await drone.mission.set_return_to_launch_after_mission(False)
+        await drone.mission.set_return_to_launch_after_mission(True)
 
         print("-- Uploading mission")
         await drone.mission.upload_mission(mission_plan)
