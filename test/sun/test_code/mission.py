@@ -18,33 +18,9 @@ class GpsModel():
         self.relative_altitude_m=rel
     def get_gps(self):
         return (self.latitude_deg,self.longitude_deg,self.absolute_altitude_m,self.relative_altitude_m)
-async def upload_and_execute_mission(drone,longitude,latitude,relative):
-    mission_items = []
-    mission_items.append(MissionItem(longitude,
-                                     latitude,
-                                     relative,
-                                     10,
-                                     True,
-                                     float('nan'),
-                                     float('nan'),
-                                     MissionItem.CameraAction.NONE,
-                                     float('nan'),
-                                     float('nan'),
-                                     float('nan'),
-                                     float('nan'),
-                                     float('nan'),
-                                     MissionItem.VehicleAction.NONE))
-    mission_plan = MissionPlan(mission_items)
-
-    await drone.mission.set_return_to_launch_after_mission(False)
-    print("-- Uploading mission")
-    await drone.mission.upload_mission(mission_plan)
-    print("-- Starting mission")
-    await drone.mission.start_mission()
 
 async def run():
     drone = System()
-    gps_model=GpsModel()
     await drone.connect(system_address="udp://:14540")
 
     print("Waiting for drone to connect...")
@@ -53,7 +29,6 @@ async def run():
             print(f"-- Connected to drone!")
             break
 
-    
     print_mission_progress_task = asyncio.ensure_future(
         print_mission_progress(drone))
 
@@ -61,7 +36,6 @@ async def run():
     termination_task = asyncio.ensure_future(
         observe_is_in_air(drone, running_tasks))
 
-  
     
     print("Waiting for drone to have a global position estimate...")
     async for health in drone.telemetry.health():
@@ -71,13 +45,34 @@ async def run():
 
     print("-- Arming")
     await drone.action.arm()
-    asyncio.ensure_future(get_gps(drone,gps_model))
-    data=gps_model.get_gps() 
+    flag=False
     while True:
-        await upload_and_execute_mission(drone,data[0],data[1],data[3])
-        time.sleep(1) 
-        
+        mission_items = []
+        mission_items.append(MissionItem(47.398039859999997,
+                                        8.5455725400000002,
+                                        25,
+                                        10,
+                                        True,
+                                        float('nan'),
+                                        float('nan'),
+                                        MissionItem.CameraAction.NONE,
+                                        float('nan'),
+                                        float('nan'),
+                                        float('nan'),
+                                        float('nan'),
+                                        float('nan'),
+                                        MissionItem.VehicleAction.NONE))
 
+        mission_plan = MissionPlan(mission_items)
+        await drone.mission.set_return_to_launch_after_mission(False)
+
+        print("-- Uploading mission")
+        await drone.mission.upload_mission(mission_plan)
+
+        print("-- Starting mission")
+        await drone.mission.start_mission()
+        await termination_task
+        print("1")
         
 async def get_gps(drone,gpsmodel:GpsModel) :
     async for position in drone.telemetry.position():
