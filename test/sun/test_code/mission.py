@@ -71,8 +71,8 @@ async def run():
 
     print("-- Starting mission")
     await drone.mission.start_mission()
-    await termination_task
     print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+    await termination_task
     
 async def get_gps(drone,gpsmodel:GpsModel) :
     async for position in drone.telemetry.position():
