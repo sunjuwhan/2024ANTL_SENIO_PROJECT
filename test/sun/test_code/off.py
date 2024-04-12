@@ -84,7 +84,7 @@ async def run():
             throttle=float(data[1])
             roll=float(data[2])
             pitch=float(data[3]) 
-            await drone.offboard.set_velocity_ned(VelocityNedYaw(0.0, 0.0, 1.0, 0.0))
+            await drone.offboard.set_velocity_ned(VelocityNedYaw(pitch,roll,throttle,yaw))
             await asyncio.sleep(0.1)
         except Exception as e:
             print(e) 
