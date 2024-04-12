@@ -63,13 +63,12 @@ class class_Drone_Controller_Joystick:
         switch_val = self.read_channel(self.switch_channel)
         if self.classifyNum == 1:
             self.ctrl_info.joystick_Left_x =float ((self.stabil_vrx(x_pos)-500)/500)  #-1 ~ 1
-            self.ctrl_info.joystick_Left_y = float(self.stabil_vry(y_pos)-500/500)
+            self.ctrl_info.joystick_Left_y = float((self.stabil_vry(y_pos)-500)/500)
             #yaw 방향 정해주고
             if(self.ctrl_info.joystick_Left_x<0):
                 self.ctrl_info.joystick_Left_x=-10
             elif (self.ctrl_info.joystick_Left_x>0):
                 self.ctrl_info.joystick_Left_x=10
-            print(self.ctrl_info.joystick_Left_y) 
             if(self.ctrl_info.joystick_Left_y<0):
                 self.ctrl_info.joystick_Left_y=1.0
             elif (self.ctrl_info.joystick_Left_y>0):
