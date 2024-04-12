@@ -77,19 +77,27 @@ async def manual_controls():
     #await drone.manual_control.start_position_control()
     print("-- Starting manual control")
     await drone.manual_control.start_position_control()
+    c=0
     while True:
         try:
-            data=sock.recv(300).decode()
-            data=data.split(" ")
-            print(data)
-            yaw=float(data[0])
-            throttle=float(data[1])
-            roll=float(data[2])
-            pitch=float(data[3])
-            await drone.manual_control.set_manual_control_input(pitch, roll, throttle, yaw)
+            c+=1
+            # data=sock.recv(300).decode()
+            # data=data.split(" ")
+            # print(data)
+            # yaw=float(data[0])
+            # throttle=float(data[1])
+            # roll=float(data[2])
+            # pitch=float(data[3])
+            await drone.manual_control.set_manual_control_input(0.0, 0.0, 0.0, 0.0)
             await asyncio.sleep(0.1)
+            print(c)
+            if(c==300):
+                break
         except:
             continue
+     
+    await drone.manual_control.set_manual_control_input(0.0, 0.0, 0.5, 0.0)
+    await asyncio.sleep(0.1)
 
 
 if __name__ == "__main__":

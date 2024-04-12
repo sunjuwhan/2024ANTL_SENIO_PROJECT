@@ -75,4 +75,7 @@ class PilotController:
                         break
                     print(go_a,go_b,go_c)
                     await self.__drone.get_drone().goto_location(go_a,go_b,go_c,go_d)
+                    
+                    while True:
+                        await asyncio.sleep(1)
         
