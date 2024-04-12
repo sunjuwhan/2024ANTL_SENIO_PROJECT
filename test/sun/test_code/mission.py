@@ -4,21 +4,21 @@ import asyncio
 
 from mavsdk import System
 from mavsdk.mission import (MissionItem, MissionPlan)
-import time
-class GpsModel():
-    def __init__(self) -> None:
-        self.latitude_deg=0.0
-        self.longitude_deg=0.0
-        self.absolute_altitude_m=0.0
-        self.relative_altitude_m=0.0
-    def set_gps(self,lat,log,abso,rel):
-        self.latitude_deg=lat
-        self.longitude_deg=log
-        self.absolute_altitude_m=abso
-        self.relative_altitude_m=rel
-    def get_gps(self):
-        return (self.latitude_deg,self.longitude_deg,self.absolute_altitude_m,self.relative_altitude_m)
 
+my_mission_item=MissionItem(47.398039859999997,
+                                     8.5455725400000002,
+                                     25,
+                                     10,
+                                     True,
+                                     float('nan'),
+                                     float('nan'),
+                                     MissionItem.CameraAction.NONE,
+                                     float('nan'),
+                                     float('nan'),
+                                     float('nan'),
+                                     float('nan'),
+                                     float('nan'),
+                                     MissionItem.VehicleAction.NONE)
 async def run():
     drone = System()
     await drone.connect(system_address="udp://:14540")
@@ -36,7 +36,16 @@ async def run():
     termination_task = asyncio.ensure_future(
         observe_is_in_air(drone, running_tasks))
 
-    
+    mission_items = []
+    mission_items.append(my_mission_item for _ in range(4))
+
+    mission_plan = MissionPlan(mission_items)
+
+    await drone.mission.set_return_to_launch_after_mission(True)
+
+    print("-- Uploading mission")
+    await drone.mission.upload_mission(mission_plan)
+
     print("Waiting for drone to have a global position estimate...")
     async for health in drone.telemetry.health():
         if health.is_global_position_ok and health.is_home_position_ok:
@@ -45,52 +54,19 @@ async def run():
 
     print("-- Arming")
     await drone.action.arm()
-    
-    mission_index = 0
-    while True:
-        mission_items = []
 
-        # 위도와 경도를 증가시킵니다. 예시로 0.001씩 증가시켰습니다.
-        latitude = 47.398039859999997 + mission_index * 0.001
-        longitude = 8.5455725400000002 + mission_index * 0.001
+    print("-- Starting mission")
+    await drone.mission.start_mission()
 
-        mission_items.append(MissionItem(latitude,
-                                         longitude,
-                                         5,
-                                         10,
-                                         True,
-                                         float('nan'),
-                                         float('nan'),
-                                         MissionItem.CameraAction.NONE,
-                                         float('nan'),
-                                         float('nan'),
-                                         float('nan'),
-                                         float('nan'),
-                                         float('nan'),
-                                         MissionItem.VehicleAction.NONE))
+    await termination_task
 
-        mission_plan = MissionPlan(mission_items)
-        await drone.mission.set_return_to_launch_after_mission(True)
 
-        print("-- Uploading mission")
-        await drone.mission.upload_mission(mission_plan)
-
-        print("-- Starting mission")
-        await drone.mission.start_mission()
-        
-        # 새로운 미션을 실행할 때마다 mission_index를 증가시킵니다.
-        mission_index += 1
-        
-        await termination_task
-
-async def get_gps(drone,gpsmodel:GpsModel) :
-    async for position in drone.telemetry.position():
-        gpsmodel.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
-                                     position.relative_altitude_m)
-    
 async def print_mission_progress(drone):
     async for mission_progress in drone.mission.mission_progress():
-        print("hello")
+        print(f"Mission progress: "
+              f"{mission_progress.current}/"
+              f"{mission_progress.total}")
+
 
 async def observe_is_in_air(drone, running_tasks):
     """ Monitors whether the drone is flying or not and
