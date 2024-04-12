@@ -46,34 +46,34 @@ async def run():
     print("-- Arming")
     await drone.action.arm()
     flag=False
-    while True:
-        mission_items = []
-        mission_items.append(MissionItem(47.398039859999997,
-                                        8.5455725400000002,
-                                        25,
-                                        10,
-                                        True,
-                                        float('nan'),
-                                        float('nan'),
-                                        MissionItem.CameraAction.NONE,
-                                        float('nan'),
-                                        float('nan'),
-                                        float('nan'),
-                                        float('nan'),
-                                        float('nan'),
-                                        MissionItem.VehicleAction.NONE))
 
-        mission_plan = MissionPlan(mission_items)
-        await drone.mission.set_return_to_launch_after_mission(False)
+    mission_items = []
+    mission_items.append(MissionItem(47.398039859999997,
+                                    8.5455725400000002,
+                                    25,
+                                    10,
+                                    True,
+                                    float('nan'),
+                                    float('nan'),
+                                    MissionItem.CameraAction.NONE,
+                                    float('nan'),
+                                    float('nan'),
+                                    float('nan'),
+                                    float('nan'),
+                                    float('nan'),
+                                    MissionItem.VehicleAction.NONE))
 
-        print("-- Uploading mission")
-        await drone.mission.upload_mission(mission_plan)
+    mission_plan = MissionPlan(mission_items)
+    await drone.mission.set_return_to_launch_after_mission(False)
 
-        print("-- Starting mission")
-        await drone.mission.start_mission()
-        await termination_task
-        print("1")
-        
+    print("-- Uploading mission")
+    await drone.mission.upload_mission(mission_plan)
+
+    print("-- Starting mission")
+    await drone.mission.start_mission()
+    await termination_task
+    print("1")
+    
 async def get_gps(drone,gpsmodel:GpsModel) :
     async for position in drone.telemetry.position():
         gpsmodel.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
