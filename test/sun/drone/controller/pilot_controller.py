@@ -60,6 +60,8 @@ class PilotController:
                     #print("manul start")
                     #await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
                     print("manual")
+                    if (throttle==0.0):
+                        throttle=0.1
                     await self.__drone.get_drone().manual_control.set_manual_control_input(0.0,0.0,throttle,0.0)
                     await asyncio.sleep(0.05)
                     #print(throttle)
