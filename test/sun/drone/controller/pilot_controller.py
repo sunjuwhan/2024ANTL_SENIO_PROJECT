@@ -56,7 +56,9 @@ class PilotController:
             elif (mode=="manual"):
                 try:
                     #print("manul start")
-                    await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
+                    #await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
+
+                    await self.__drone.get_drone().manual_control.set_manual_control_input(0.0,0.0,throttle,0.0)
                     await asyncio.sleep(0.05)
                     #print(throttle)
                     #print("manul_end")
