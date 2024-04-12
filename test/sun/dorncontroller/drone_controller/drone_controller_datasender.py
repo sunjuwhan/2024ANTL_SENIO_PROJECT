@@ -21,7 +21,6 @@ class class_drone_controller_datasender:
         try:
             # 데이터를 직렬화하고 전송
             self.socket.sendto(data.encode(),(self.target_ip,self.target_port))
-            time.sleep(0.1)  
         except Exception as e:
             print(f"Error sending joystick data: {e}")
 
