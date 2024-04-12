@@ -45,34 +45,44 @@ async def run():
 
     print("-- Arming")
     await drone.action.arm()
-    flag=False
-
-    mission_items = []
-    mission_items.append(MissionItem(47.398039859999997,
-                                    8.5455725400000002,
-                                    25,
-                                    10,
-                                    True,
-                                    float('nan'),
-                                    float('nan'),
-                                    MissionItem.CameraAction.NONE,
-                                    float('nan'),
-                                    float('nan'),
-                                    float('nan'),
-                                    float('nan'),
-                                    float('nan'),
-                                    MissionItem.VehicleAction.NONE))
-
-    mission_plan = MissionPlan(mission_items)
-    await drone.mission.set_return_to_launch_after_mission(False)
-
-    print("-- Uploading mission")
-    await drone.mission.upload_mission(mission_plan)
-
-    print("-- Starting mission")
-    await drone.mission.start_mission()
-    await termination_task
     
+    mission_index = 0
+    while True:
+        mission_items = []
+
+        # 위도와 경도를 증가시킵니다. 예시로 0.001씩 증가시켰습니다.
+        latitude = 47.398039859999997 + mission_index * 0.001
+        longitude = 8.5455725400000002 + mission_index * 0.001
+
+        mission_items.append(MissionItem(latitude,
+                                         longitude,
+                                         25,
+                                         10,
+                                         True,
+                                         float('nan'),
+                                         float('nan'),
+                                         MissionItem.CameraAction.NONE,
+                                         float('nan'),
+                                         float('nan'),
+                                         float('nan'),
+                                         float('nan'),
+                                         float('nan'),
+                                         MissionItem.VehicleAction.NONE))
+
+        mission_plan = MissionPlan(mission_items)
+        await drone.mission.set_return_to_launch_after_mission(False)
+
+        print("-- Uploading mission")
+        await drone.mission.upload_mission(mission_plan)
+
+        print("-- Starting mission")
+        await drone.mission.start_mission()
+        
+        # 새로운 미션을 실행할 때마다 mission_index를 증가시킵니다.
+        mission_index += 1
+        
+        await termination_task
+
 async def get_gps(drone,gpsmodel:GpsModel) :
     async for position in drone.telemetry.position():
         gpsmodel.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
@@ -81,7 +91,6 @@ async def get_gps(drone,gpsmodel:GpsModel) :
 async def print_mission_progress(drone):
     async for mission_progress in drone.mission.mission_progress():
         print("hello")
-
 
 async def observe_is_in_air(drone, running_tasks):
     """ Monitors whether the drone is flying or not and
