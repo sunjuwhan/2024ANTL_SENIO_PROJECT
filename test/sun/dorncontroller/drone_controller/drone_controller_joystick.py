@@ -27,7 +27,7 @@ class class_Drone_Controller_Joystick:
         return vrx_pos
 
     def stabil_vry(self,vry_pos):
-        if(vry_pos>=485 and vry_pos<=530):
+        if(vry_pos>=480 and vry_pos<=530):
             vry_pos=500
         elif(vry_pos>=0 and vry_pos < 3):
             vry_pos=0
