@@ -88,12 +88,12 @@ async def run():
             await asyncio.sleep(0.1)
         except Exception as e:
             print(e) 
-    print("-- Stopping offboard")
-    try:
-        await drone.offboard.stop()
-    except OffboardError as error:
-        print(f"Stopping offboard mode failed with error code: \
-              {error._result.result}")
+    # print("-- Stopping offboard")
+    # try:
+    #     await drone.offboard.stop()
+    # except OffboardError as error:
+    #     print(f"Stopping offboard mode failed with error code: \
+    #           {error._result.result}")
 
 
 
