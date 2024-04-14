@@ -29,7 +29,16 @@ class GpsModel:
     def get_gps(self):
         return(self.__latitude_deg,self.__longitude_deg,self.__absolute_altitude,self.__relative_altitude)
     
-    
+def get_direction(start_lat, start_lon, end_lat, end_lon):
+    # 위도와 경도의 차이 계산
+    dlat = end_lat - start_lat
+    dlon = end_lon - start_lon
+
+    # x축과 y축 방향 계산
+    x_distance = dlon * 111319.9 * cos(radians(start_lat))  # 1도의 경도 차이는 적도에서 약 111319.9 미터
+    y_distance = dlat * 111319.9  # 1도의 위도 차이는 항상 약 111319.9 미터
+
+    return x_distance, y_distance 
 def get_distance(lat1, lon1, lat2, lon2):
     # 지구의 반지름 (미터 단위)
     R = 6371000.0
@@ -72,30 +81,6 @@ def haversine(lat1, lon1, lat2, lon2):
     # 거리 계산
     distance = R * c
     return distance
-
-def get_direction(start_lat, start_lon, end_lat, end_lon):
-    # 위도와 경도의 차이 계산
-    dlat = end_lat - start_lat
-    dlon = end_lon - start_lon
-
-    # 동서남북 방향 결정
-    if dlat > 0:
-        lat_dir = '북'
-    elif dlat < 0:
-        lat_dir = '남'
-    else:
-        lat_dir = ''
-
-    if dlon > 0:
-        lon_dir = '동'
-    elif dlon < 0:
-        lon_dir = '서'
-    else:
-        lon_dir = ''
-
-    return lat_dir, lon_dir
-
-
 
 def get_bearing(lat1, lon1, lat2, lon2):
     # 위도 및 경도를 라디안으로 변환
@@ -175,8 +160,8 @@ async def run():
     #    + 북 - 남    /     +동 - 서      /    +up - donw    /  각도는 시계방향으로 
     print("-- Go 5m North, 0m East, -5m Down \
             within local coordinate system, turn to face East")
-    await drone.offboard.set_position_ned(
-            PositionNedYaw(5.0, 0.0, -5.0, 180.0))
+    await drone.offboard.set_position_ned
+    (PositionNedYaw(5.0, 0.0, -5.0, 0.0))  
     await asyncio.sleep(10)
     #여기까지 움직였다고 치고
     data=gps_mode.get_gps() 
@@ -186,18 +171,16 @@ async def run():
         data_2=gps_mode.get_gps()
         latitude_d=data_2[0]
         longitude_d=data_2[1]
-        absolute_altitude_d=0
-        relative_altitude_d=0
         distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
-        
-        print(f"거리는 : {distance}") 
         print(f"도착지는 {latitude_s}   {longitude_s}\n")
         print(f"현재 위치는 {latitude_d}   {longitude_d}")
-        x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
-        degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
-        print(f"x:  {x}  y:  {y}   degree:  {degree_number}")
+        x,y=get_direction(latitude_d,longitude_d,latitude_s,longitude_s)
+        print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
+        #x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
+        #degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
+
         await drone.offboard.set_position_ned(
-            PositionNedYaw(y, x, -5.0, degree_number))
+            PositionNedYaw(y, x, -5.0,0))
         await asyncio.sleep(10)
         print("\n\n")
 if __name__ == "__main__":
