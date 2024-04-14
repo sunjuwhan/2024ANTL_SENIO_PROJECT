@@ -46,6 +46,56 @@ def get_distance(lat1, lon1, lat2, lon2):
     y = R * delta_lat
 
     return x, y
+from math import radians, sin, cos, sqrt, atan2
+
+
+
+
+def haversine(lat1, lon1, lat2, lon2):
+    # 지구의 반지름 (미터 단위)
+    R = 6371000.0
+
+    # 라디안 변환
+    lat1_rad = radians(lat1)
+    lon1_rad = radians(lon1)
+    lat2_rad = radians(lat2)
+    lon2_rad = radians(lon2)
+
+    # 위도와 경도의 차이
+    dlat = lat2_rad - lat1_rad
+    dlon = lon2_rad - lon1_rad
+
+    # Haversine 공식 계산
+    a = sin(dlat / 2)**2 + cos(lat1_rad) * cos(lat2_rad) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+    # 거리 계산
+    distance = R * c
+    return distance
+
+def get_direction(start_lat, start_lon, end_lat, end_lon):
+    # 위도와 경도의 차이 계산
+    dlat = end_lat - start_lat
+    dlon = end_lon - start_lon
+
+    # 동서남북 방향 결정
+    if dlat > 0:
+        lat_dir = '북'
+    elif dlat < 0:
+        lat_dir = '남'
+    else:
+        lat_dir = ''
+
+    if dlon > 0:
+        lon_dir = '동'
+    elif dlon < 0:
+        lon_dir = '서'
+    else:
+        lon_dir = ''
+
+    return lat_dir, lon_dir
+
+
 
 def get_bearing(lat1, lon1, lat2, lon2):
     # 위도 및 경도를 라디안으로 변환
@@ -138,8 +188,11 @@ async def run():
         longitude_d=data_2[1]
         absolute_altitude_d=0
         relative_altitude_d=0
+        distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
+        
+        print(f"거리는 : {distance}") 
         print(f"도착지는 {latitude_s}   {longitude_s}\n")
-        print(f"현재 위치는 {latitude_d}   {latitude_d}")
+        print(f"현재 위치는 {latitude_d}   {longitude_d}")
         x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
         degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
         print(f"x:  {x}  y:  {y}   degree:  {degree_number}")
