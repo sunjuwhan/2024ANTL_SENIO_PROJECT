@@ -152,14 +152,15 @@ async def run():
         await drone.action.disarm()
         return
     asyncio.ensure_future(get_gps(drone,gps_mode))
-    data=gps_mode.get_gps() 
-    latitude_s=data[0]
-    longitude_s=data[1]
+    
     print("-- Go 0m North, 0m East, -5m Down \
             within local coordinate system")
     await drone.offboard.set_position_ned(
             PositionNedYaw(0.0, 0.0, -5.0, 0.0))    
     await asyncio.sleep(10)
+    data=gps_mode.get_gps() 
+    latitude_s=data[0]
+    longitude_s=data[1]
     #    + 북 - 남    /     +동 - 서      /    +up - donw    /  각도는 시계방향으로 
     print("-- Go 5m North, 0m East, -5m Down \
             within local coordinate system, turn to face East")
@@ -173,7 +174,7 @@ async def run():
         data_2=gps_mode.get_gps()
         latitude_d=data_2[0]
         longitude_d=data_2[1]
-        distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
+        #distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
         print(f"도착지는 {latitude_s}   {longitude_s}\n")
         print(f"현재 위치는 {latitude_d}   {longitude_d}")
         x,y=get_direction(latitude_d,longitude_d,latitude_s,longitude_s)
