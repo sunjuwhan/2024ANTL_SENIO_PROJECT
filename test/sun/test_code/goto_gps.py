@@ -13,7 +13,23 @@ import asyncio
 from mavsdk import System
 from mavsdk.offboard import (OffboardError, PositionNedYaw)
 from math import radians, sin, cos, sqrt, atan2, degrees
+class GpsModel:
+    def __init__(self) -> None:
+        self.__latitude_deg=None #위도
+        self.__longitude_deg=None #경도
+        self.__absolute_altitude=None  
+        self.__relative_altitude=None  #실제 높이 
+    def set_gps(self,latitude,longitude,absolute,relative):
+        self.__latitude_deg=latitude
+        self.__longitude_deg=longitude
+        self.__absolute_altitude=absolute
+        self.__relative_altitude=relative
+        
 
+    def get_gps(self):
+        return(self.__latitude_deg,self.__longitude_deg,self.__absolute_altitude,self.__relative_altitude)
+    
+    
 def get_distance(lat1, lon1, lat2, lon2):
     # 지구의 반지름 (미터 단위)
     R = 6371000.0
@@ -58,17 +74,19 @@ def get_bearing(lat1, lon1, lat2, lon2):
 # bearing = get_bearing(lat1, lon1, lat2, lon2)
 # print("두 지점 간의 각도는 {:.2f} 도입니다.".format(bearing))
 # print("x축으로 {:.2f} 미터, y축으로 {:.2f} 미터 이동해야 합니다.".format(x_distance, y_distance))
-async def get_gps(drone,latitude,longitude,absoulte_altitude,relative_altitude):
+        
+async def get_gps(drone,drone_model:GpsModel) :
+
     async for position in drone.telemetry.position():
-        latitude=position.latitude_deg
-        longitude=position.longitude_deg
-        absoulte_altitude=position.absolute_altitude_m
-        relative_altitude=position.relative_altitude_M
+        drone_model.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
+                                    position.relative_altitude_m)
+        
         
 async def run():
     """ Does Offboard control using position NED coordinates. """
 
     drone = System()
+    gps_mode=GpsModel()
     await drone.connect(system_address="udp://:14540")
 
     print("Waiting for drone to connect...")
@@ -98,11 +116,7 @@ async def run():
         print("-- Disarming")
         await drone.action.disarm()
         return
-    latitude_s=0
-    longitude_s=0
-    absolute_altitude_s=0
-    relative_altitude_s=0
-    get_gps(drone,latitude_s,longitude_s,absolute_altitude_s,relative_altitude_s) 
+    asyncio.ensure_future(get_gps(drone,gps_mode))
     print("-- Go 0m North, 0m East, -5m Down \
             within local coordinate system")
     await drone.offboard.set_position_ned(
@@ -115,15 +129,17 @@ async def run():
             PositionNedYaw(5.0, 0.0, -5.0, 90.0))
     await asyncio.sleep(10)
     #여기까지 움직였다고 치고
-
+    data=gps_mode.get_gps() 
+    latitude_s=data[0]
+    longitude_s=data[1]
     while True:
-        latitude_d=0
-        longitude_d=0
+        data_2=gps_mode.get_gps()
+        latitude_d=data_2[0]
+        longitude_d=data_2[1]
         absolute_altitude_d=0
         relative_altitude_d=0
-        get_gps(drone,latitude_d,longitude_d,absolute_altitude_d,relative_altitude_d)
-        x,y=get_distance(latitude_s,longitude_s,latitude_d,longitude_d)
-        degree_number=get_bearing(latitude_s,longitude_s,latitude_d,longitude_d)
+        x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
+        degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
         print(f"x:  {x}  y:  {y}   degree:  {degree_number}")
         await drone.offboard.set_position_ned(
             PositionNedYaw(y, x, -5.0, degree_number))
