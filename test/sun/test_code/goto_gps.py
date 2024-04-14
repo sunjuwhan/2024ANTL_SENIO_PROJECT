@@ -138,12 +138,15 @@ async def run():
         longitude_d=data_2[1]
         absolute_altitude_d=0
         relative_altitude_d=0
+        print(f"도착지는 {latitude_s}   {longitude_s}\n")
+        print(f"현재 위치는 {latitude_d}   {latitude_d}")
         x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
         degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
         print(f"x:  {x}  y:  {y}   degree:  {degree_number}")
         await drone.offboard.set_position_ned(
             PositionNedYaw(y, x, -5.0, degree_number))
         await asyncio.sleep(10)
+        print("\n\n")
 if __name__ == "__main__":
     # Run the asyncio loop
     asyncio.run(run())
