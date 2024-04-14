@@ -176,7 +176,7 @@ async def run():
         latitude_d=data_2[0]
         longitude_d=data_2[1]
         #distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
-        print(f"도착지는 {latitude_s}   {longitude_s}\n")
+        print(f"도착지는 {latitude_s}   {longitude_s}  ",end="   ")
         print(f"현재 위치는 {latitude_d}   {longitude_d}")
         x,y=get_direction(latitude_d,longitude_d,latitude_s,longitude_s)
         print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
@@ -185,7 +185,7 @@ async def run():
 
         await drone.offboard.set_position_ned(
             PositionNedYaw(y, x, -5.0,0.0))
-        await asyncio.sleep(10)
+        await asyncio.sleep(15)
         print("\n\n")
 if __name__ == "__main__":
     # Run the asyncio loop
