@@ -176,7 +176,7 @@ async def run():
     print("-- Go 5m North, 0m East, -5m Down \
             within local coordinate system, turn to face East")
     await drone.offboard.set_position_ned(
-            PositionNedYaw(5.0, 0.0, -5.0,0.0))
+            PositionNedYaw(5.0, 0.0, -5.0, 180.0))
     await asyncio.sleep(10)
     #여기까지 움직였다고 치고
     data=gps_mode.get_gps() 
