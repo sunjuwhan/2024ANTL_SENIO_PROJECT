@@ -152,6 +152,9 @@ async def run():
         await drone.action.disarm()
         return
     asyncio.ensure_future(get_gps(drone,gps_mode))
+    data=gps_mode.get_gps() 
+    latitude_s=data[0]
+    longitude_s=data[1]
     print("-- Go 0m North, 0m East, -5m Down \
             within local coordinate system")
     await drone.offboard.set_position_ned(
@@ -162,10 +165,10 @@ async def run():
             within local coordinate system, turn to face East")
     await drone.offboard.set_position_ned (PositionNedYaw(5.0, 0.0, -5.0, 0.0))  
     await asyncio.sleep(10)
+    
+    
+    
     #여기까지 움직였다고 치고
-    data=gps_mode.get_gps() 
-    latitude_s=data[0]
-    longitude_s=data[1]
     while True:
         data_2=gps_mode.get_gps()
         latitude_d=data_2[0]
@@ -179,8 +182,8 @@ async def run():
         #degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
 
         await drone.offboard.set_position_ned(
-            PositionNedYaw(0.04, -0.8, -5.0,0.0))
-        await asyncio.sleep(10)
+            PositionNedYaw(y, x, -5.0,0.0))
+        await asyncio.sleep(4)
         print("\n\n")
 if __name__ == "__main__":
     # Run the asyncio loop
