@@ -179,7 +179,7 @@ async def run():
         #degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
 
         await drone.offboard.set_position_ned(
-            PositionNedYaw(y, x, -5.0,0.0))
+            PositionNedYaw(0.04, -0.8, -5.0,0.0))
         await asyncio.sleep(10)
         print("\n\n")
 if __name__ == "__main__":
