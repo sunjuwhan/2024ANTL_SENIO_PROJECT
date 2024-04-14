@@ -183,7 +183,7 @@ async def run():
 
         await drone.offboard.set_position_ned(
             PositionNedYaw(y, x, -5.0,0.0))
-        await asyncio.sleep(4)
+        await asyncio.sleep(3)
         print("\n\n")
 if __name__ == "__main__":
     # Run the asyncio loop
