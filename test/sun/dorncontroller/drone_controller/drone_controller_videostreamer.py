@@ -15,19 +15,19 @@ class class_Drone_Controller_VideoStreamer:
         s = [b'\xff' * 11520 for x in range(20)]
 
         fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-        out = cv2.VideoWriter('output.avi', fourcc, 25.0, (320, 240))
+        out = cv2.VideoWriter('output.avi', fourcc, 25.0, (640, 480))
         while True:
             picture = b''
 
-            data, addr = self.socket.recvfrom(11521)
-            s[data[0]] = data[1:11521]
+            data, addr = self.socket.recvfrom(46081)
+            s[data[0]] = data[1:46081]
 
             if data[0] == 19:
                 for i in range(20):
                     picture += s[i]
 
                 frame = numpy.fromstring(picture, dtype=numpy.uint8)
-                frame = frame.reshape(240, 320, 3)
+                frame = frame.reshape(480, 640, 3)
                 cv2.imshow("frame", frame)
                 out.write(frame)
 
