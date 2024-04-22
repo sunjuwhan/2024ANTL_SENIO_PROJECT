@@ -141,7 +141,7 @@ async def run():
 
         print(f"도착지는 {latitude_s}   {longitude_s}  ",end="   ")
         print(f"현재 위치는 {gps_mode.get_gps()[0]}   {gps_mode.get_gps()[1]}")
-        x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],latitude_s,latitude_s)
+        x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],latitude_s,longitude_s)
         print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
         #x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
         #degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
