@@ -112,7 +112,7 @@ def get_bearing(lat1, lon1, lat2, lon2):
         
 async def get_gps(drone,drone_model:GpsModel) :
     async for position in drone.telemetry.position():
-        print(position.latitude_deg)
+        #print(position.latitude_deg)
         drone_model.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
                                     position.relative_altitude_m)
         
@@ -158,6 +158,7 @@ async def run():
     await drone.offboard.set_position_ned(
             PositionNedYaw(0.0, 0.0, -5.0, 0.0))    
     await asyncio.sleep(10)
+
     data=gps_mode.get_gps() 
     latitude_s=data[0]
     longitude_s=data[1]
@@ -176,15 +177,19 @@ async def run():
         latitude_d=data_2[0]
         longitude_d=data_2[1]
         #distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
+        
+
         print(f"도착지는 {latitude_s}   {longitude_s}  ",end="   ")
         print(f"현재 위치는 {latitude_d}   {longitude_d}")
         x,y=get_direction(latitude_d,longitude_d,latitude_s,longitude_s)
         print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
         #x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
         #degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
-
         await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))
         await asyncio.sleep(10)
+        data_2=gps_mode.get_gps()
+        latitude_d=data_2[0]
+        longitude_d=data_2[1]
         print("\n\n")
 if __name__ == "__main__":
     # Run the asyncio loop
