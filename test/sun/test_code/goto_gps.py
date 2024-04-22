@@ -139,6 +139,7 @@ async def run():
     await asyncio.sleep(10)
     data=gps_mode.get_gps()
     print(data[0],data[1]) 
+    await asyncio.sleep(10)
     # #여기까지 움직였다고 치고
     # while True:
     #     #distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
