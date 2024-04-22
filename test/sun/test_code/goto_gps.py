@@ -172,6 +172,7 @@ async def run():
     
     #여기까지 움직였다고 치고
     while True:
+        asyncio.ensure_future(get_gps(drone,gps_mode))
         data_2=gps_mode.get_gps()
         latitude_d=data_2[0]
         longitude_d=data_2[1]
