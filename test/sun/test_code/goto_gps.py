@@ -60,44 +60,7 @@ from math import radians, sin, cos, sqrt, atan2
 
 
 
-def haversine(lat1, lon1, lat2, lon2):
-    # 지구의 반지름 (미터 단위)
-    R = 6371000.0
 
-    # 라디안 변환
-    lat1_rad = radians(lat1)
-    lon1_rad = radians(lon1)
-    lat2_rad = radians(lat2)
-    lon2_rad = radians(lon2)
-
-    # 위도와 경도의 차이
-    dlat = lat2_rad - lat1_rad
-    dlon = lon2_rad - lon1_rad
-
-    # Haversine 공식 계산
-    a = sin(dlat / 2)**2 + cos(lat1_rad) * cos(lat2_rad) * sin(dlon / 2)**2
-    c = 2 * atan2(sqrt(a), sqrt(1 - a))
-
-    # 거리 계산
-    distance = R * c
-    return distance
-
-def get_bearing(lat1, lon1, lat2, lon2):
-    # 위도 및 경도를 라디안으로 변환
-    lat1_rad, lon1_rad, lat2_rad, lon2_rad = map(radians, [lat1, lon1, lat2, lon2])
-
-    # 두 점을 기준으로 하는 벡터의 각도를 계산
-    delta_lon = lon2_rad - lon1_rad
-    y = sin(delta_lon) * cos(lat2_rad)
-    x = cos(lat1_rad) * sin(lat2_rad) - sin(lat1_rad) * cos(lat2_rad) * cos(delta_lon)
-    bearing_rad = atan2(y, x)
-
-    # 라디안 값을 도 단위로 변환하여 반환
-    bearing_deg = degrees(bearing_rad)
-    # 음수 값 처리
-    bearing_deg = (bearing_deg + 360) % 360
-
-    return bearing_deg
 
 # # 예시 좌표
 # lat1 = 37.7749
@@ -173,23 +136,17 @@ async def run():
     
     #여기까지 움직였다고 치고
     while True:
-        data_2=gps_mode.get_gps()
-        latitude_d=data_2[0]
-        longitude_d=data_2[1]
         #distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
         
 
         print(f"도착지는 {latitude_s}   {longitude_s}  ",end="   ")
-        print(f"현재 위치는 {latitude_d}   {longitude_d}")
-        x,y=get_direction(latitude_d,longitude_d,latitude_s,longitude_s)
+        print(f"현재 위치는 {gps_mode.get_gps()[0]}   {gps_mode.get_gps()[1]}")
+        x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],latitude_s,latitude_s)
         print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
         #x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
         #degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
         await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))
         await asyncio.sleep(10)
-        data_2=gps_mode.get_gps()
-        latitude_d=data_2[0]
-        longitude_d=data_2[1]
         print("\n\n")
 if __name__ == "__main__":
     # Run the asyncio loop
