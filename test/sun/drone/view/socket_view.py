@@ -30,7 +30,7 @@ class SocketView():
         while True : 
             s=self.__video_model.get_frame()  #46080
             for i in range(20):
-                self.video_socket.sendto(bytes([i]) + s[i*11520:(i+1) * 11520],(IP_CONTROLLER,PORT_CONTROLLER))  #쏴야하니까 controller ip port
+                self.video_socket.sendto(bytes([i]) + s[i*46080:(i+1) * 46080],(IP_CONTROLLER,PORT_CONTROLLER))  #쏴야하니까 controller ip port
             
             
     def __data_recv(self):
