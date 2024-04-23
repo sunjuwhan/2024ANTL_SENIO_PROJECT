@@ -103,7 +103,11 @@ async def run():
 
     print("-- Arming")
     await drone.action.arm()
+    await asyncio.sleep(5)
+    print("--takeoff")
 
+    await drone.action.takeoff()
+    await asyncio.sleep(5)
     #print("-- Setting initial setpoint")  #아 현재 위치를 setting 하는 작업이구나 그러면 현재 위치를 0,0,0,0 이라고 setpoint를 찍는거네 
     #await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, 0.0, 0.0))
 
