@@ -132,28 +132,21 @@ async def run():
     await drone.offboard.set_position_ned (PositionNedYaw(5.0, 0.0, -5.0, 0.0))  
     await asyncio.sleep(10)
     
-    data=gps_mode.get_gps()
-    print(latitude_s,longitude_s)
-    print(data[0],data[1]) 
-    await drone.offboard.set_position_ned (PositionNedYaw(-5.0, 0.0, -5.0, 0.0))  
-    await asyncio.sleep(10)
-    data=gps_mode.get_gps()
-    print(data[0],data[1]) 
-    await asyncio.sleep(10)
     # #여기까지 움직였다고 치고
-    # while True:
-    #     #distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
-        
-
-    #     print(f"도착지는 {latitude_s}   {longitude_s}  ",end="   ")
-    #     print(f"현재 위치는 {gps_mode.get_gps()[0]}   {gps_mode.get_gps()[1]}")
-    #     x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],latitude_s,longitude_s)
-    #     print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
-    #     #x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
-    #     #degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
-    #     await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))
-    #     await asyncio.sleep(15)
-    #     print("\n\n")
+    y=0
+    x=0
+    while True:
+        await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))
+        await asyncio.sleep(15)
+        print("\n\n")
+        #distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
+        print(f"도착지는 {latitude_s}   {longitude_s}  ",end="   ")
+        print(f"현재 위치는 {gps_mode.get_gps()[0]}   {gps_mode.get_gps()[1]}")
+        x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],latitude_s,longitude_s)
+        print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
+        #x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
+        #degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
+     
 if __name__ == "__main__":
     # Run the asyncio loop
     asyncio.run(run())
