@@ -172,6 +172,7 @@ async def run():
                 data_gps=sock.recv(1024).decode().split(' ')
      
                 mode=data_gps[4]
+                print(mode)
                 await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))  #높이는 -5로 고정하고 
                 await asyncio.sleep(10) 
                 x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)
