@@ -127,13 +127,13 @@ async def run():
     longitude_s=data[1]
     await asyncio.sleep(1)
     #    + 북 - 남    /     +동 - 서      /    +up - donw    /  각도는 시계방향으로 
-    print("-- Go 5m North, 0m East, -5m Down \
-            within local coordinate system, turn to face East")
-    await drone.offboard.set_position_ned (PositionNedYaw(5.0, 0.0, -5.0, 0.0))  
-    await asyncio.sleep(10)
+    #print("-- Go 5m North, 0m East, -5m Down \
+    #        within local coordinate system, turn to face East")
+    #await drone.offboard.set_position_ned (PositionNedYaw(5.0, 0.0, -5.0, 0.0))  
+    #await asyncio.sleep(10)
     
     # #여기까지 움직였다고 치고
-    y=0
+    y=5
     x=0
     while True:
         await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))
