@@ -9,10 +9,12 @@ non-gps environment.
 """
 
 import asyncio
-
+import socket
 from mavsdk import System
 from mavsdk.offboard import (OffboardError, PositionNedYaw)
 from math import radians, sin, cos, sqrt, atan2, degrees
+sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+sock.bind(("192.168.232.137",8080) )
 class GpsModel:
     def __init__(self) -> None:
         self.__latitude_deg=None #위도
@@ -77,7 +79,7 @@ async def get_gps(drone,drone_model:GpsModel) :
     async for position in drone.telemetry.position():
         #print(position.latitude_deg)
         drone_model.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
-                                    position.relative_altitude_m)
+                                    position.relative_altitude_m)  #relative
         
         
 async def run():
@@ -102,30 +104,23 @@ async def run():
     print("-- Arming")
     await drone.action.arm()
 
-    print("-- Setting initial setpoint")
-    await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, 0.0, 0.0))
+    #print("-- Setting initial setpoint")  #아 현재 위치를 setting 하는 작업이구나 그러면 현재 위치를 0,0,0,0 이라고 setpoint를 찍는거네 
+    #await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, 0.0, 0.0))
 
-    print("-- Starting offboard")
-    try:
-        await drone.offboard.start()
-    except OffboardError as error:
-        print(f"Starting offboard mode failed \
-                with error code: {error._result.result}")
-        print("-- Disarming")
-        await drone.action.disarm()
-        return
+    #print("-- Starting offboard")
+    #try:
+    #    await drone.offboard.start()
+    #except OffboardError as error:
+    #    print(f"Starting offboard mode failed \
+    #            with error code: {error._result.result}")
+    #    print("-- Disarming")
+    #    await drone.action.disarm()
+    #    return
     asyncio.ensure_future(get_gps(drone,gps_mode))
     
-    print("-- Go 0m North, 0m East, -5m Down \
-            within local coordinate system")
-    await drone.offboard.set_position_ned(
-            PositionNedYaw(0.0, 0.0, -5.0, 0.0))    
-    await asyncio.sleep(10)
-
-    data=gps_mode.get_gps() 
-    latitude_s=data[0]
-    longitude_s=data[1]
-    await asyncio.sleep(1)
+    #await drone.offboard.set_position_ned(
+    #        PositionNedYaw(0.0, 0.0, -5.0, 0.0))    
+    #await asyncio.sleep(10)
     #    + 북 - 남    /     +동 - 서      /    +up - donw    /  각도는 시계방향으로 
     #print("-- Go 5m North, 0m East, -5m Down \
     #        within local coordinate system, turn to face East")
@@ -133,17 +128,47 @@ async def run():
     #await asyncio.sleep(10)
     
     # #여기까지 움직였다고 치고
-    y=5
-    x=0
     while True:
-        await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))
-        await asyncio.sleep(15)
-        print("\n\n")
-        #distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
-        print(f"도착지는 {latitude_s}   {longitude_s}  ",end="   ")
-        print(f"현재 위치는 {gps_mode.get_gps()[0]}   {gps_mode.get_gps()[1]}")
-        x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],latitude_s,longitude_s)
-        print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
+        data=sock.recv(1024).decode().split(' ')
+        yaw=data[0]
+        throttle=data[1]
+        roll=data[2]
+        pitch=data[3]
+        mode=data[4]
+        if mode=="manual":
+            await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
+            await asyncio.sleep(0.05)
+        elif mode=="gps":
+            now_latitude=gps_mode.get_gps()[0]
+            now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
+            now_height=gps_mode.get_gps()[3]
+            try:
+                await drone.offboard.start()
+            except OffboardError as error:
+                print(f"Starting offboard mode failed \
+                with error code: {error._result.result}")
+                print("-- Disarming")
+                await drone.action.disarm()
+                return
+            await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0,-now_height, 0.0))
+            y=0
+            x=0
+            while mode=="gps":  #모드가 gps인 동안 계속해서 작동해야한다.
+                await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))  #높이는 -5로 고정하고 
+                await asyncio.sleep(10) 
+                x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)
+                print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
+            """
+            gps 모드로 들어오면 현재 위치 받아서  저장한다음에 이제 계속 이위치로 가야해 언제까지? 모드가 바뀔때까지
+            """
+        # await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))
+        # await asyncio.sleep(15)
+        # print("\n\n")
+        # #distance = get_distance(latitude_d,longitude_d,latitude_s,longitude_s)  #거리 계산 프로그램 
+        # print(f"도착지는 {latitude_s}   {longitude_s}  ",end="   ")
+        # print(f"현재 위치는 {gps_mode.get_gps()[0]}   {gps_mode.get_gps()[1]}")
+        # x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],latitude_s,longitude_s)
+        # print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
         #x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
         #degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
      
