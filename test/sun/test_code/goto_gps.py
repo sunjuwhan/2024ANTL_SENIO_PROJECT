@@ -170,7 +170,7 @@ async def run():
             x=0
             while True:  #모드가 gps인 동안 계속해서 작동해야한다.
                 data_gps=sock.recv(1024).decode().split(' ')
-     
+                print(data_gps[0],   data_gps[1]) 
                 gps_mod_now=data_gps[4]
                 print(gps_mod_now)
                 if(gps_mod_now!="gps"):
