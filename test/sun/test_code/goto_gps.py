@@ -137,8 +137,8 @@ async def run():
         mode=data[4]
         if mode=="manual":
             print(throttle)
-            await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
-            await asyncio.sleep(0.05)
+            #await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
+            #await asyncio.sleep(0.05)
         elif mode=="gps":
             now_latitude=gps_mode.get_gps()[0]
             now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
