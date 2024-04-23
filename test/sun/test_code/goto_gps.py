@@ -150,7 +150,6 @@ async def run():
             print(throttle)
             try:
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
-                await asyncio.sleep(0.05)
             except:
                 print("e")
         elif mode=="gps":
