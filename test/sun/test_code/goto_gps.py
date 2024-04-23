@@ -130,10 +130,10 @@ async def run():
     # #여기까지 움직였다고 치고
     while True:
         data=sock.recv(1024).decode().split(' ')
-        yaw=data[0]
-        throttle=data[1]
-        roll=data[2]
-        pitch=data[3]
+        yaw=float(data[0])
+        throttle=float(data[1])
+        roll=float(data[2])
+        pitch=float(data[3])
         mode=data[4]
         if mode=="manual":
             await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
