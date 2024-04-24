@@ -169,7 +169,7 @@ async def run():
             now_height=gps_mode.get_gps()[3]
             try:
                 
-                await drone.offboard.set_position_ned(PositionNedYaw(0.0,0.0,-now_height, 0.0))
+                await drone.offboard.set_position_ned(PositionNedYaw(5.0,5.0,-now_height, 0.0))
                 await drone.offboard.start() #순서 바꿔봤음
             except OffboardError as error:
                 print(f"Starting offboard mode failed \
