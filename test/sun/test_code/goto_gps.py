@@ -169,7 +169,6 @@ async def run():
             now_height=gps_mode.get_gps()[3]
             flag_mode="off"
             try:
-                
                 await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0,-now_height, 0.0))
                 await drone.offboard.start()
             except OffboardError as error:
@@ -191,7 +190,7 @@ async def run():
                         print(e)
                     break
                 await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))  #높이는 -5로 고정하고 
-                await asyncio.sleep(0.1) 
+                await asyncio.sleep(3) 
                 x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)
                 print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
             """
