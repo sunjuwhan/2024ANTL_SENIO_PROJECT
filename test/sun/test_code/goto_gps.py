@@ -167,10 +167,9 @@ async def run():
             now_latitude=gps_mode.get_gps()[0]
             now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
             now_height=gps_mode.get_gps()[3]
-            flag_mode="off"
             try:
                 
-                await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0,-now_height, 0.0))
+                await drone.offboard.set_position_ned(PositionNedYaw(0.0,0.0,-now_height, 0.0))
                 await drone.offboard.start() #순서 바꿔봤음
             except OffboardError as error:
                 print(f"Starting offboard mode failed \
@@ -182,7 +181,6 @@ async def run():
             x=0
             while True:  #모드가 gps인 동안 계속해서 작동해야한다.
                 gps_mod_now=joystick_model.get_joystick()[4]
-                print(gps_mod_now)
                 if(gps_mod_now!="gps"):
                     try:
                         await drone.offboard.stop()
@@ -191,7 +189,7 @@ async def run():
                         print(e)
                     break
                 await drone.offboard.set_position_ned(PositionNedYaw(get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)[1], get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)[0], -5.0,0.0))  #높이는 -5로 고정하고 
-                await asyncio.sleep(3) 
+                await asyncio.sleep(6) 
                 x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)
                 print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
             """
