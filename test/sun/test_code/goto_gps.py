@@ -160,7 +160,6 @@ async def run():
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
         if mode=="manual":
             try:
-                flag_mode="manual"
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
             except Exception as e:
                 print(e)
@@ -168,11 +167,11 @@ async def run():
             now_latitude=gps_mode.get_gps()[0]
             now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
             now_height=gps_mode.get_gps()[3]
+            flag_mode="off"
             try:
                 
                 await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0,-now_height, 0.0))
                 await drone.offboard.start()
-                
             except OffboardError as error:
                 print(f"Starting offboard mode failed \
                 with error code: {error._result.result}")
@@ -185,6 +184,11 @@ async def run():
                 gps_mod_now=joystick_model.get_joystick()[4]
                 print(gps_mod_now)
                 if(gps_mod_now!="gps"):
+                    try:
+                        await drone.offboard.stop()
+                        print("success stop offboard")
+                    except Exception as e:
+                        print(e)
                     break
                 await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))  #높이는 -5로 고정하고 
                 await asyncio.sleep(0.1) 
