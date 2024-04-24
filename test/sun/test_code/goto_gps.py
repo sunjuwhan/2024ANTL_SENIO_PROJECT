@@ -26,10 +26,11 @@ class joystick:
     def set_joystick(self,yaw,throttle,roll,pitch,mode):
         self.__yaw=float(yaw)
         self.__throttle=float(throttle)
+        self.__roll=float(roll)
         self.__pitch=float(pitch)
         self.__mode=mode
     def get_joystick(self):
-        return (self.__yaw,self.__throttle,self.__pitch,self.__mode)
+        return (self.__yaw,self.__throttle,self.__roll,self.__pitch,self.__mode)
 class GpsModel:
     def __init__(self) -> None:
         self.__latitude_deg=None #위도
