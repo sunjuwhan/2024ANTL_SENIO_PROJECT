@@ -155,14 +155,15 @@ async def run():
     #await asyncio.sleep(10)
     
     # #여기까지 움직였다고 치고
+    flag_mode=None
     while True:
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
         if mode=="manual":
-            print(throttle)
             try:
+                flag_mode="manual"
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
-            except:
-                print("e")
+            except Exception as e:
+                print(e)
         elif mode=="gps":
             now_latitude=gps_mode.get_gps()[0]
             now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
