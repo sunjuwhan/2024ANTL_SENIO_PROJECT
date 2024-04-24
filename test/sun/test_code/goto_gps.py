@@ -104,7 +104,7 @@ async def run():
     drone = System()
     gps_mode=GpsModel()
     await drone.connect(system_address="udp://:14540")
-
+    
     print("Waiting for drone to connect...")
     async for state in drone.core.connection_state():
         if state.is_connected:
@@ -116,7 +116,7 @@ async def run():
         if health.is_global_position_ok and health.is_home_position_ok:
             print("-- Global position estimate OK")
             break
-
+        
     print("-- Arming")
     await drone.action.arm()
     await asyncio.sleep(5)
@@ -169,8 +169,9 @@ async def run():
             now_height=gps_mode.get_gps()[3]
             flag_mode="off"
             try:
+                
+                await drone.offboard.start() #순서 바꿔봤음
                 await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0,-now_height, 0.0))
-                await drone.offboard.start()
             except OffboardError as error:
                 print(f"Starting offboard mode failed \
                 with error code: {error._result.result}")
@@ -189,8 +190,8 @@ async def run():
                     except Exception as e:
                         print(e)
                     break
-                await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))  #높이는 -5로 고정하고 
-                await asyncio.sleep(3) 
+                await drone.offboard.set_position_ned(PositionNedYaw(get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude[1]), get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)[0], -5.0,0.0))  #높이는 -5로 고정하고 
+                await asyncio.sleep(2) 
                 x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)
                 print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
             """
