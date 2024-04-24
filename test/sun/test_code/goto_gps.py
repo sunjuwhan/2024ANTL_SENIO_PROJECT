@@ -15,6 +15,20 @@ from mavsdk.offboard import (OffboardError, PositionNedYaw)
 from math import radians, sin, cos, sqrt, atan2, degrees
 sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 sock.bind(("192.168.232.137",8080) )
+class joystick:
+    def __init__(self) -> None:
+        self.__yaw=None
+        self.__pitch=None
+        self.__roll=None
+        self.__throttle=None
+        self.__mode=None
+    def set_joystick(self,yaw,throttle,roll,pitch,mode):
+        self.__yaw=float(yaw)
+        self.__throttle=float(throttle)
+        self.__pitch=float(pitch)
+        self.__mode=mode
+    def get_joystick(self):
+        return (self.__yaw,self.__throttle,self.__pitch,self.__mode)
 class GpsModel:
     def __init__(self) -> None:
         self.__latitude_deg=None #위도
@@ -74,7 +88,7 @@ from math import radians, sin, cos, sqrt, atan2
 # bearing = get_bearing(lat1, lon1, lat2, lon2)
 # print("두 지점 간의 각도는 {:.2f} 도입니다.".format(bearing))
 # print("x축으로 {:.2f} 미터, y축으로 {:.2f} 미터 이동해야 합니다.".format(x_distance, y_distance))
-        
+joystick_model=joystick()
 async def get_gps(drone,drone_model:GpsModel) :
     async for position in drone.telemetry.position():
         #print(position.latitude_deg)
@@ -140,12 +154,7 @@ async def run():
     
     # #여기까지 움직였다고 치고
     while True:
-        data=sock.recv(1024).decode().split(' ')
-        yaw=float(data[0])
-        throttle=float(data[1])
-        roll=float(data[2])
-        pitch=float(data[3])
-        mode=data[4]
+        yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
         if mode=="manual":
             print(throttle)
             try:
@@ -160,6 +169,7 @@ async def run():
                 
                 await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0,-now_height, 0.0))
                 await drone.offboard.start()
+                
             except OffboardError as error:
                 print(f"Starting offboard mode failed \
                 with error code: {error._result.result}")
@@ -169,14 +179,12 @@ async def run():
             y=0
             x=0
             while True:  #모드가 gps인 동안 계속해서 작동해야한다.
-                data_gps=sock.recv(1024).decode().split(' ')
-                print(data_gps[0],   data_gps[1]) 
-                gps_mod_now=data_gps[4]
+                gps_mod_now=joystick_model.get_joystick()[4]
                 print(gps_mod_now)
                 if(gps_mod_now!="gps"):
                     break
                 await drone.offboard.set_position_ned(PositionNedYaw(y, x, -5.0,0.0))  #높이는 -5로 고정하고 
-                await asyncio.sleep(10) 
+                await asyncio.sleep(0.1) 
                 x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)
                 print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
             """
@@ -192,7 +200,10 @@ async def run():
         # print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
         #x,y=get_distance(latitude_d,longitude_d,latitude_s,longitude_s)
         #degree_number=get_bearing(latitude_d,longitude_d,latitude_s,longitude_s)
-     
+def run_socket():
+    while True:
+        data=sock.recv(1024).decode().split(' ')
+        joystick_model.set_joystick(data[0],data[1],data[2],data[3],data[4])
 if __name__ == "__main__":
     # Run the asyncio loop
     asyncio.run(run())
