@@ -12,6 +12,7 @@ import asyncio
 import socket
 from mavsdk import System
 from mavsdk.offboard import (OffboardError, PositionNedYaw)
+from threading import Thread
 from math import radians, sin, cos, sqrt, atan2, degrees
 sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 sock.bind(("192.168.232.137",8080) )
@@ -206,4 +207,6 @@ def run_socket():
         joystick_model.set_joystick(data[0],data[1],data[2],data[3],data[4])
 if __name__ == "__main__":
     # Run the asyncio loop
+    socket_trhead=Thread(target=run_socket)
+    socket_trhead.start()
     asyncio.run(run())
