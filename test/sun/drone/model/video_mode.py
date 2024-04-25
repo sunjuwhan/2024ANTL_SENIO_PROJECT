@@ -28,4 +28,4 @@ class VideoModel():
             start = i * slice_height
             end = start + slice_height
             slices.append(self.__frame[start:end, :])
-        self.__image_slice=slices
+        return slices
