@@ -28,9 +28,11 @@ class SocketView():
             print(e)
     def __data_send(self): #이미지 전송할 함수
         while True : 
-            s=self.__video_model.get_frame()  #46080
-            for i in range(20):
-                self.video_socket.sendto(bytes([i]) + s[i*46080:(i+1) * 46080],(IP_CONTROLLER,PORT_CONTROLLER))  #쏴야하니까 controller ip port
+            frame=self.__video_model.get_frame()  #46080
+            image_slices=self.__video_model.split_image(frame)
+            for i, slice_img in enumerate(image_slices):
+                data = cv2.imencode('.jpg', slice_img)[1].tobytes()  # JPEG 형식으로 인코딩하여 바이트로 변환
+                self.video_socket.sendto(bytes([i]) + data, (IP_CONTROLLER, PORT_CONTROLLER))
             
             
     def __data_recv(self):

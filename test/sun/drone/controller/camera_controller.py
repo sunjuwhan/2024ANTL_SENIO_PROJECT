@@ -1,18 +1,24 @@
 import time
 import cv2
-
+from model.pilot_model import *
 from model.video_mode import *
 class CameraController():
-    def __init__(self,model:VideoModel) -> None:
+    def __init__(self,model:VideoModel,pilot_model:PilotModel) -> None:
         self.__model=model
         self.__cap=model.get_cap()
+        self.__pilot_model=pilot_model
+        self.__picam2=self.__model.get_picam()
     def set_frame(self):
-        ret,frame=self.__cap.read()
-        #frame=cv2.resize(frame,(320,240))
-        d=frame.flatten()
-        s=d.tostring()
-        self.__model.set_frame(s)
+        now_mode=self.__pilot_model.get_data()[1]
+        if(now_mode=="gps" or now_mode =="detection"):
+            frame=self.__picam2.capture_array()
+            self.__model.set_frame(frame)
+        else:
+            ret,frame=self.__cap.read()
+            self.__model.set_frame(frame)
+
     def run(self):
         time.sleep(3)
+        self.__picam2.start()
         while True:
             self.set_frame()
