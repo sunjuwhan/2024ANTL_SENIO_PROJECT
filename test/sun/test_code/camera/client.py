@@ -1,28 +1,29 @@
-import socket
 import cv2
-from picamera2 import Picamera2
-__picam2=Picamera2()
-__picam2.preview_configuration.main.size = (640, 480)
-__picam2.preview_configuration.main.format = "RGB888"
-__picam2.preview_configuration.align()
-__picam2.configure("preview")
-__picam2.start()
-UDP_IP = '192.168.32.1'
-UDP_PORT = 9505
+import numpy as np
+import socket
+import struct
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
+# 비디오 캡처 설정
 cap = cv2.VideoCapture(0)
+
+# UDP 소켓 설정
+UDP_IP = '192.168.50.63'
+UDP_PORT = 5005
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 while True:
     ret, frame = cap.read()
-    d = frame.flatten()
-    s = d.tostring()
+    # 이미지를 바이트 스트림으로 변환
+    encoded, buffer = cv2.imencode('.jpg', frame)
+    jpg_as_text = buffer.tobytes()
 
-    for i in range(20):
-        sock.sendto(bytes([i]) + s[i*46080:(i+1)*46080], (UDP_IP, UDP_PORT))
+    # 이미지 크기 정보를 포함하여 UDP로 전송
+    message_size = struct.pack("L", len(jpg_as_text))
+    sock.sendto(message_size + jpg_as_text, (UDP_IP, UDP_PORT))
 
- 
+    cv2.imshow('frame', frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+cap.release()
+cv2.destroyAllWindows()
