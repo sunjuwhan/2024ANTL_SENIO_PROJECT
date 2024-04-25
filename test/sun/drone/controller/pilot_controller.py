@@ -2,6 +2,7 @@ import asyncio
 from model.pilot_model import *
 from model.gps_model import *
 import time
+from mavsdk.offboard import (OffboardError, PositionNedYaw)
 class PilotController:
     def __init__(self,pilotmodel:PilotModel,gpsmodel:GpsModel) -> None:
         self.__pilot_model=pilotmodel  
@@ -14,19 +15,13 @@ class PilotController:
     def get_dron_from_controller(self):
         return self.__drone.get_drone()
     
-    
-    
     def __recv_data(self,key,mode): #master 부터 recv해서 드론 컨트롤 하는 부분 
         self.__pilot_model.set_data(key,mode)
-        
-        
     async def get_gps(self) :
 
         async for position in self.__drone.get_drone().telemetry.position():
             self.__gps_model.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
                                      position.relative_altitude_m)
-            
-            
     async def run(self):
         time.sleep(3)
         while True:
@@ -35,49 +30,69 @@ class PilotController:
             #print(mode,"  ",yaw,throttle,roll,pitch)
             asyncio.ensure_future(self.get_gps())
             if (mode=="arm"):
-                if(self.flag_arm==0):
+                try:
                     print("-- Arming")
                     await self.__drone.get_drone().action.arm()
-                    await asyncio.sleep(2)
+                    await asyncio.sleep(3)
+                    print("-- success Arming") 
                     self.flag_arm=1
-                else:
-                    continue 
-            elif (mode=="takeoff") :
-                print("--  Takeoff")
-                await self.__drone.get_drone().action.takeoff()
-                await asyncio.sleep(1)
-
-            elif (mode=="land"):
-                print("-- land")
-                await self.__drone.get_drone().action.land()
-                
-            elif( mode=="disarm") :
-                print("--disarm")
-                await self.__drone.get_drone().action.disarm()
-                
-            elif (mode=="manual"):
-                try:
-                    #print("manul start")
-                    #await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
-                    print("manual")
-                    if (throttle==0.0):
-                        throttle=0.1
-                    await self.__drone.get_drone().manual_control.set_manual_control_input(0.0,0.0,throttle,0.0)
-                    await asyncio.sleep(0.05)
-                    #print(throttle)
-                    #print("manul_end")
                 except Exception as e:
                     print(e)
-                    
+            elif (mode=="takeoff") :
+                try:
+                    print("--  Takeoff")
+                    await self.__drone.get_drone().action.takeoff()
+                    await asyncio.sleep(3)
+                    print(" --sucesse takeoff") 
+                except Exception as e:
+                    print(e)
+            elif (mode=="land"):
+                try:
+                    print("-- land")
+                    await self.__drone.get_drone().action.land()
+                    await asyncio.sleep(5)
+                    print("-- success landing")
+                except Exception as e:
+                    print(e)
+            elif( mode=="disarm"):
+                try:
+                    print("--disarm")
+                    await self.__drone.get_drone().action.disarm()
+                    await   asyncio.sleep(5)
+                except Exception as e:
+                    print(e)
+            elif (mode=="manual"):
+                try:
+                    await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
+                except Exception as e:
+                    await self.__drone.get_drone().manual_control.set_manual_control_input(0.0,0.0,0.5,0.0)
+                    print(e)
             elif (mode=="gps") : #gps mode
-                (go_a,go_b,go_c,go_d)=(self.__gps_model.get_gps())
+                now_latitude =self.__gps_model.get_gps()[0]
+                now_longitude=self.__gps_model.get_gps()[1]
+                now_height=self.__gps_model.get_gps()[3]
+                try:
+                    await self.__drone.get_drone().offboard.set_position_ned(PositionNedYaw(0.0,0.0,0.0,0.0))  #setting 하는 곳 
+                    await self.__drone.get_drone().offboard.start() #순서 바꿔봤음
+                except OffboardError as error:
+                    print(f"Starting offboard mode failed \
+                    with error code: {error._result.result}")
+                    await self.__drone.get_drone().action.land()
+                y=0
+                x=0
                 while True:
-                    (key,mode)=self.__pilot_model.get_data()
-                    if(mode!="1") :
-                        break
-                    print(go_a,go_b,go_c)
-                    await self.__drone.get_drone().goto_location(go_a,go_b,go_c,go_d)
-                    
-                    while True:
-                        await asyncio.sleep(1)
-        
+                    (a,chk_now_mode)=self.__pilot_model.get_data()
+                    if(chk_now_mode!="gps"):
+                        try:
+                            await self.__drone.get_drone().offboard.stop()
+                            await asyncio.sleep(1)
+                            print("Success stop offboard")
+                        except Exception as e:
+                            print(e)
+                    await self.__drone.get_drone().offboard.set_position_ned(PositionNedYaw
+                        (self.__gps_model.get_direction(self.__gps_model.get_gps()[0],self.__gps_model.get_gps()[1],now_latitude,now_longitude)[1], 
+                        self.__gps_model.get_direction(self.__gps_model.get_gps()[0],self.__gps_model.get_gps()[1],now_latitude,now_longitude)[0], -5.0,0.0)) 
+                    #높이는 -5로 고정하고 
+                    await asyncio.sleep(5)
+                    x,y=self.__gps_model.get_direction(self.__gps_model.get_gps()[0],self.__gps_model.get_gps()[1],now_latitude,now_longitude)
+                    print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
