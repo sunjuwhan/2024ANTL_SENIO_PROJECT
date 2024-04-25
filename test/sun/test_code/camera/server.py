@@ -20,7 +20,7 @@ def merge_image_chunks(chunks, shape):
     for i in range(0, height, 100):
         for j in range(0, width, 100):
             chunk = chunks[idx]
-            h, w, _ = chunk.shape
+            h, w = chunk.shape[:2]  # 이미지 조각의 높이와 너비 가져오기
             image[i:i+h, j:j+w] = chunk
             idx += 1
     return image
@@ -33,7 +33,7 @@ while True:
         data, addr = sock.recvfrom(65535)  # 최대 UDP 패킷 크기
         size = struct.unpack("L", data[:8])[0]
         total_size += size
-        chunks.append(np.frombuffer(data[8:], np.uint8))
+        chunks.append(cv2.imdecode(np.frombuffer(data[8:], np.uint8), cv2.IMREAD_COLOR))  # 바로 이미지로 디코딩하여 저장
         if total_size >= 640 * 480 * 3:  # 예상 이미지 크기보다 크면 루프 종료
             break
     
