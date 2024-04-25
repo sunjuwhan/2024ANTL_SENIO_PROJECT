@@ -19,7 +19,10 @@ class class_Drone_Controller_Switch:
         while True:
             # 현재 스위치 상태 읽기
             self.info.switch1 = True if GPIO.input(self.switch1_pin) == GPIO.HIGH else False    #왼쪽위 
+            
             self.info.switch2 = True if GPIO.input(self.switch1_pin) == GPIO.HIGH else False    #왼쪽 아래
+            
             self.info.switch3 = True if GPIO.input(self.switch1_pin) == GPIO.HIGH else False   #오른쪽 위
+            
             self.info.switch4 = True if GPIO.input(self.switch1_pin) == GPIO.HIGH else False  #오른쪽 아래 
             time.sleep(0.05)

@@ -3,7 +3,7 @@ from drone_controller.drone_controller_joystick import *
 from drone_controller.drone_controller_information import *
 from drone_controller.drone_controller_videostreamer import *
 from drone_controller.drone_controller_datasender import *
-from drone_controller.drone_controller_button import *
+#from drone_controller.drone_controller_button import *
 from drone_controller.drone_controller_switch import *
 from threading import Thread, Lock
 import os
@@ -47,5 +47,5 @@ class class_Drone_Controller_System:
     def run_drone_controller_system(self):
         # controllerSwitch = drone_controller_switch.class_Drone_Controller_Switch(self)
         self.start_Drone_Controller()
-        #while True:
-            #self.print_system_log()
+        while True:
+            self.print_system_log()
