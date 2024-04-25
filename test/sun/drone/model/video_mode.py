@@ -23,6 +23,7 @@ class VideoModel():
         return self.__cap
     def split_image(self, num_slices):
         slice_height = self.__frame.shape[0] // num_slices
+        print(self.__frame)
         slices = []
         for i in range(num_slices):
             start = i * slice_height
