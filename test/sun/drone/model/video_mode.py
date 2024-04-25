@@ -4,8 +4,8 @@ import cv2
 class VideoModel():
     def __init__(self) -> None:
         self.__cap=cv2.VideoCapture(0)
-        self.__cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        self.__cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        #self.__cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        #self.__cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
         self.__picam2=Picamera2()
         self.__picam2.preview_configuration.main.size = (640, 480)
         self.__picam2.preview_configuration.main.format = "RGB888"
