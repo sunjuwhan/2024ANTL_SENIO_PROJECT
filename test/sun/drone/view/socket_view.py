@@ -32,6 +32,7 @@ class SocketView():
         try:
             while True : 
                 frame=self.__video_model.get_frame()  #46080
+                cv2.imshow(frame)
                 d=frame.flatten()
                 s=d.tostring()
                 for i in range(20):
