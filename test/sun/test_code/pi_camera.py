@@ -6,7 +6,9 @@ cap = cv2.VideoCapture(0)  # 0번 카메라를 사용 (일반적으로 라즈베
 while True:
     # 카메라에서 프레임 읽기
     ret, frame = cap.read()
-
+    print(type(frame))
+    print(len(frame))
+    
     # 프레임 읽기에 성공하면 화면에 표시
     if ret:
         cv2.imshow('Camera', frame)
