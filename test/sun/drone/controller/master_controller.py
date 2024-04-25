@@ -10,7 +10,7 @@ class MasterController():
         self.__camera_model=video_model
         self.__gps_model=gps_model
         self.__drone=None
-        self.__camera_controller=CameraController(self.__camera_model)
+        self.__camera_controller=CameraController(self.__camera_model,self.__pilot_model)
         self.__gps_controller=None
     def run_camera(self):
         self.__camera_controller.run()
