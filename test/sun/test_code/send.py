@@ -3,14 +3,14 @@ import numpy as np
 import socket
 from picamera2 import Picamera2
 
-# Picamera2 초기화
-# picam2 = Picamera2()
-# picam2.preview_configuration.main.size = (320, 240)
-# picam2.preview_configuration.main.format = "RGB888"
-# picam2.preview_configuration.align()
-# picam2.configure("preview")
-# picam2.start()
-cap=cv2.VideoCapture(0)
+#Picamera2 초기화
+picam2 = Picamera2()
+picam2.preview_configuration.main.size = (320, 240)
+picam2.preview_configuration.main.format = "RGB888"
+picam2.preview_configuration.align()
+picam2.configure("preview")
+picam2.start()
+#cap=cv2.VideoCapture(0)
 
 # UDP 설정
 IP_CONTROLLER = "192.168.50.52"
@@ -30,22 +30,22 @@ def split_image(image, num_slices):
 
 try:
     while True:
-        #im = picam2.capture_array()
-        ret,frame=cap.read()
-        d=frame.flatten()
-        s=d.tostring()
+        im = picam2.capture_array()
+#        ret,frame=cap.read()
+#        d=frame.flatten()
+#        s=d.tostring()
         # 이미지를 20개의 조각으로 나누기
-        #image_slices = split_image(im, 20)
+        image_slices = split_image(im, 20)
         #s=im.tobytes()
         #s=im.flatten()
         #s=s.tostring()
         #각 조각을 전송
-        #for i, slice_img in enumerate(image_slices):
-        #    data = cv2.imencode('.jpg', slice_img)[1].tobytes()  # JPEG 형식으로 인코딩하여 바이트로 변환
-        #    video_socket.sendto(bytes([i]) + data, (IP_CONTROLLER, PORT_CONTROLLER))
-        for i in range(20):
+        for i, slice_img in enumerate(image_slices):
+            data = cv2.imencode('.jpg', slice_img)[1].tobytes()  # JPEG 형식으로 인코딩하여 바이트로 변환
+            video_socket.sendto(bytes([i]) + data, (IP_CONTROLLER, PORT_CONTROLLER))
+        #for i in range(20):
             #video_socket.sendto(bytes([i]), (IP_CONTROLLER, PORT_CONTROLLER))
-            video_socket.sendto(bytes([i]) +s[i*11520:(i+1) *11520], (IP_CONTROLLER, PORT_CONTROLLER))
+        #    video_socket.sendto(bytes([i]) +s[i*11520:(i+1) *11520], (IP_CONTROLLER, PORT_CONTROLLER))
         # 'q' 키를 누를 때까지 대기
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -53,5 +53,5 @@ try:
 finally:
     # OpenCV 창 닫기 및 Picamera2 종료
     cv2.destroyAllWindows()
-    #picam2.stop()
+    picam2.stop()
     video_socket.close()
