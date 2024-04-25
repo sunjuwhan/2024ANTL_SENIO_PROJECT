@@ -1,6 +1,12 @@
 import socket
 import cv2
-
+from picamera2 import Picamera2
+__picam2=Picamera2()
+__picam2.preview_configuration.main.size = (640, 480)
+__picam2.preview_configuration.main.format = "RGB888"
+__picam2.preview_configuration.align()
+__picam2.configure("preview")
+__picam2.start()
 UDP_IP = '192.168.32.1'
 UDP_PORT = 9505
 
