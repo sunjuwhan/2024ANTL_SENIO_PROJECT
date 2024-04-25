@@ -1,46 +1,48 @@
 import cv2
-import numpy as np
 import socket
+import pickle
 import struct
 
-# 비디오 캡처 설정
+# 카메라 초기화
 cap = cv2.VideoCapture(0)
+cap.set(3, 640)  # 영상 가로 크기 설정
+cap.set(4, 480)  # 영상 세로 크기 설정
 
-# UDP 소켓 설정
-UDP_IP = '192.168.50.47'
-UDP_PORT = 5005
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+# 수신 라즈베리파이의 IP 주소와 포트 번호 설정
+receiver_ip = "192.168.50.47"
+port = 8005
 
-# 이미지 분할 함수
-def split_image(image, chunk_size):
-    chunks = []
-    height, width = image.shape[:2]
-    for i in range(0, height, chunk_size):
-        for j in range(0, width, chunk_size):
-            chunk = image[i:i+chunk_size, j:j+chunk_size]
-            chunks.append(chunk)
-    return chunks
+# 소켓 초기화
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-# 이미지 크기 정보를 포함하여 UDP로 전송
-def send_image_chunks(chunks):
-    for chunk in chunks:
-        # 이미지를 바이트 스트림으로 변환
-        encoded, buffer = cv2.imencode('.jpg', chunk)
-        jpg_as_text = buffer.tobytes()
-
-        # 이미지 크기 정보를 포함하여 UDP로 전송
-        message_size = struct.pack("L", len(jpg_as_text))
-        sock.sendto(message_size + jpg_as_text, (UDP_IP, UDP_PORT))
-
-# 이미지를 작은 조각으로 나누어 전송
 while True:
     ret, frame = cap.read()
-    chunks = split_image(frame, 100)  # 이미지를 100x100 크기의 조각으로 나눔
-    send_image_chunks(chunks)
 
-    cv2.imshow('frame', frame)
+    # 영상을 직렬화하여 전송
+    data = pickle.dumps(frame)
+    size = len(data)
+    max_packet_size = 65507  # UDP 패킷 최대 크기
+    num_packets = size // max_packet_size + 1
+
+    # 패킷을 여러 번에 걸쳐 전송
+    for i in range(num_packets):
+        start = i * max_packet_size
+        end = min((i + 1) * max_packet_size, size)
+        packet_data = data[start:end]
+
+        # 마지막 패킷인 경우에는 추가 정보를 포함하여 전송
+        if i == num_packets - 1:
+            packet_data = b"LAST_PACKET" + struct.pack(">HH", i, num_packets) + packet_data
+        else:
+            packet_data = struct.pack(">HH", i, num_packets) + packet_data
+
+        client_socket.sendto(packet_data, (receiver_ip, port))
+
+    # 'q' 키를 누르면 종료
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+# 리소스 정리
 cap.release()
 cv2.destroyAllWindows()
+client_socket.close()

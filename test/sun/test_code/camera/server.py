@@ -1,46 +1,50 @@
 import cv2
-import numpy as np
 import socket
+import pickle
 import struct
 
-# UDP 소켓 설정
-UDP_IP = '192.168.50.47'
-UDP_PORT = 5005
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((UDP_IP, UDP_PORT))
+# 수신 라즈베리파이의 IP 주소와 포트 번호 설정
+receiver_ip = "192.168.50.47"
+port = 8005
 
-# 비디오 출력창 생성
-cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
+# 소켓 초기화
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_socket.bind((receiver_ip, port))
 
-# 이미지 조각을 합치는 함수
-def merge_image_chunks(chunks, shape):
-    height, width = shape
-    image = np.zeros((height, width, 3), np.uint8)
-    idx = 0
-    for i in range(0, height, 100):
-        for j in range(0, width, 100):
-            chunk = chunks[idx]
-            h, w = chunk.shape[:2]  # 이미지 조각의 높이와 너비 가져오기
-            image[i:i+h, j:j+w] = chunk
-            idx += 1
-    return image
+# 영상을 표시할 창 생성
+cv2.namedWindow("Received", cv2.WINDOW_NORMAL)
 
 while True:
-    chunks = []
-    total_size = 0
-    # 이미지 조각 수신
-    while True:
-        data, addr = sock.recvfrom(65535)  # 최대 UDP 패킷 크기
-        size = struct.unpack("L", data[:8])[0]
-        total_size += size
-        chunks.append(cv2.imdecode(np.frombuffer(data[8:], np.uint8), cv2.IMREAD_COLOR))  # 바로 이미지로 디코딩하여 저장
-        if total_size >= 640 * 480 * 3:  # 예상 이미지 크기보다 크면 루프 종료
-            break
-    
-    # 이미지 조각을 합쳐서 비디오로 출력
-    img = merge_image_chunks(chunks, (480, 640))
-    cv2.imshow('frame', img)
+    # 데이터 수신
+    data, addr = server_socket.recvfrom(65535)
+
+    # 패킷에서 추가 정보를 추출
+    header = data[:10]
+    is_last_packet = data.startswith(b"LAST_PACKET")
+    if is_last_packet:
+        packet_index, num_packets = struct.unpack(">HH", header[10:])
+        data = data[10:]
+    else:
+        packet_index, num_packets = struct.unpack(">HH", header)
+        data = data[10:]
+
+    # 모든 패킷을 수신하면 영상 표시
+    if packet_index == 0:
+        received_data = data
+    else:
+        received_data += data
+
+    # 모든 패킷을 수신했을 때 영상 표시
+    if packet_index == num_packets - 1:
+        # 직렬화된 데이터를 디코딩하여 영상 표시
+        frame = pickle.loads(received_data)
+        cv2.imshow("Received", frame)
+        received_data = b""
+
+    # 'q' 키를 누르면 종료
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
+# 리소스 정리
 cv2.destroyAllWindows()
+server_socket.close()
