@@ -4,12 +4,12 @@ import socket
 from picamera2 import Picamera2
 
 #Picamera2 초기화
-# picam2 = Picamera2()
-# picam2.preview_configuration.main.size = (320, 240)
-# picam2.preview_configuration.main.format = "RGB888"
-# picam2.preview_configuration.align()
-# picam2.configure("preview")
-# picam2.start()
+picam2 = Picamera2()
+picam2.preview_configuration.main.size = (320, 240)
+picam2.preview_configuration.main.format = "RGB888"
+picam2.preview_configuration.align()
+picam2.configure("preview")
+picam2.start()
 cap=cv2.VideoCapture(0)
 
 # UDP 설정
@@ -30,8 +30,8 @@ def split_image(image, num_slices):
 
 try:
     while True:
-        #im = picam2.capture_array()
-        ret,im=cap.read()
+        im = picam2.capture_array()
+        #ret,im=cap.read()
 #        ret,frame=cap.read()
 #        d=frame.flatten()
 #        s=d.tostring()

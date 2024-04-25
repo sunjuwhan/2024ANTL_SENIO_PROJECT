@@ -32,7 +32,7 @@ class SocketView():
             image_slices=self.__video_model.split_image(20)
             print(image_slices)
             print(type(image_slices))
-            for i, slice_img in enumerate (image_slices):
+            for i, slice_img in enumerate(image_slices):
                 data = cv2.imencode('.jpg', slice_img)[1].tobytes()  # JPEG 형식으로 인코딩하여 바이트로 변환
                 self.video_socket.sendto(bytes([i]) + data, (IP_CONTROLLER, PORT_CONTROLLER))
             
