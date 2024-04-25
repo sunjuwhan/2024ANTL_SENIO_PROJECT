@@ -32,11 +32,10 @@ class SocketView():
         try:
             while True : 
                 frame=self.__video_model.get_frame()  #46080
-                cv2.imshow(frame)
                 d=frame.flatten()
                 s=d.tostring()
                 for i in range(20):
-                    self.video_socket.sendto(bytes([i]) +s[i*11520:(i+1) *11520], (IP_CONTROLLER, PORT_CONTROLLER))
+                    self.video_socket.sendto(bytes([i]) +s[i*46081:(i+1) *46081], (IP_CONTROLLER, PORT_CONTROLLER))
                 #image_slices=self.__video_model.split_image(20)
                 #print(image_slices)
                 #print(type(image_slices))
