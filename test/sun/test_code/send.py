@@ -30,7 +30,7 @@ def split_image(image, num_slices):
 
 try:
     while True:
-        im = picam2.capture_array()
+        #im = picam2.capture_array()
         ret,frame=cap.read()
         d=frame.flatten()
         s=d.tostring()
@@ -53,5 +53,5 @@ try:
 finally:
     # OpenCV 창 닫기 및 Picamera2 종료
     cv2.destroyAllWindows()
-    picam2.stop()
+    #picam2.stop()
     video_socket.close()
