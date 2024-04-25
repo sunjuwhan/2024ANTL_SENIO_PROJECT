@@ -4,13 +4,13 @@ import socket
 from picamera2 import Picamera2
 
 #Picamera2 초기화
-picam2 = Picamera2()
-picam2.preview_configuration.main.size = (320, 240)
-picam2.preview_configuration.main.format = "RGB888"
-picam2.preview_configuration.align()
-picam2.configure("preview")
-picam2.start()
-#cap=cv2.VideoCapture(0)
+# picam2 = Picamera2()
+# picam2.preview_configuration.main.size = (320, 240)
+# picam2.preview_configuration.main.format = "RGB888"
+# picam2.preview_configuration.align()
+# picam2.configure("preview")
+# picam2.start()
+cap=cv2.VideoCapture(0)
 
 # UDP 설정
 IP_CONTROLLER = "192.168.50.52"
@@ -30,7 +30,8 @@ def split_image(image, num_slices):
 
 try:
     while True:
-        im = picam2.capture_array()
+        #im = picam2.capture_array()
+        ret,im=cap.read()
 #        ret,frame=cap.read()
 #        d=frame.flatten()
 #        s=d.tostring()
@@ -53,5 +54,5 @@ try:
 finally:
     # OpenCV 창 닫기 및 Picamera2 종료
     cv2.destroyAllWindows()
-    picam2.stop()
+    #picam2.stop()
     video_socket.close()
