@@ -12,7 +12,7 @@ picam2.preview_configuration.main.size = (640, 480)
 picam2.start()
 
 # UDP 설정
-IP_CONTROLLER = "192.168.50.71"
+IP_CONTROLLER = "192.168.50.52"
 PORT_CONTROLLER = 8080  # 적절한 포트번호로 변경하세요
 BUFFER_SIZE = 46081
 video_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
