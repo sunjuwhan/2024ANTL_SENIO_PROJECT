@@ -117,20 +117,20 @@ async def run():
             print("-- Global position estimate OK")
             break
         
-    print("-- Arming")
-    await drone.action.arm()
-    await asyncio.sleep(5)
+    #print("-- Arming")
+    #await drone.action.arm()
+    #await asyncio.sleep(5)
     print("--takeoff")
 
-    await drone.action.takeoff()
-    await asyncio.sleep(5)
-    try:
-        await drone.manual_control.set_manual_control_input(
-        float(0), float(0), float(0.5), float(0)
-    )
-        print("good")
-    except Exception as e:
-        print(e)    
+    #await drone.action.takeoff()
+    #await asyncio.sleep(5)
+    #try:
+    #    await drone.manual_control.set_manual_control_input(
+    #    float(0), float(0), float(0.5), float(0)
+    #)
+    #    print("good")
+    #except Exception as e:
+    #    print(e)    
     #print("-- Setting initial setpoint")  #아 현재 위치를 setting 하는 작업이구나 그러면 현재 위치를 0,0,0,0 이라고 setpoint를 찍는거네 
     #await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, 0.0, 0.0))
 
@@ -162,13 +162,31 @@ async def run():
             try:
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
             except Exception as e:
+                
+                await drone.manual_control.set_manual_control_input(0.0,0.0,0.5,0.0)
                 print(e)
+        elif mode=="arm":
+            print("-- Arming")
+            await drone.action.arm()
+            await asyncio.sleep(5)
+        elif mode=="takeoff":
+            print("takeoff")
+            await drone.action.takeoff()
+            await asyncio.sleep(5)
+        elif mode=="disarm":
+            print("disarm")
+            await drone.action.disarm()
+            await asyncio.sleep(5)
+        elif mode=="land":
+            print('land')
+            await drone.action.land()
+            await asyncio.sleep(5)
         elif mode=="gps":
             now_latitude=gps_mode.get_gps()[0]
             now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
             now_height=gps_mode.get_gps()[3]
             try:
-                await drone.offboard.set_position_ned(PositionNedYaw(10.0,10.0,0.0,0.0))
+                await drone.offboard.set_position_ned(PositionNedYaw(0.0,0.0,0.0,0.0))  #setting 하는 곳 
                 await drone.offboard.start() #순서 바꿔봤음
             except OffboardError as error:
                 print(f"Starting offboard mode failed \
@@ -187,8 +205,8 @@ async def run():
                     except Exception as e:
                         print(e)
                     break
-                #await drone.offboard.set_position_ned(PositionNedYaw(get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)[1], get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)[0], -5.0,0.0))  #높이는 -5로 고정하고 
-                await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, 0.0, 0.0))
+                await drone.offboard.set_position_ned(PositionNedYaw(get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)[1], get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)[0], -5.0,0.0))  #높이는 -5로 고정하고 
+                #await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, 0.0, 0.0))
                 await asyncio.sleep(6) 
                 x,y=get_direction(gps_mode.get_gps()[0],gps_mode.get_gps()[1],now_latitude,now_longitude)
                 print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
