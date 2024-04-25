@@ -5,7 +5,7 @@ from picamera2 import Picamera2
 
 # Picamera2 초기화
 picam2 = Picamera2()
-picam2.preview_configuration.main.size = (640, 480)
+picam2.preview_configuration.main.size = (320, 240)
 #picam2.preview_configuration.main.format = "RGB888"
 #picam2.preview_configuration.align()
 #picam2.configure("preview")
@@ -39,7 +39,7 @@ try:
         #for i, slice_img in enumerate(image_slices):
         #    data = cv2.imencode('.jpg', slice_img)[1].tobytes()  # JPEG 형식으로 인코딩하여 바이트로 변환
         #    video_socket.sendto(bytes([i]) + data, (IP_CONTROLLER, PORT_CONTROLLER))
-        for i in range(20):
+        for i in range(5):
             #video_socket.sendto(bytes([i]), (IP_CONTROLLER, PORT_CONTROLLER))
             video_socket.sendto(bytes([i]) +s[i*46080:(i+1) *46080], (IP_CONTROLLER, PORT_CONTROLLER))
         # 'q' 키를 누를 때까지 대기
