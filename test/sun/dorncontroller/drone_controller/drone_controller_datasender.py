@@ -27,24 +27,14 @@ class class_drone_controller_datasender:
     def run_data_sender(self):
         while True:
             mode=""
-            if(self.info.button1==1):
+            if(self.info.switch1==1):
                 mode="arm"
-            elif (self.info.button2==1) :
-                mode="takeoff"
-            elif (self.info.button3==1):
-                mode="manual"
-            elif (self.info.button4==1):
-                mode="gps"
-            elif (self.info.button5==1):
+            else:
                 mode="disarm"
-            elif (self.info.button6==1):
-                self.info.button1=0
-                self.info.button2=0
-                self.info.button3=0
-                self.info.button4=0
-                self.info.button5=0
-                self.info.button6=0
-                mode="manual"    
+            if (self.info.switch2==1) :
+                mode="gps"
+            else:
+                mode="manual"
             joystick_data = f"{self.info.joystick_Left_x} {self.info.joystick_Left_y} {self.info.joystick_Right_x} {self.info.joystick_Right_y} {mode}" 
             # 조이스틱 값 TCP 전송
             self.send_joystick_data(joystick_data)

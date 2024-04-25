@@ -1,29 +1,25 @@
 import RPi.GPIO as GPIO
 import time
-import drone_controller.drone_controller_information
+from drone_controller.drone_controller_information import *
 
 class class_Drone_Controller_Switch:
-    def __init__(self, ctrl_info):
-        self.switch1_pin = 11   
+    def __init__(self, info):
+        self.info = info
+        self.switch1_pin = 11  # 보드 기준 핀 번호
         self.switch2_pin = 13
-        self.ctrl_info = ctrl_info
-        # GPIO 설정
+        self.switch3_pin = 36
+        self.switch4_pin = 37
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(self.switch1_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.switch1_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # 풀 업 설정
         GPIO.setup(self.switch2_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.switch3_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.switch4_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-        # 스위치 인터럽트 핸들러 등록
-        GPIO.add_event_detect(self.switch1_pin, GPIO.FALLING, callback=self.switch1_callback, bouncetime=200)
-        GPIO.add_event_detect(self.switch2_pin, GPIO.FALLING, callback=self.switch2_callback, bouncetime=200)
-
-    def switch1_callback(self, channel):
-        self.ctrl_info.switch1 = GPIO.input(self.switch1_pin)
-
-    def switch2_callback(self, channel):
-        self.ctrl_info.switch2 = GPIO.input(self.switch2_pin)
-
-    def cleanup(self):
-        GPIO.cleanup()
-
-
-
+    def runSwitch(self):
+        while True:
+            # 현재 스위치 상태 읽기
+            self.info.switch1 = True if GPIO.input(self.switch1_pin) == GPIO.HIGH else False    #왼쪽위 
+            self.info.switch2 = True if GPIO.input(self.switch1_pin) == GPIO.HIGH else False    #왼쪽 아래
+            self.info.switch3 = True if GPIO.input(self.switch1_pin) == GPIO.HIGH else False   #오른쪽 위
+            self.info.switch4 = True if GPIO.input(self.switch1_pin) == GPIO.HIGH else False  #오른쪽 아래 
+            time.sleep(0.05)

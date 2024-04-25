@@ -14,3 +14,8 @@ class class_Drone_Controller_Information:
         self.button4=0
         self.button5=0
         self.button6=0
+        self.switch1 = 0
+        self.switch2 = 0
+        self.switch3 = 0
+        self.switch4 = 0
+        self.arr_switch = [self.switch1, self.switch2, self.switch3, self.switch4]
