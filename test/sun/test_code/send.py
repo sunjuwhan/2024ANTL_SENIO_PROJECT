@@ -4,12 +4,13 @@ import socket
 from picamera2 import Picamera2
 
 # Picamera2 초기화
-picam2 = Picamera2()
-picam2.preview_configuration.main.size = (320, 240)
-picam2.preview_configuration.main.format = "RGB888"
-picam2.preview_configuration.align()
-picam2.configure("preview")
-picam2.start()
+# picam2 = Picamera2()
+# picam2.preview_configuration.main.size = (320, 240)
+# picam2.preview_configuration.main.format = "RGB888"
+# picam2.preview_configuration.align()
+# picam2.configure("preview")
+# picam2.start()
+cap=cv2.VideoCapture(0)
 
 # UDP 설정
 IP_CONTROLLER = "192.168.50.52"
@@ -30,11 +31,14 @@ def split_image(image, num_slices):
 try:
     while True:
         im = picam2.capture_array()
+        ret,frame=cap.read()
+        d=frame.flatten()
+        s=d.tostring()
         # 이미지를 20개의 조각으로 나누기
         #image_slices = split_image(im, 20)
         #s=im.tobytes()
-        s=im.flatten()
-        s=s.tostring()
+        #s=im.flatten()
+        #s=s.tostring()
         #각 조각을 전송
         #for i, slice_img in enumerate(image_slices):
         #    data = cv2.imencode('.jpg', slice_img)[1].tobytes()  # JPEG 형식으로 인코딩하여 바이트로 변환
