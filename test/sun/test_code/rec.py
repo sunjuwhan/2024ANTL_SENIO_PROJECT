@@ -23,7 +23,7 @@ def receive_video():
             frame = numpy.fromstring(picture, dtype=numpy.uint8)
             frame = frame.reshape(480, 640, 3)
             cv2.imshow("frame", frame)
-            out.write(frame)
+            #out.write(frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 cv2.destroyAllWindows()
