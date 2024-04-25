@@ -21,22 +21,14 @@ while True:
     # 영상을 직렬화하여 전송
     data = pickle.dumps(frame)
     size = len(data)
-    max_packet_size = 65507  # UDP 패킷 최대 크기
-    num_packets = size // max_packet_size + 1
+    max_packet_size = 65000  # UDP 패킷 최대 크기
+    num_packets = (size + max_packet_size - 1) // max_packet_size  # 올림 계산
 
     # 패킷을 여러 번에 걸쳐 전송
     for i in range(num_packets):
         start = i * max_packet_size
         end = min((i + 1) * max_packet_size, size)
-        packet_data = data[start:end]
-
-        # 마지막 패킷인 경우에는 추가 정보를 포함하여 전송
-        if i == num_packets - 1:
-            packet_data = b"LAST_PACKET" + struct.pack(">HH", i, num_packets) + packet_data
-        else:
-            packet_data = struct.pack(">HH", i, num_packets) + packet_data
-
-        client_socket.sendto(packet_data, (receiver_ip, port))
+        client_socket.sendto(data[start:end], (receiver_ip, port))
 
     # 'q' 키를 누르면 종료
     if cv2.waitKey(1) & 0xFF == ord('q'):

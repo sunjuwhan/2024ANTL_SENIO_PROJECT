@@ -14,32 +14,27 @@ server_socket.bind((receiver_ip, port))
 # 영상을 표시할 창 생성
 cv2.namedWindow("Received", cv2.WINDOW_NORMAL)
 
+received_data = b""
+num_packets = None
+
 while True:
     # 데이터 수신
-    data, addr = server_socket.recvfrom(65535)
+    data, addr = server_socket.recvfrom(65507)
 
-    # 패킷에서 추가 정보를 추출
-    header = data[:10]
-    is_last_packet = data.startswith(b"LAST_PACKET")
-    if is_last_packet:
-        packet_index, num_packets = struct.unpack(">HH", header[10:])
-        data = data[10:]
-    else:
-        packet_index, num_packets = struct.unpack(">HH", header)
-        data = data[10:]
+    # 첫 번째 패킷에서 총 패킷 수를 가져옴
+    if num_packets is None:
+        num_packets = struct.unpack(">H", data[:2])[0]
 
-    # 모든 패킷을 수신하면 영상 표시
-    if packet_index == 0:
-        received_data = data
-    else:
-        received_data += data
+    # 수신된 데이터를 저장
+    received_data += data[2:]
 
     # 모든 패킷을 수신했을 때 영상 표시
-    if packet_index == num_packets - 1:
+    if len(received_data) >= num_packets:
         # 직렬화된 데이터를 디코딩하여 영상 표시
-        frame = pickle.loads(received_data)
+        frame = pickle.loads(received_data[:num_packets])
         cv2.imshow("Received", frame)
-        received_data = b""
+        received_data = received_data[num_packets:]
+        num_packets = None
 
     # 'q' 키를 누르면 종료
     if cv2.waitKey(1) & 0xFF == ord('q'):
