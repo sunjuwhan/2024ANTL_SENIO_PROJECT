@@ -15,7 +15,7 @@ class class_Drone_Controller_System:
         self.controllerJoystick_R = class_Drone_Controller_Joystick(1, 0, 1, 2, 0, 2, self.info)
         self.videoStreamer = class_Drone_Controller_VideoStreamer()
         self.dataSender = class_drone_controller_datasender(self.info)
-        self.button =class_drone_controller_button(self.info)
+        #self.button =class_drone_controller_button(self.info)
         self.switch=class_Drone_Controller_Switch(self.info)
     def start_Drone_Controller(self):
         print("SYSTEM ALARM::Drone Controller Started")
@@ -23,13 +23,13 @@ class class_Drone_Controller_System:
         thread_Joystick_Right = Thread(target=self.controllerJoystick_R.run_joystick)
         thread_VideoStream = Thread(target=self.videoStreamer.run_VideoStreamer)
         thread_dataSender = Thread(target=self.dataSender.run_data_sender)
-        thrad_button=Thread(target=self.button.run_button)
+        #thrad_button=Thread(target=self.button.run_button)
         thread_switch=Thread(target=self.switch.runSwitch)
         thread_Joystick_Left.start()
         thread_Joystick_Right.start()
         thread_VideoStream.start()
         thread_dataSender.start()
-        thrad_button.start()
+        #thrad_button.start()
         thread_switch.start()
     def print_system_log(self):
         print("=" * 50)
@@ -47,5 +47,5 @@ class class_Drone_Controller_System:
     def run_drone_controller_system(self):
         # controllerSwitch = drone_controller_switch.class_Drone_Controller_Switch(self)
         self.start_Drone_Controller()
-        while True:
-            self.print_system_log()
+        #while True:
+            #self.print_system_log()
