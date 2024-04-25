@@ -4,7 +4,7 @@ import socket
 import struct
 
 # UDP 소켓 설정
-UDP_IP = '192.168.50.63'
+UDP_IP = '192.168.50.47'
 UDP_PORT = 5005
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
