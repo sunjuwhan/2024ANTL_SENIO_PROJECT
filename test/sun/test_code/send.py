@@ -37,6 +37,8 @@ try:
 #        s=d.tostring()
         # 이미지를 20개의 조각으로 나누기
         image_slices = split_image(im, 20)
+        print(image_slices)
+        print(type(image_slices))
         #s=im.tobytes()
         #s=im.flatten()
         #s=s.tostring()
