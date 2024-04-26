@@ -32,18 +32,12 @@ class SocketView():
         try:
             while True : 
                 frame=self.__video_model.get_frame()  #46080
-                d=frame.flatten()
-                s=d.tostring()
-                for i in range(20):
-                    self.video_socket.sendto(bytes([i]) +s[i*46081:(i+1) *46081], (IP_CONTROLLER, PORT_CONTROLLER))
-                #image_slices=self.__video_model.split_image(20)
-                #print(image_slices)
-                #print(type(image_slices))
-                #i=0
-                #for slice_img in (image_slices):
-                #    data = cv2.imencode('.jpg', slice_img)[1].tobytes()  # JPEG 형식으로 인코딩하여 바이트로 변환
-                #    self.video_socket.sendto(bytes([i]) + data, (IP_CONTROLLER, PORT_CONTROLLER))
-                #    i+=1
+                _, encoded_frame=cv2.imencode('.jpg',frame)
+                s=encoded_frame.tobytes()
+                
+                for i in range(5):
+                    self.video_socket.sendto(bytes([i]) +s[i*46080:(i+1) *46080], (IP_CONTROLLER, PORT_CONTROLLER))
+        
         except Exception as e:
             print(e)
             
