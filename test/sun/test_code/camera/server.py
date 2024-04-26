@@ -1,45 +1,33 @@
-import cv2
 import socket
-import pickle
-import struct
+import numpy
+import cv2
 
-# 수신 라즈베리파이의 IP 주소와 포트 번호 설정
-receiver_ip = "192.168.50.47"
-port = 8005
+UDP_IP = "192.168.50.47"
+UDP_PORT = 9505
 
-# 소켓 초기화
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-server_socket.bind((receiver_ip, port))
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind((UDP_IP, UDP_PORT))
 
-# 영상을 표시할 창 생성
-cv2.namedWindow("Received", cv2.WINDOW_NORMAL)
+s = [b'\xff' * 46080 for x in range(20)]
 
-received_data = b""
-num_packets = None
+fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+out = cv2.VideoWriter('output.avi', fourcc, 25.0, (640, 480))
 
 while True:
-    # 데이터 수신
-    data, addr = server_socket.recvfrom(65507)
+    picture = b''
 
-    # 첫 번째 패킷에서 총 패킷 수를 가져옴
-    if num_packets is None:
-        num_packets = struct.unpack(">H", data[:2])[0]
+    data, addr = sock.recvfrom(46081)
+    s[data[0]] = data[1:46081]
 
-    # 수신된 데이터를 저장
-    received_data += data[2:]
+    if data[0] == 19:
+        for i in range(20):
+            picture += s[i]
 
-    # 모든 패킷을 수신했을 때 영상 표시
-    if len(received_data) >= num_packets:
-        # 직렬화된 데이터를 디코딩하여 영상 표시
-        frame = pickle.loads(received_data[:num_packets])
-        cv2.imshow("Received", frame)
-        received_data = received_data[num_packets:]
-        num_packets = None
+        frame = numpy.fromstring(picture, dtype=numpy.uint8)
+        frame = frame.reshape(480, 640, 3)
+        cv2.imshow("frame", frame)
+        out.write(frame)
 
-    # 'q' 키를 누르면 종료
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# 리소스 정리
-cv2.destroyAllWindows()
-server_socket.close()
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            cv2.destroyAllWindows()
+            break
