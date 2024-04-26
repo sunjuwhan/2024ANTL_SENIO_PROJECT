@@ -7,7 +7,15 @@
 
 # First import the library
 import pyrealsense2.pyrealsense2 as rs
-import cv2
+
+## License: Apache 2.0. See LICENSE file in root directory.
+## Copyright(c) 2015-2017 Intel Corporation. All Rights Reserved.
+
+#####################################################
+## librealsense tutorial #1 - Accessing depth data ##
+#####################################################
+
+
 try:
     # Create a context object. This object owns the handles to all connected realsense devices
     pipeline = rs.pipeline()
@@ -47,3 +55,5 @@ try:
 #    print("    %s\n", e.what())
 #    exit(1)
 except Exception as e:
+    print(e)
+    pass
