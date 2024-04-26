@@ -23,14 +23,10 @@ while True:
         # 압축된 이미지 데이터를 바이트 스트링으로 변환
         s = encoded_frame.tobytes()
 
-        start_time = time.time()
         # 바이트 스트링을 여러 패킷으로 나누어 전송
         for i in range(5):
             sock.sendto(bytes([i]) + s[i * 46080:(i + 1) * 46080], (UDP_IP, UDP_PORT))  # JPEG 압축된 프레임 전송
-        end_time = time.time()
-        print(end_time - start_time)
 
-        cv2.imshow("video", frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

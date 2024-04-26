@@ -12,7 +12,6 @@ sock.bind((UDP_IP, UDP_PORT))
 # 각 프레임의 바이트 스트링을 저장할 리스트
 frames = [b'' for _ in range(5)]
 
-start_time = time.time()
 while True:
     picture = b''
     data, addr = sock.recvfrom(46081)  # 각 패킷은 46081바이트
@@ -26,9 +25,6 @@ while True:
         cv2.imshow("frame", frame)
 
         # 프레임 표시 시간 계산
-        end_time = time.time()
-        print(end_time - start_time)
-        start_time = time.time()
 
         # 'q' 키를 누르면 종료
         if cv2.waitKey(1) & 0xFF == ord('q'):
