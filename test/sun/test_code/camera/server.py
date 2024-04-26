@@ -17,7 +17,7 @@ while True:
     picture = b''
     data, addr = sock.recvfrom(46081)
     s[data[0]] = data[1:46081]
-    if data[0] == 5:
+    if data[0] == 4:
         for i in range(5):
             picture += s[i]
 
