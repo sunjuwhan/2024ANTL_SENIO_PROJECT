@@ -20,5 +20,5 @@ while True:
     print(end_time-start_time)
  
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
