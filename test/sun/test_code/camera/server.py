@@ -1,33 +1,39 @@
 import socket
-import numpy
 import cv2
+import time
+import numpy as np
 
 UDP_IP = "192.168.50.47"
 UDP_PORT = 9505
-import time
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((UDP_IP, UDP_PORT))
 
-s = [b'\xff' * 46080 for x in range(5)]
+cap = cv2.VideoCapture(0)
 
-#fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-#out = cv2.VideoWriter('output.avi', fourcc, 25.0, (640, 480))
-start_time=time.time()
+# 카메라 해상도 설정
+cap.set(3, 320)  # 가로 해상도
+cap.set(4, 240)  # 세로 해상도
+
 while True:
-    picture = b''
-    data, addr = sock.recvfrom(46081)
-    s[data[0]] = data[1:46081]
-    if data[0] == 4:
-        for i in range(5):
-            picture += s[i]
+    ret, frame = cap.read()
+    if ret:
+        # 프레임을 JPEG 형식으로 압축
+        _, encoded_frame = cv2.imencode('.jpg', frame)
+        
+        # 압축된 이미지 데이터를 바이트 스트링으로 변환
+        s = encoded_frame.tobytes()
 
-        frame = numpy.fromstring(picture, dtype=numpy.uint8)
-        frame = frame.reshape(240, 320, 3)
-        cv2.imshow("frame", frame)
-        #out.write(frame)
-        end_time=time.time()
-        print(end_time-start_time)
-        start_time=time.time()
+        start_time = time.time()
+        # 바이트 스트링을 여러 패킷으로 나누어 전송
+        for i in range(5):
+            sock.sendto(bytes([i]) + s[i * 46080:(i + 1) * 46080], (UDP_IP, UDP_PORT))  # JPEG 압축된 프레임 전송
+        end_time = time.time()
+        print(end_time - start_time)
+
+        cv2.imshow("video", frame)
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
-            cv2.destroyAllWindows()
             break
+
+cap.release()
+cv2.destroyAllWindows()
