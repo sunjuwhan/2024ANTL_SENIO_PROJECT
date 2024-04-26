@@ -17,14 +17,13 @@ while True:
     picture = b''
     data, addr = sock.recvfrom(46081)
     s[data[0]] = data[1:46081]
-    print(s[data[0]])
     if data[0] == 5:
         for i in range(5):
             picture += s[i]
 
         frame = numpy.fromstring(picture, dtype=numpy.uint8)
         frame = frame.reshape(240, 320, 3)
-        #cv2.imshow("frame", frame)
+        cv2.imshow("frame", frame)
         #out.write(frame)
         end_time=time.time()
         print(end_time-start_time)
