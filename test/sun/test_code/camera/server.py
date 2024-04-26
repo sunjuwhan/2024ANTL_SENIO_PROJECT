@@ -8,7 +8,7 @@ import time
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
 
-s = [b'\xff' * 46080 for x in range(20)]
+s = [b'\xff' * 46080 for x in range(5)]
 
 #fourcc = cv2.VideoWriter_fourcc(*'DIVX')
 #out = cv2.VideoWriter('output.avi', fourcc, 25.0, (640, 480))
@@ -18,12 +18,12 @@ while True:
     data, addr = sock.recvfrom(46081)
     s[data[0]] = data[1:46081]
     print(s[data[0]])
-    if data[0] == 19:
-        for i in range(20):
+    if data[0] == 5:
+        for i in range(5):
             picture += s[i]
 
         frame = numpy.fromstring(picture, dtype=numpy.uint8)
-        frame = frame.reshape(480, 640, 3)
+        frame = frame.reshape(240, 320, 3)
         #cv2.imshow("frame", frame)
         #out.write(frame)
         end_time=time.time()
