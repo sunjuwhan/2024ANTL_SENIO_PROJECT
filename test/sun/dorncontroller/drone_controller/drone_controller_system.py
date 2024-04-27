@@ -43,6 +43,8 @@ class class_Drone_Controller_System:
         print("Joystick Right(x:{}, y:{}, val:{}".format(self.info.joystick_Right_x, self.info.joystick_Right_y,
                                                          self.info.joystick_Right_val))
         print(f"switch state 1: {self.info.switch1}  2: {self.info.switch2}  3: {self.info.switch3} 4: {self.info.switch4}")
+
+        print(self.info.__joystick_data)
         print("=" * 50)
         time.sleep(0.5)
         os.system('clear')
