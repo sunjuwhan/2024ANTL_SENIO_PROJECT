@@ -19,11 +19,12 @@ class SocketView():
     def make_socket(self):
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         #self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         try:
             self.pilot_socket.bind((IP_DRONE,PORT_DRONE))   #여기는 내가 받아야하니까 내 주소 drone주소
+            self.pilot_socket.listen(1)
             #self.pilot_socket.listen(1)
-            #self.__client_socket,clien_address=self.pilot_socket.accept()
+            self.__client_socket,clien_address=self.pilot_socket.accept()
             print("make_socket end")
         except Exception as e:
             print("make_socket Error here")
@@ -45,14 +46,18 @@ class SocketView():
     def __data_recv(self):
         while True:
             try:
-                recv_data=self.pilot_socket.recv(1024)
+                recv_data=self.__client_socket.recv(1024)
                 decoded_data=recv_data.decode()
                 data=decoded_data.split(' ')
                 key_data=data[0:4] 
                 mode_data=data[4]
                 #data 를 interface인 pilot_mode에다가 저장해주고
                 self.__pilot_mode.set_data(key_data,mode_data) 
-                
+                try:
+                    data=self.__pilot_mode.get_drone_state()
+                    self.__client_socket.send(data.encode())
+                except Exception as e:
+                    print(e)
             except Exception as e:
                 print("receve dead")
                 print(e)

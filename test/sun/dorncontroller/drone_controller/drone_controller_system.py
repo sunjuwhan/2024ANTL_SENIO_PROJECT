@@ -23,13 +23,11 @@ class class_Drone_Controller_System:
         thread_Joystick_Right = Thread(target=self.controllerJoystick_R.run_joystick)
         thread_VideoStream = Thread(target=self.videoStreamer.run_VideoStreamer)
         thread_dataSender = Thread(target=self.dataSender.run_data_sender)
-        #thrad_button=Thread(target=self.button.run_button)
         thread_switch=Thread(target=self.switch.runSwitch)
         thread_Joystick_Left.start()
         thread_Joystick_Right.start()
         thread_VideoStream.start()
         thread_dataSender.start()
-        #thrad_button.start()
         thread_switch.start()
     def print_system_log(self):
         print("=" * 50)
@@ -43,7 +41,6 @@ class class_Drone_Controller_System:
         print("Joystick Right(x:{}, y:{}, val:{}".format(self.info.joystick_Right_x, self.info.joystick_Right_y,
                                                          self.info.joystick_Right_val))
         print(f"switch state 1: {self.info.switch1}  2: {self.info.switch2}  3: {self.info.switch3} 4: {self.info.switch4}")
-
         print(self.info.joystick_data)
         print("=" * 50)
         time.sleep(0.5)

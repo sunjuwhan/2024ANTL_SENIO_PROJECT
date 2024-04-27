@@ -15,39 +15,36 @@ class class_drone_controller_datasender:
         self.target_port = PORT# port
         #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((self.target_ip, self.target_port))
     def send_joystick_data(self, data):
         try:
             # 데이터를 직렬화하고 전송
             self.socket.sendto(data.encode(),(self.target_ip,self.target_port))
+            self.info.arm_data=self.socket.recv(30).decode()  #다시 전달받아
         except Exception as e:
             print(f"Error sending joystick data: {e}")
 
     def run_data_sender(self):
         while True:
             mode=""
-            if self.info.drone_state=="disarm":  #현재 드론 상태가 disarm 즉 미시동상태일때
-                if self.info.switch1==1:  #시동 걸면 시동 거는 신호만 보내고
-                    self.info.drone_state="arm"    
-                    mode="arm"  #시동걸러 들어가고
-                   
-
-            #이미 시동 상태일경우 다른 모드를 전송할수있어
-            elif self.info.drone_state=="arm":
-                if self.info.switch1==0:
-                    #시동 끄는 곳으로 날라가고
-                    self.info.drone_state="disarm"
-                    mode="disarm"
-                if self.info.switch2==1  and self.info.switch4==0:  #2번 스위치가 켜지면 착륙 4번이 꺼져있고
-                    mode="land"
-                elif self.info.switch2==0 and self.info.switch4==1:
-                    mode="takeoff"
-                if self.info.switch2==0 and self.info.switch4==0 and self.info.switch3==1:
-                    mode="manual" 
-                elif self.info.switch2==0 and self.info.switch4==0 and self.info.switch3==0:
-                    mode="gps"
-                    
+            if self.info.switch1==1:  #내가 시동을 걸었어
+                if self.info.arm_data=="off":
+                    mode="arm"
+                elif self.info.arm_data=="disarm":
+                    mode="arm"
+                elif self.info.arm_data=="arm":
+                    #여기서 부터 다음 단계로넘어가 
+                    if self.info.switch3==True: 
+                        mode="land" 
+                    else:  #switch 3 번이 꺼져있어그러면 다음 단게로 넘어갈수있어
+                        if self.info.switch4==True:
+                            mode="manual"
+                        elif self.info.switch4==False:
+                            mode="gps"
+                            
+            elif self.info.switch1==0:
+                mode="disarm"
             joystick_data = f"{self.info.joystick_Left_x} {self.info.joystick_Left_y} {self.info.joystick_Right_x} {self.info.joystick_Right_y} {mode}" 
             self.info.joystick_data=joystick_data
             # 조이스틱 값 TCP 전송

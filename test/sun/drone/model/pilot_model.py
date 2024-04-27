@@ -5,8 +5,6 @@ from mavsdk import System
 class Drone:
     def __init__(self) -> None:
         self.antl_drone = None
-        pass
-    
     async def make_drone(self):
         self.antl_drone=System()
         print("wating connect drone")
@@ -40,7 +38,6 @@ class Drone:
 
     def get_drone(self):
         return self.antl_drone
-    
 class Key:#
 
     def __init__(self):
@@ -65,7 +62,7 @@ class PilotModel:
     def __init__(self):
         self.__key = Key()
         self.__mode = 0
-
+        self.__drone_state="off"
     def set_mode(self, mode):  
         self.__mode = mode
         return
@@ -84,7 +81,11 @@ class PilotModel:
                 pitch=float(0), roll=float(0)
                 )
         return 
-    
+    def set_drone_state(self,state):
+        self.__drone_state=state
+    def get_drone_state(self):
+        return self.__drone_state
+        
     def get_key(self):
         return self.__key.get_key()
     

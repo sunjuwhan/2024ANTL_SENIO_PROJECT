@@ -21,3 +21,4 @@ class class_Drone_Controller_Information:
         self.drone_state="disarm"
         self.arr_switch = [self.switch1, self.switch2, self.switch3, self.switch4]
         self.joystick_data=" "
+        self.arm_data="disarm"
