@@ -9,6 +9,7 @@ class CameraController():
         self.__pilot_model=pilot_model
         self.__picam2=self.__model.get_picam()
     def set_frame(self):
+        
         now_mode=self.__pilot_model.get_data()[1]
         if(now_mode=="gps" or now_mode =="detection"):
             frame=self.__picam2.capture_array()
@@ -16,7 +17,7 @@ class CameraController():
         else:
             ret,frame=self.__cap.read()
             self.__model.set_frame(frame)
-
+            
     def run(self):
         time.sleep(3)
         self.__picam2.start()

@@ -8,8 +8,8 @@ class PilotController:
         self.__pilot_model=pilotmodel  
         self.__drone=Drone()
         self.__gps_model= gpsmodel
-        self.flag_arm=0
-        
+        self.flag_arm=""
+
     async def init_dron(self):  #자자 이친구 잘 꺼내씁니다. return 해서 써 
         await self.__drone.make_drone()
         pass
@@ -32,11 +32,13 @@ class PilotController:
             #asyncio.ensure_future(self.get_gps())
             if (mode=="arm"):
                 try:
-                    print("-- Arming")
-                    await self.__drone.get_drone().action.arm()
-                    await asyncio.sleep(3)
-                    self.__pilot_model.set_drone_state("arm")
-                    print("-- success Arming") 
+                    if self.flag_arm!="arm":
+                        print("-- Arming")
+                        await self.__drone.get_drone().action.arm()
+                        await asyncio.sleep(3)
+                        self.__pilot_model.set_drone_state("arm")
+                        print("-- success Arming") 
+                        self.flag_arm="arm"
                 except Exception as e:
                     print(e)
             elif (mode=="takeoff") :
@@ -49,24 +51,26 @@ class PilotController:
                     print(e)
             elif (mode=="land"):
                 try:
-                    print("-- land")
-                    await self.__drone.get_drone().action.land()
-                    await asyncio.sleep(5)
-                    print("-- success landing")
+                    if self.flag_arm!="land":
+                        print("-- land")
+                        await self.__drone.get_drone().action.land()
+                        await asyncio.sleep(5)
+                        print("-- success landing")
+                        self.__pilot_model.set_drone_state("land")  #착륙이 완료되었다는 신호를 보내줘
+                        self.flag_arm=="land" 
                 except Exception as e:
                     print(e)
-            elif( mode=="disarm"):
-                try:
-                    print("--disarm")
-                    await self.__drone.get_drone().action.disarm()
-                    await   asyncio.sleep(5)
-                    self.__pilot_model.set_drone_state("off")
-                except Exception as e:
-                    print(e)
+            #elif( mode=="disarm"):
+            #    try:
+            #        print("--disarm")
+            #        await self.__drone.get_drone().action.disarm()
+            #        await   asyncio.sleep(5)
+            #        self.__pilot_model.set_drone_state("off")
+
+            #    except Exception as e:
+            #        print(e)
             elif (mode=="manual"):
                 try:
-                    if(throttle==0.0):
-                        throttle=0.1
                     await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
                 except Exception as e:
                     await self.__drone.get_drone().manual_control.set_manual_control_input(0.0,0.0,0.5,0.0)
