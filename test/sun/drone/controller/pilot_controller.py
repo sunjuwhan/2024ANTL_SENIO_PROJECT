@@ -28,7 +28,7 @@ class PilotController:
             (key,mode)=self.__pilot_model.get_data()
             (yaw,throttle,roll,pitch)=key.get_key()
             #print(mode,"  ",yaw,throttle,roll,pitch)
-            asyncio.ensure_future(self.get_gps())
+            #asyncio.ensure_future(self.get_gps())
             if (mode=="arm"):
                 try:
                     print("-- Arming")
@@ -63,10 +63,13 @@ class PilotController:
                     print(e)
             elif (mode=="manual"):
                 try:
-                    print("throttle",throttle)
+                    if(throttle==0.0):
+                        throttle=0.1
                     await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
+                    await asyncio.sleep(0.1)
                 except Exception as e:
                     await self.__drone.get_drone().manual_control.set_manual_control_input(0.0,0.0,0.5,0.0)
+                    await asyncio.sleep(0.1)
                     print(e)
             elif (mode=="gps") : #gps mode
                 now_latitude =self.__gps_model.get_gps()[0]
