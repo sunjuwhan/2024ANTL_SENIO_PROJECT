@@ -63,7 +63,7 @@ class PilotController:
                     print(e)
             elif (mode=="manual"):
                 try:
-                    print("go")
+                    print("throttle",throttle)
                     await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
                 except Exception as e:
                     await self.__drone.get_drone().manual_control.set_manual_control_input(0.0,0.0,0.5,0.0)
