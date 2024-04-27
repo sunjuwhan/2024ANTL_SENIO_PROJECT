@@ -27,10 +27,10 @@ class class_drone_controller_datasender:
     def run_data_sender(self):
         while True:
             mode=""
-            #if(self.info.switch1==1):
-            #    mode="arm"
-            #else:
-            #    mode="disarm"
+            if(self.info.switch1==1):
+                mode="arm"
+            else:
+                mode="disarm"
             if (self.info.switch2==1) :
                 mode="gps"
             else:

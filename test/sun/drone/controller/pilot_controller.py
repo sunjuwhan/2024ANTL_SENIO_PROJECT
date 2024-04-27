@@ -9,6 +9,7 @@ class PilotController:
         self.__drone=Drone()
         self.__gps_model= gpsmodel
         self.flag_arm=0
+        
     async def init_dron(self):  #자자 이친구 잘 꺼내씁니다. return 해서 써 
         await self.__drone.make_drone()
         pass
@@ -66,7 +67,6 @@ class PilotController:
                     if(throttle==0.0):
                         throttle=0.1
                     await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
-                    await asyncio.sleep(0.1)
                 except Exception as e:
                     await self.__drone.get_drone().manual_control.set_manual_control_input(0.0,0.0,0.5,0.0)
                     await asyncio.sleep(0.1)
