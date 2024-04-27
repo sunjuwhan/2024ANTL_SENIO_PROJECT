@@ -49,6 +49,6 @@ class class_drone_controller_datasender:
                     mode="gps"
                     
             joystick_data = f"{self.info.joystick_Left_x} {self.info.joystick_Left_y} {self.info.joystick_Right_x} {self.info.joystick_Right_y} {mode}" 
-            self.info.__joystick_data=joystick_data
+            self.info.joystick_data=joystick_data
             # 조이스틱 값 TCP 전송
             self.send_joystick_data(joystick_data)
