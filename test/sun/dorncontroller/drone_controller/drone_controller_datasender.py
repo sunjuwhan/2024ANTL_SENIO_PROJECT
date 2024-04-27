@@ -27,17 +27,17 @@ class class_drone_controller_datasender:
     def run_data_sender(self):
         while True:
             mode=""
-            if self.info.__drone_state=="disarm":  #현재 드론 상태가 disarm 즉 미시동상태일때
+            if self.info.drone_state=="disarm":  #현재 드론 상태가 disarm 즉 미시동상태일때
                 if self.info.switch1==1:  #시동 걸면 시동 거는 신호만 보내고
-                    self.info.__drone_state="arm"    
+                    self.info.drone_state="arm"    
                     mode="arm"  #시동걸러 들어가고
                    
 
             #이미 시동 상태일경우 다른 모드를 전송할수있어
-            elif self.info.__drone_state=="arm":
+            elif self.info.drone_state=="arm":
                 if self.info.switch1==0:
                     #시동 끄는 곳으로 날라가고
-                    self.info.__drone_state="disarm"
+                    self.info.drone_state="disarm"
                     mode="disarm"
                 if self.info.switch2==1  and self.info.switch4==0:  #2번 스위치가 켜지면 착륙 4번이 꺼져있고
                     mode="land"
