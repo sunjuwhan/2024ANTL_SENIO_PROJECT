@@ -2,24 +2,69 @@ import time
 import cv2
 from model.pilot_model import *
 from model.video_mode import *
+import threading
+import numpy as np
+import pyrealsense2.pyrealsense2 as rs
 class CameraController():
     def __init__(self,model:VideoModel,pilot_model:PilotModel) -> None:
         self.__model=model
         self.__cap=model.get_cap()
         self.__pilot_model=pilot_model
         self.__picam2=self.__model.get_picam()
-    def set_frame(self):
-        
-        now_mode=self.__pilot_model.get_data()[1]
-        if(now_mode=="gps" or now_mode =="detection"):
+        self.__now_mode="gps"
+        self.pipline=rs.pipline()
+        self.config=rs.config()
+        self.__init_realsense()
+    
+    def __init_realsense(self):
+        pipeline_wrapper = rs.pipeline_wrapper(self.pipeline)
+        pipeline_profile = self.config.resolve(pipeline_wrapper)
+        device = pipeline_profile.get_device()
+        device_product_line = str(device.get_info(rs.camera_info.product_line))
+
+        # RGB & Depth
+        #self.config.enable_stream(rs.stream.depth, 320, 240, rs.format.z16, 30)
+        self.config.enable_stream(rs.stream.color, 320, 240, rs.format.bgr8, 30)
+    def run_fpv_cam(self):
+        self.__picam2.start()  #picamera 시작한다.
+        while True:
+            if(self.__model.get_end_flag==True):
+                self.__model.set_end_flag(False)
+                return
             frame=self.__picam2.capture_array()
-            self.__model.set_frame(frame)
-        else:
-            ret,frame=self.__cap.read()
-            self.__model.set_frame(frame)
+            self.__model.set_send_frame(frame)  #보내야할 찐도베이 frame이고
+                
+    def run_object_cam(self):
+        
+        raw_frame=None
+        while True:
+            if(self.__model.get_end_flag==True):
+                self.__model.set_end_flag(False)
+                return
+            frames=self.pipline.wait_for_frames()
+            color_frame=frames.get_color_frame()
+            raw_frame = np.asanyarray(color_frame.get_data())
+            self.__model.set_raw_frame(raw_frame)
+            bbox_frame=self.__model.get_frame()
+            self.__model.set_send_frame(bbox_frame)
             
     def run(self):
         time.sleep(3)
-        self.__picam2.start()
         while True:
-            self.set_frame()
+            recv_mode=self.__pilot_model.get_data()[1] #현재 모드를 가져와서 변경됨을 확인한다.
+            if self.__now_mode=="gps" and recv_mode=="manual":
+                self.__now_mode="manual"
+                self.__model.set_end_flag(True)
+                thread_fpv=threading.Thread(target=self.run_fpv_cam)
+                self.__model.set_end_flag(False)
+                thread_fpv.start()
+                
+            elif self.__now_mode=="manual"  and recv_mode=="gps":
+                self.__now_mode="gps"
+                self.__model.set_end_flag(True)
+                thread_gps=threading.Thread(target=self.run_object_cam)
+                self.__model.set_end_flag(False)
+                thread_gps.start()
+                
+            while True:
+                self.set_frame()
