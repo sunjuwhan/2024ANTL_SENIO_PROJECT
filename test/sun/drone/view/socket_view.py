@@ -39,7 +39,8 @@ class SocketView():
                 for i in range(5):
                     self.video_socket.sendto(bytes([i]) +s[i*46080:(i+1) *46080], (IP_CONTROLLER, PORT_CONTROLLER))
         except Exception as e:
-            print(e)
+            #print(e)
+            pass
             
             
     def __data_recv(self):
@@ -56,10 +57,12 @@ class SocketView():
                     data=self.__pilot_mode.get_drone_state()
                     self.__client_socket.send(data.encode())
                 except Exception as e:
-                    print(e)
+                    #print(e)
+                    pass
             except Exception as e:
-                print("receve dead")
-                print(e)
+                #print("receve dead")
+                #print(e)
+                pass
             
     def run(self):
         try:

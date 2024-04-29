@@ -12,7 +12,7 @@ class CameraController():
         self.__pilot_model=pilot_model
         self.__picam2=self.__model.get_picam()
         self.__now_mode="gps"
-        self.pipline=rs.pipline()
+        self.pipeline=rs.pipeline()
         self.config=rs.config()
         self.__init_realsense()
     
@@ -66,5 +66,4 @@ class CameraController():
                 self.__model.set_end_flag(False)
                 thread_gps.start()
                 
-            while True:
-                self.set_frame()
+  

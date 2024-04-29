@@ -19,8 +19,8 @@ class Main():
         dectetor_thread.start()
         print("run camera thread")
         camera_thread=Thread(target=self.__controller.run_camera)
-        
         camera_thread.start()
+        print("camera Thread Running ")
         time.sleep(7)
         self.__view.run()
         print("end camera & socket setting ")
