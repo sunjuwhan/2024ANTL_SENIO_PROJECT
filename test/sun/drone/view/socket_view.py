@@ -57,6 +57,7 @@ class SocketView():
                 try:
                     data=self.__pilot_mode.get_drone_state()
                     data="arm"
+                    print(data)
                     self.__client_socket.send(data.encode())
                 except Exception as e:
                     #print(e)
