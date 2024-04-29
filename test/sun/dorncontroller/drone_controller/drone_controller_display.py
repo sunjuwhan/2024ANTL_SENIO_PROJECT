@@ -14,8 +14,7 @@ class class_drone_controller_display:
         self.window.title("Flight Controller Display")
         self.window.geometry("800x480")  # Set window size to 800x480
 
-        self.video_source = self.info.frame
-        self.vid = cv2.VideoCapture(self.video_source)
+        self.vid = self.info.frame
         self.vid.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         self.vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
