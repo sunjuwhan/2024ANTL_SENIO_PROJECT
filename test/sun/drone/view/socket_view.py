@@ -31,6 +31,7 @@ class SocketView():
             print(e)
     def __data_send(self): #이미지 전송할 함수
         try:
+            time.sleep(3)
             while True : 
                 frame=self.__video_model.get_send_frame()  #46080
                 _, encoded_frame=cv2.imencode('.jpg',frame)
