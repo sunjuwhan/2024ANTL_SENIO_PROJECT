@@ -23,3 +23,5 @@ class class_Drone_Controller_Information:
         self.joystick_data=" "
         self.arm_data="disarm"
         self.frame=None
+        self.drone_latitude = 35.830622286686854
+        self.drone_longitude = 128.7544099722211
