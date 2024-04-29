@@ -11,7 +11,7 @@ class VideoModel():
         self.__picam2.preview_configuration.main.format = "RGB888"
         self.__picam2.preview_configuration.align()
         self.__picam2.configure("preview")
-        self.__picam2.start()
+        #self.__picam2.start()
         self.__frame=None  #원본 진짜 그자체
         self.__raw_frame=None
         self.__image_slice=None
