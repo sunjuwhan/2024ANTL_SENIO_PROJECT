@@ -18,9 +18,9 @@ class MasterController():
         try:
             self.__pilot_controller=PilotController(self.__pilot_model,self.__gps_model)
             print("start init drone")
-            await self.__pilot_controller.init_dron()
-            self.__drone=self.__pilot_controller.get_dron_from_controller()  
-            await self.__pilot_controller.run()  #controller 시작하고 
+            #await self.__pilot_controller.init_dron()
+            #self.__drone=self.__pilot_controller.get_dron_from_controller()  
+            #await self.__pilot_controller.run()  #controller 시작하고 
         except Exception as E:
             print(E)
             print("Asynci did Bad action !! __run_pilot")
