@@ -1,3 +1,4 @@
+import PIL.ImageTk
 import cv2
 import tkinter as tk
 from PIL import Image, ImageTk
@@ -9,12 +10,13 @@ from drone_controller.drone_controller_information import *
 class class_drone_controller_display:
     def __init__(self, info):
         self.info = info
-        self.info.frame = cv2.imread('/home/pi/2024ANTL_Senio_Project/img/2024_ANTL_Drone.png')
         self.window = tk.Tk()
         self.window.title("Flight Controller Display")
         self.window.geometry("800x480")  # Set window size to 800x480
 
-        self.vid = self.info.frame
+        #self.vid = self.info.frame
+        self.vid = Image.fromarray(self.info.frame)
+        self.vid = ImageTk.PhotoImage(self.vid)
         self.vid.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         self.vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
