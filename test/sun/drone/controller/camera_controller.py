@@ -60,6 +60,7 @@ class CameraController():
                 self.__model.set_end_flag(True)
                 thread_fpv=threading.Thread(target=self.run_fpv_cam)
                 self.__model.set_end_flag(False)
+                time.sleep(0.5)
                 thread_fpv.start()
             elif self.__now_mode=="manual" and recv_mode=="gps":
                 
@@ -68,6 +69,7 @@ class CameraController():
                 self.__model.set_end_flag(True)
                 thread_gps=threading.Thread(target=self.run_object_cam)
                 self.__model.set_end_flag(False)
+                time.sleep(0.5)
                 thread_gps.start()
                 
   
