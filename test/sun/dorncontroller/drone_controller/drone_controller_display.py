@@ -74,8 +74,8 @@ class class_drone_controller_display:
         self.window.mainloop()
 
     def update(self):
-        frame = cv2.resize(self.info_frame, (640, 480))  # Resize frame to 640x480
-
+        #frame = cv2.resize(self.info_frame, (640, 480))  # Resize frame to 640x480
+        frame = self.info_frame
         # NumPy 배열을 PIL 이미지로 변환
         pil_image = Image.fromarray(frame)
 
