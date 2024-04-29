@@ -132,7 +132,7 @@ class class_drone_controller_display:
         self.log_text_R.insert(tk.END, log_message + "\n")
         self.log_text_R.see(tk.END)  # Scroll to the bottom
 
-        self.window.after(1000, self.update_joystick)  # Update every 1 second
+        self.window.after(10, self.update_joystick)  # Update every 1 second
 
     def update_joystick_labels(self, frame, name, values):
         for label in frame.winfo_children():

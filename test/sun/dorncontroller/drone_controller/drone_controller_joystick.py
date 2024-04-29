@@ -3,7 +3,7 @@ import time
 from drone_controller.drone_controller_information import *
 
 class class_Drone_Controller_Joystick:
-    def __init__(self, bus, device, x_channel, y_channel, switch_channel, classifyNum, ctrl_info:class_Drone_Controller_Information):
+    def __init__(self, bus, device, x_channel, y_channel, switch_channel, classifyNum, ctrl_info):
         self.spi = spidev.SpiDev()
         self.spi.open(bus, device)
         self.spi.max_speed_hz = 1000000
