@@ -81,6 +81,8 @@ class class_drone_controller_display:
         #frame = cv2.resize(self.info_frame, (640, 480))  # Resize frame to 640x480
         frame = self.info_frame
         # NumPy 배열을 PIL 이미지로 변환
+        print(frame)
+        print(type(frame))
         pil_image = Image.fromarray(frame)
 
         # PIL 이미지를 PhotoImage로 변환
