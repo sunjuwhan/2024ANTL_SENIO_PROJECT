@@ -52,7 +52,6 @@ class CameraController():
         time.sleep(3)
         while True:
             recv_mode=self.__pilot_model.get_data()[1] #현재 모드를 가져와서 변경됨을 확인한다.
-            recv_mode="manual"
             if self.__now_mode=="gps" and recv_mode=="manual":
                 self.__now_mode="manual"
                 self.__model.now_mode="manual"
@@ -60,8 +59,8 @@ class CameraController():
                 thread_fpv=threading.Thread(target=self.run_fpv_cam)
                 self.__model.set_end_flag(False)
                 thread_fpv.start()
+            elif self.__now_mode=="manual" and recv_mode=="gps":
                 
-            elif self.__now_mode=="manual"  and recv_mode=="gps":
                 self.__now_mode="gps"
                 self.__model.now_mode="gps"
                 self.__model.set_end_flag(True)
