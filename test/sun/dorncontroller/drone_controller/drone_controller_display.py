@@ -10,18 +10,22 @@ from drone_controller.drone_controller_information import *
 class class_drone_controller_display:
     def __init__(self, info):
         self.info = info
-        self.info.frame = cv2.imread('/home/pi/2024ANTL_SENIO_PROJECT/img/2024_ANTL_Drone.png')
         self.window = tk.Tk()
         self.window.title("Flight Controller Display")
         self.window.geometry("800x480")  # Set window size to 800x480
-        #self.vid = self.info.frame
-        self.vid = Image.fromarray(self.info.frame)
-        self.vid = ImageTk.PhotoImage(self.vid)
-        #self.vid.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        #self.vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
+        # Load an example image initially
+        self.info.frame = cv2.imread('/home/pi/2024ANTL_SENIO_PROJECT/img/2024_ANTL_Drone.png')
+
+        # Convert the ndarray to PIL image
+        pil_image = Image.fromarray(self.info.frame)
+
+        # Convert the PIL image to PhotoImage
+        self.vid = ImageTk.PhotoImage(pil_image)
 
         self.frame_canvas = tk.Canvas(self.window, width=640, height=480)
         self.frame_canvas.grid(row=0, column=0, sticky="nsew")
+        self.frame_canvas.create_image(0, 0, image=self.vid, anchor=tk.NW)
 
         self.info_frame = tk.Frame(self.window, bg="#808080", width=160, height=480, bd=2, relief=tk.SOLID)  # Adjusted height for info frame
         self.info_frame.grid(row=0, column=1, sticky="nsew")
