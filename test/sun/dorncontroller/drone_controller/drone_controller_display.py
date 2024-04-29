@@ -74,12 +74,14 @@ class class_drone_controller_display:
         self.window.mainloop()
 
     def update(self):
-        ret, frame = self.vid.read()
-        if ret:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame = cv2.resize(frame, (640, 480))  # Resize frame to 640x480
-            self.photo = ImageTk.PhotoImage(image=Image.fromarray(frame))
-            self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
+        frame = cv2.resize(self.info_frame, (640, 480))  # Resize frame to 640x480
+
+        # NumPy 배열을 PIL 이미지로 변환
+        pil_image = Image.fromarray(frame)
+
+        # PIL 이미지를 PhotoImage로 변환
+        self.photo = ImageTk.PhotoImage(image=pil_image)
+        self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
 
         self.window.after(10, self.update)
 
