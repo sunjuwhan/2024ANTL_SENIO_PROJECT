@@ -127,7 +127,7 @@ class class_drone_controller_display:
         # Update labels for joystick R
         self.update_joystick_labels(self.joystick_frame_R, "Joystick R", joystick_values_R)
 
-        self.window.after(10, self.update_joystick)  # Update every 1 second
+        self.window.after(1000, self.update_joystick)  # Update every 1 second
 
     def update_joystick_labels(self, frame, name, values):
         for label in frame.winfo_children():
