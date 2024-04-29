@@ -14,6 +14,7 @@ class MasterController():
         self.__gps_controller=None
     def run_camera(self):
         self.__camera_controller.run()
+        
     async def run_pilot(self):    #asyncio .run()으로 실행하고 나머지는 thread로 실행해야할거같은데
         try:
             print("hello")
