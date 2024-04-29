@@ -58,8 +58,9 @@ class SocketView():
                 except Exception as e:
                     print(e)
             except Exception as e:
-                print("receve dead")
-                print(e)
+                #print("receve dead")
+                #print(e)
+                pass
             
     def run(self):
         try:
