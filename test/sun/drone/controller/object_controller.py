@@ -8,7 +8,6 @@ from threading import Thread
 import time
 
 from model import VideoModel
-from model import ModeModel
 
 
 class ObjectController:
