@@ -17,7 +17,7 @@ class VideoModel():
         self.__image_slice=None
         self.__end_flag=False
         self.__send_frame=None
-    
+        self.now_mode="manual"
     def set_frame2bboxed_frame(self, frame):
         self.__frame = frame
 
