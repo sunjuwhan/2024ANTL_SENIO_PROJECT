@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/sun/dorncontroller/drone_controller/drone_controller_display.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/sun/dorncontroller/drone_controller/drone_controller_display.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/sun/dorncontroller/drone_controller/drone_controller_information.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/sun/dorncontroller/drone_controller/drone_controller_information.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/sun/dorncontroller/drone_controller/drone_controller_joystick.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/sun/dorncontroller/drone_controller/drone_controller_joystick.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/sun/dorncontroller/drone_controller/drone_controller_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/sun/dorncontroller/drone_controller/drone_controller_system.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/sun/dorncontroller/drone_controller/drone_controller_videostreamer.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/sun/dorncontroller/drone_controller/drone_controller_videostreamer.py" afterDir="false" />
     </list>
