@@ -22,5 +22,6 @@ picam2.configure("preview")
 picam2.start()
 while True:
     im= picam2.capture_array()
-    cv2.imshow("Camera", im)
+    grey = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+    cv2.imshow("Camera", grey)
     
