@@ -30,8 +30,7 @@ class ObjectController:
         time.sleep(7)        
         while True:
             # 일시정지 상태
-            print(self.__video_model.now_mode)
-            if not self.__video_model.now_mode=="manual":
+            if self.__video_model.now_mode=="manual":
                 print("stop")
                 continue
 
