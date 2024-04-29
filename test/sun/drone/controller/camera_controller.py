@@ -30,8 +30,8 @@ class CameraController():
         while True:
             if(self.__model.get_end_flag()==True):
                 self.__model.set_end_flag(False)
-                self.__picam2.stop()
                 print('end this THread !!!!!!!!!!!!!!!')
+                self.__picam2.stop()
                 return
             frame=self.__picam2.capture_array()
             self.__model.set_send_frame(frame)  #보내야할 찐도베이 frame이고
@@ -67,6 +67,7 @@ class CameraController():
                 self.__now_mode="gps"
                 self.__model.now_mode="gps"
                 self.__model.set_end_flag(True)
+                print("1")
                 thread_gps=threading.Thread(target=self.run_object_cam)
                 self.__model.set_end_flag(False)
                 time.sleep(1)
