@@ -28,7 +28,7 @@ class CameraController():
     def run_fpv_cam(self):
         self.__picam2.start()  #picamera 시작한다.
         while True:
-            if(self.__model.get_end_flag==True):
+            if(self.__model.get_end_flag()==True):
                 self.__model.set_end_flag(False)
                 self.__picam2.stop()
                 print('end this THread !!!!!!!!!!!!!!!')
@@ -40,7 +40,7 @@ class CameraController():
         
         raw_frame=None
         while True:
-            if(self.__model.get_end_flag==True):
+            if(self.__model.get_end_flag()==True):
                 self.__model.set_end_flag(False)
                 return
             frames=self.pipeline.wait_for_frames()
