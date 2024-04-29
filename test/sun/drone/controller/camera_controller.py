@@ -66,5 +66,4 @@ class CameraController():
                 self.__model.set_end_flag(False)
                 thread_gps.start()
                 
-            while True:
-                self.set_frame()
+  
