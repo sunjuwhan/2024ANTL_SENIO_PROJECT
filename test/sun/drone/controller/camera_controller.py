@@ -32,7 +32,6 @@ class CameraController():
                 self.__model.set_end_flag(False)
                 return
             frame=self.__picam2.capture_array()
-            print(type(frame))
             self.__model.set_send_frame(frame)  #보내야할 찐도베이 frame이고
                 
     def run_object_cam(self):
@@ -42,7 +41,7 @@ class CameraController():
             if(self.__model.get_end_flag==True):
                 self.__model.set_end_flag(False)
                 return
-            frames=self.pipline.wait_for_frames()
+            frames=self.pipeline.wait_for_frames()
             color_frame=frames.get_color_frame()
             raw_frame = np.asanyarray(color_frame.get_data())
             self.__model.set_raw_frame(raw_frame)
