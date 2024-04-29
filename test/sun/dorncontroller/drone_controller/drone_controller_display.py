@@ -127,11 +127,6 @@ class class_drone_controller_display:
         # Update labels for joystick R
         self.update_joystick_labels(self.joystick_frame_R, "Joystick R", joystick_values_R)
 
-        # Update log for joystick R
-        log_message = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
-        self.log_text_R.insert(tk.END, log_message + "\n")
-        self.log_text_R.see(tk.END)  # Scroll to the bottom
-
         self.window.after(10, self.update_joystick)  # Update every 1 second
 
     def update_joystick_labels(self, frame, name, values):
@@ -150,6 +145,8 @@ class class_drone_controller_display:
         switch_label = tk.Label(frame, text=f"switch: {'ON' if values['switch'] else 'OFF'}", anchor="w",
                                 bg="#404040", fg="white", font=("Arial", 8))
         switch_label.pack(anchor="w", padx=(8, 0))
+
+
 
 if __name__ == "__main__":
     dc_display = class_drone_controller_display(class_Drone_Controller_Information())
