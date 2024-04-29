@@ -18,7 +18,7 @@ class class_Drone_Controller_System:
         self.dataSender = class_drone_controller_datasender(self.info)
         #self.button =class_drone_controller_button(self.info)
         self.switch=class_Drone_Controller_Switch(self.info)
-        self.display=class_drone_controller_display(self.info)
+        #self.display=class_drone_controller_display(self.info)
     def start_Drone_Controller(self):
         print("SYSTEM ALARM::Drone Controller Started")
         thread_Joystick_Left = Thread(target=self.controllerJoystick_L.run_joystick)
