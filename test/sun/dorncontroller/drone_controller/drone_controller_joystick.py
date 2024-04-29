@@ -3,7 +3,7 @@ import time
 from drone_controller.drone_controller_information import *
 
 class class_Drone_Controller_Joystick:
-    def __init__(self, bus, device, x_channel, y_channel, switch_channel, classifyNum, ctrl_info:class_Drone_Controller_Information):
+    def __init__(self, bus, device, x_channel, y_channel, switch_channel, classifyNum, ctrl_info):
         self.spi = spidev.SpiDev()
         self.spi.open(bus, device)
         self.spi.max_speed_hz = 1000000
@@ -62,7 +62,7 @@ class class_Drone_Controller_Joystick:
             y_pos=abs(y_pos-1023) 
         switch_val = self.read_channel(self.switch_channel)
         if self.classifyNum == 1:
-            self.ctrl_info.joystick_Left_x =float ((self.stabil_vrx(x_pos)-500)/500)  #-1 ~ 1
+            self.ctrl_info.joystick_Left_x =float((self.stabil_vrx(x_pos)-500)/500)  #-1 ~ 1
             self.ctrl_info.joystick_Left_y = float((self.stabil_vry(y_pos))/1000)  
             self.ctrl_info.joystick_Left_val = switch_val
         elif self.classifyNum == 2:

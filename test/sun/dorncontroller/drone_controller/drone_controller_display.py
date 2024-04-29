@@ -94,7 +94,7 @@ class class_drone_controller_display:
 
         self.switch_labels = []
         for i in range(len(self.info.arr_switch)):
-            switch_label = tk.Label(self.switch_frame, text=f"Switch {i + 1}: {'ON' if self.info.arr_switch[i] == 1 else 'OFF'}",
+            switch_label = tk.Label(self.switch_frame, text=f"Switch {i + 1}: {'ON' if self.info.arr_switch[i] == True else 'OFF'}",
                                     anchor="w", bg="#404040", fg="white", font=("Arial", 8))  # White text color
             switch_label.pack(anchor="w", padx=8)
             self.switch_labels.append(switch_label)
@@ -132,7 +132,7 @@ class class_drone_controller_display:
         self.log_text_R.insert(tk.END, log_message + "\n")
         self.log_text_R.see(tk.END)  # Scroll to the bottom
 
-        self.window.after(1000, self.update_joystick)  # Update every 1 second
+        self.window.after(10, self.update_joystick)  # Update every 1 second
 
     def update_joystick_labels(self, frame, name, values):
         for label in frame.winfo_children():
