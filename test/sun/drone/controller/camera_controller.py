@@ -31,6 +31,7 @@ class CameraController():
             if(self.__model.get_end_flag==True):
                 self.__model.set_end_flag(False)
                 self.__picam2.stop()
+                print('end this THread !!!!!!!!!!!!!!!')
                 return
             frame=self.__picam2.capture_array()
             self.__model.set_send_frame(frame)  #보내야할 찐도베이 frame이고
