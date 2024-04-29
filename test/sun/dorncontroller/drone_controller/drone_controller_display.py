@@ -120,8 +120,7 @@ class class_drone_controller_display:
             'y': self.info.joystick_Right_y,
             'switch': self.info.joystick_Right_val
         }
-        print("Left y{}".format(self.info.joystick_Left_y))
-        # Update labels for joystick L
+
         self.update_joystick_labels(self.joystick_frame_L, "Joystick L", joystick_values_L)
 
         # Update labels for joystick R
