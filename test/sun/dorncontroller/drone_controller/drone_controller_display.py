@@ -70,15 +70,13 @@ class class_drone_controller_display:
         self.update_switches()
         self.update_gps()
         self.update_joystick()  # Add call to update_joystick method
-        self.update()
+        #self.update()
         self.window.mainloop()
 
     def update(self):
         #frame = cv2.resize(self.info_frame, (640, 480))  # Resize frame to 640x480
-        frame = self.info_frame
+        frame = self.info_frame  #--> TK FRAME 으로 변환완료 되었고 
         # NumPy 배열을 PIL 이미지로 변환
-        print(frame)
-        print(type(frame))
         pil_image = Image.fromarray(frame)
 
         # PIL 이미지를 PhotoImage로 변환
