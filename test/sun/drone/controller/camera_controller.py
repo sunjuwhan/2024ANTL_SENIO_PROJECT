@@ -32,6 +32,7 @@ class CameraController():
                 self.__model.set_end_flag(False)
                 return
             frame=self.__picam2.capture_array()
+            print(type(frame))
             self.__model.set_send_frame(frame)  #보내야할 찐도베이 frame이고
                 
     def run_object_cam(self):
@@ -52,7 +53,6 @@ class CameraController():
         time.sleep(3)
         while True:
             recv_mode=self.__pilot_model.get_data()[1] #현재 모드를 가져와서 변경됨을 확인한다.
-            print(recv_mode)
             if self.__now_mode=="gps" and recv_mode=="manual":
                 self.__now_mode="manual"
                 self.__model.now_mode="manual"
