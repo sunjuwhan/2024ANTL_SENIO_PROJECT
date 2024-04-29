@@ -17,8 +17,8 @@ class class_drone_controller_display:
         #self.vid = self.info.frame
         self.vid = Image.fromarray(self.info.frame)
         self.vid = ImageTk.PhotoImage(self.vid)
-        self.vid.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        self.vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        #self.vid.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        #self.vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
         self.frame_canvas = tk.Canvas(self.window, width=640, height=480)
         self.frame_canvas.grid(row=0, column=0, sticky="nsew")
