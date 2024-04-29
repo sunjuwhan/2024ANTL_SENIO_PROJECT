@@ -12,7 +12,11 @@ class Main():
         self.__gps_model=model.GpsModel()
         self.__controller=controller.MasterController(self.__pilot_model,self.__camera_model,self.__gps_model)
         self.__view= view.SocketView(self.__pilot_model,self.__camera_model)
+        self.__object=controller.ObjectController(self.__camera_model)
     def run(self):
+        print("run object Detecter ")
+        dectetor_thread=Thread(target=self.__object.run_object_detector) 
+        dectetor_thread.start()
         print("run camera thread")
         camera_thread=Thread(target=self.__controller.run_camera)
         
