@@ -7,7 +7,7 @@ PORT=8005
 MY_IP="192.168.50.47"
 BUFFER_SIZE=46081
 class class_Drone_Controller_VideoStreamer:
-    def __init__(self):
+    def __init__(self, info):
         self.ip_address = MY_IP#내 ip   ap로 
         self.port = PORT  #고정
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

@@ -14,7 +14,7 @@ class class_Drone_Controller_System:
         self.info = class_Drone_Controller_Information()
         self.controllerJoystick_L = class_Drone_Controller_Joystick(0, 0, 1, 2, 0, 1, self.info)
         self.controllerJoystick_R = class_Drone_Controller_Joystick(1, 0, 1, 2, 0, 2, self.info)
-        self.videoStreamer = class_Drone_Controller_VideoStreamer()
+        self.videoStreamer = class_Drone_Controller_VideoStreamer(self.info)
         self.dataSender = class_drone_controller_datasender(self.info)
         #self.button =class_drone_controller_button(self.info)
         self.switch=class_Drone_Controller_Switch(self.info)
