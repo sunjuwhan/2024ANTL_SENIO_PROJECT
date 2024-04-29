@@ -69,9 +69,9 @@ class CameraController():
                 self.__model.now_mode="gps"
                 self.__model.set_end_flag(True)
                 print("1")
-                thread_gps=threading.Thread(target=self.run_object_cam)
-                self.__model.set_end_flag(False)
-                time.sleep(1)
-                thread_gps.start()
+                #thread_gps=threading.Thread(target=self.run_object_cam)
+                #self.__model.set_end_flag(False)
+                #time.sleep(1)
+                #thread_gps.start()
                 
   
