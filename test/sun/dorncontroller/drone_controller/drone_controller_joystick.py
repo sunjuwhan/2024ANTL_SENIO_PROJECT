@@ -62,7 +62,7 @@ class class_Drone_Controller_Joystick:
             y_pos=abs(y_pos-1023) 
         switch_val = self.read_channel(self.switch_channel)
         if self.classifyNum == 1:
-            self.ctrl_info.joystick_Left_x =float ((self.stabil_vrx(x_pos)-500)/500)  #-1 ~ 1
+            self.ctrl_info.joystick_Left_x =float((self.stabil_vrx(x_pos)-500)/500)  #-1 ~ 1
             self.ctrl_info.joystick_Left_y = float((self.stabil_vry(y_pos))/1000)  
             self.ctrl_info.joystick_Left_val = switch_val
         elif self.classifyNum == 2:
