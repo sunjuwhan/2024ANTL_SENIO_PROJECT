@@ -80,7 +80,7 @@ class class_drone_controller_display:
     def update(self):
         frame = self.info.frame
         pil_image = Image.fromarray(frame)
-        resized_image = pl_image.resize((640, 480))  # 원하는 크기로 이미지 리사이즈
+        resized_image = pil_image.resize((640, 480))  # 원하는 크기로 이미지 리사이즈
 
         # PIL 이미지를 PhotoImage로 변환
         self.photo = ImageTk.PhotoImage(image=resized_image)
