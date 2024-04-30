@@ -13,8 +13,13 @@ class class_drone_controller_datasender:
         self.info = info
         self.target_ip = DRONE_IP# 드론 IP 주소   ap 192.168.32.3    drone 192.168.50.63
         self.target_port = PORT# port
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((self.target_ip, self.target_port))
+        while True:
+            try:
+                self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.socket.connect((self.target_ip, self.target_port))
+                break
+            except:
+                continue
         
     def send_joystick_data(self, data):
         try:
