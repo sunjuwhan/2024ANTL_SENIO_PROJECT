@@ -33,7 +33,8 @@ class SocketView():
         time.sleep(3)
         while True : 
             try:
-                frame=self.__video_model.get_send_frame()  #46080
+                frame=self.__video_model.get_send_frame()  #46081
+                print(type(frame))
                 _, encoded_frame=cv2.imencode('.jpg',frame)
                 s=encoded_frame.tobytes()
                 for i in range(20):
