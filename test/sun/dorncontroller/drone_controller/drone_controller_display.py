@@ -37,6 +37,10 @@ class class_drone_controller_display:
         self.info_frame = tk.Frame(self.window, bg="#808080", width=160, height=480, bd=2, relief=tk.SOLID)  # Adjusted height for info frame
         self.info_frame.grid(row=0, column=1, sticky="nsew")
 
+        # Add Switch Title
+        self.switch_title_label = tk.Label(self.info_frame, text="Switches", anchor="w", bg="#404040", fg="white", font=("Arial bold", 10))
+        self.switch_title_label.pack(anchor="w", padx=8, pady=(4, 0))
+
         self.gps_frame = tk.Frame(self.info_frame, bg="#404040", bd=2, relief=tk.SOLID)  # Box around GPS info
         self.gps_frame.pack(anchor="w", padx=8, pady=(4, 0), fill=tk.X)
 
@@ -70,6 +74,7 @@ class class_drone_controller_display:
         self.update_all()
         self.window.mainloop()
 
+
     def update_all(self):
         self.update_video()
         self.update_gps()
@@ -91,8 +96,9 @@ class class_drone_controller_display:
             label.destroy()
 
         self.switch_labels = []
-        for i in range(len(self.info.arr_switch)):
-            switch_label = tk.Label(self.switch_frame, text=f"Switch {i + 1}: {self.info.arr_switch[i]}",
+        for i in range(1, 5):  # 1부터 4까지 반복
+            switch_value = getattr(self.info, f'switch{i}')  # self.info.switch1, self.info.switch2 등을 가져옴
+            switch_label = tk.Label(self.switch_frame, text=f"Switch {i}: {switch_value}",
                                     anchor="w", bg="#404040", fg="white", font=("Arial", 8))  # White text color
             switch_label.pack(anchor="w", padx=8)
             self.switch_labels.append(switch_label)
