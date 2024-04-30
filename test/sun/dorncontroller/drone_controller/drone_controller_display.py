@@ -59,6 +59,14 @@ class class_drone_controller_display:
         self.switch_frame.pack(anchor="w", padx=8, pady=(4, 0), fill=tk.X)
 
         self.switch_labels = []
+        for i in range(1, 4):
+            switch_frame = tk.Frame(self.switch_frame, bg="#404040", bd=2, relief=tk.SOLID)
+            switch_frame.pack(anchor="w", padx=8, pady=(4, 0), fill=tk.X)
+
+            switch_label = tk.Label(switch_frame, text=f"Switch {i}: Waiting for data...",
+                                    anchor="w", bg="#404040", fg="white", font=("Arial", 8))
+            switch_label.pack(anchor="w", padx=8)
+            self.switch_labels.append(switch_label)
 
         self.joystick_frame_L = tk.Frame(self.info_frame, bg="#404040", bd=2,
                                          relief=tk.SOLID)  # Box around joystick L info
@@ -73,6 +81,7 @@ class class_drone_controller_display:
 
         self.update_all()
         self.window.mainloop()
+
 
 
     def update_all(self):
