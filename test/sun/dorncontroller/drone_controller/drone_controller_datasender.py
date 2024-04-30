@@ -13,16 +13,14 @@ class class_drone_controller_datasender:
         self.info = info
         self.target_ip = DRONE_IP# 드론 IP 주소   ap 192.168.32.3    drone 192.168.50.63
         self.target_port = PORT# port
-        #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        #self.socket.connect((self.target_ip, self.target_port))
-        self.socket=None
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.connect((self.target_ip, self.target_port))
         
     def send_joystick_data(self, data):
         try:
             # 데이터를 직렬화하고 전송
-            #self.socket.sendto(data.encode(),(self.target_ip,self.target_port))
-            #self.info.arm_data=self.socket.recv(30).decode()  #다시 전달받아
+            self.socket.sendto(data.encode(),(self.target_ip,self.target_port))
+            self.info.arm_data=self.socket.recv(30).decode()  #다시 전달받아
             pass
         except Exception as e:
             print(f"Error sending joystick data: {e}")

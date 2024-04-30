@@ -36,7 +36,7 @@ class class_Drone_Controller_System:
         thread_dataSender.start()
         thread_switch.start()
         #thread_display.start()
-        self.display=class_drone_controller_display(self.info)
+        #self.display=class_drone_controller_display(self.info)
 
     def print_system_log(self):
         print("=" * 50)
