@@ -6,6 +6,13 @@ import threading
 import random
 import string
 from drone_controller.drone_controller_information import *
+class class_drone_controller_display_master:
+    def __init__(self, info):
+        self.dc_display = None
+        self.info = info
+
+    def run_display(self):
+        self.dc_display = class_drone_controller_display(self.info)
 
 class class_drone_controller_display:
     def __init__(self, info):
@@ -86,7 +93,7 @@ class class_drone_controller_display:
         self.photo = ImageTk.PhotoImage(image=resized_image)
         self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
 
-        self.window.after(10, self.update)
+        self.window.after(100, self.update)
 
     def update_switches(self):
         for label in self.switch_labels:
@@ -98,6 +105,7 @@ class class_drone_controller_display:
                                     anchor="w", bg="#404040", fg="white", font=("Arial", 8))  # White text color
             switch_label.pack(anchor="w", padx=8)
             self.switch_labels.append(switch_label)
+        self.window.after(100, self.update_switches)
 
     def update_gps(self):
         latitude_text = f"Latitude: {self.info.drone_latitude:.5f}"
@@ -106,7 +114,7 @@ class class_drone_controller_display:
         self.latitude_label.config(text=latitude_text)
         self.longitude_label.config(text=longitude_text)
 
-        self.window.after(1000, self.update_gps)  # Update every 1 second
+        self.window.after(100, self.update_gps)  # Update every 1 second
 
     def update_joystick(self):
         # Simulate joystick data
@@ -126,7 +134,7 @@ class class_drone_controller_display:
         # Update labels for joystick R
         self.update_joystick_labels(self.joystick_frame_R, "Joystick R", joystick_values_R)
 
-        self.window.after(1000, self.update_joystick)  # Update every 1 second
+        self.window.after(100, self.update_joystick)  # Update every 1 second
 
     def update_joystick_labels(self, frame, name, values):
         for label in frame.winfo_children():
