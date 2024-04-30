@@ -37,10 +37,6 @@ class class_drone_controller_display:
         self.info_frame = tk.Frame(self.window, bg="#808080", width=160, height=480, bd=2, relief=tk.SOLID)  # Adjusted height for info frame
         self.info_frame.grid(row=0, column=1, sticky="nsew")
 
-        # Add Switch Title
-        self.switch_title_label = tk.Label(self.info_frame, text="Switches", anchor="w", bg="#404040", fg="white", font=("Arial bold", 10))
-        self.switch_title_label.pack(anchor="w", padx=8, pady=(4, 0))
-
         self.gps_frame = tk.Frame(self.info_frame, bg="#404040", bd=2, relief=tk.SOLID)  # Box around GPS info
         self.gps_frame.pack(anchor="w", padx=8, pady=(4, 0), fill=tk.X)
 
@@ -54,6 +50,10 @@ class class_drone_controller_display:
         self.longitude_label = tk.Label(self.gps_frame, text="Longitude: Waiting for data...", anchor="w",
                                         bg="#404040", fg="white", font=("Arial", 8))  # White text color
         self.longitude_label.pack(anchor="w")
+
+        # Add Switch Title
+        self.switch_title_label = tk.Label(self.info_frame, text="Switch", anchor="w", bg="#404040", fg="white", font=("Arial bold", 10))
+        self.switch_title_label.pack(anchor="w", padx=8, pady=(4, 0))
 
         self.switch_frame = tk.Frame(self.info_frame, bg="#404040", bd=2, relief=tk.SOLID)  # Box around switch info
         self.switch_frame.pack(anchor="w", padx=8, pady=(4, 0), fill=tk.X)
