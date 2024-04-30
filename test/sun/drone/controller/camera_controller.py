@@ -58,19 +58,19 @@ class CameraController():
         while True:
             recv_mode=self.__pilot_model.get_data()[1] #현재 모드를 가져와서 변경됨을 확인한다.
             if self.__now_mode=="gps" and recv_mode=="manual":
+                self.__model.set_end_flag(True)
+                time.sleep(1)
                 self.__now_mode="manual"
                 self.__model.now_mode="manual"
-                self.__model.set_end_flag(True)
                 thread_fpv=threading.Thread(target=self.run_fpv_cam)
                 self.__model.set_end_flag(False)
-                time.sleep(1)
                 thread_fpv.start()
             elif self.__now_mode=="manual" and recv_mode=="gps":
+                self.__model.set_end_flag(True)
+                time.sleep(1)
                 print("swap camera") 
                 self.__now_mode="gps"
                 self.__model.now_mode="gps"
-                self.__model.set_end_flag(True)
-                time.sleep(1)
                 thread_gps=threading.Thread(target=self.run_object_cam)
                 self.__model.set_end_flag(False)
                 thread_gps.start()
