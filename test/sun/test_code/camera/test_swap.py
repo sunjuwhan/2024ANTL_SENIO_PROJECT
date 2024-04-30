@@ -25,7 +25,7 @@ picam2.preview_configuration.main.format = "RGB888"
 picam2.preview_configuration.align()
 picam2.configure("preview")
 
-picam2.start()
+#picam2.start()
 while True:
     frames =pipeline.wait_for_frames()
     color_frame = frames.get_color_frame()
