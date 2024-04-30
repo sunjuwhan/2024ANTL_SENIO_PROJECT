@@ -33,6 +33,7 @@ class CameraController():
                 self.__picam2.stop()
                 return
             frame=self.__picam2.capture_array()
+            self.__model.set_raw_frame(frame) 
             self.__model.set_send_frame(frame)  #보내야할 찐도베이 frame이고
                 
     def run_object_cam(self):
