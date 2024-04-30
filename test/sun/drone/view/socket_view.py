@@ -36,7 +36,7 @@ class SocketView():
                 frame=self.__video_model.get_send_frame()  #46080
                 _, encoded_frame=cv2.imencode('.jpg',frame)
                 s=encoded_frame.tobytes()
-                for i in range(5):
+                for i in range(20):
                     self.video_socket.sendto(bytes([i]) +s[i*46080:(i+1) *46080], (IP_CONTROLLER, PORT_CONTROLLER))
 
             except Exception as e:

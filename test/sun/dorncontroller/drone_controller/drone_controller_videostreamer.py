@@ -15,14 +15,14 @@ class class_Drone_Controller_VideoStreamer:
     def assemble_image(self,slices):
         return np.vstack(slices)
     def receive_video(self):
-        frames = [b'' for _ in range(5)]
+        frames = [b'' for _ in range(20)]
 
         while True:
             picture = b''
             data, addr = self.socket.recvfrom(46081)  # 각 패킷은 46081바이트
             frames[data[0]] = data[1:46081]  # 수신된 프레임 데이터 저장
-            if data[0] == 4:  # 모든 패킷을 다 받았을 때
-                for i in range(5):
+            if data[0] == 19:  # 모든 패킷을 다 받았을 때
+                for i in range(20):
                     picture += frames[i]  # 모든 프레임 데이터를 하나로 합침
 
                 # 바이트 스트링을 numpy 배열로 변환하고 이미지로 디코딩
