@@ -51,22 +51,10 @@ class class_drone_controller_display:
                                         bg="#404040", fg="white", font=("Arial", 8))  # White text color
         self.longitude_label.pack(anchor="w")
 
-        # Add Switch Title
-        self.switch_title_label = tk.Label(self.info_frame, text="Switch", anchor="w", bg="#404040", fg="white", font=("Arial bold", 10))
-        self.switch_title_label.pack(anchor="w", padx=8, pady=(4, 0))
-
         self.switch_frame = tk.Frame(self.info_frame, bg="#404040", bd=2, relief=tk.SOLID)  # Box around switch info
         self.switch_frame.pack(anchor="w", padx=8, pady=(4, 0), fill=tk.X)
 
         self.switch_labels = []
-        for i in range(1, 4):
-            switch_frame = tk.Frame(self.switch_frame, bg="#404040", bd=2, relief=tk.SOLID)
-            switch_frame.pack(anchor="w", padx=8, pady=(4, 0), fill=tk.X)
-
-            switch_label = tk.Label(switch_frame, text=f"Switch {i}: Waiting for data...",
-                                    anchor="w", bg="#404040", fg="white", font=("Arial", 8))
-            switch_label.pack(anchor="w", padx=8)
-            self.switch_labels.append(switch_label)
 
         self.joystick_frame_L = tk.Frame(self.info_frame, bg="#404040", bd=2,
                                          relief=tk.SOLID)  # Box around joystick L info
@@ -81,8 +69,6 @@ class class_drone_controller_display:
 
         self.update_all()
         self.window.mainloop()
-
-
 
     def update_all(self):
         self.update_video()
@@ -103,7 +89,8 @@ class class_drone_controller_display:
     def update_switches(self):
         for label in self.switch_labels:
             label.destroy()
-
+        switch_title = tk.Label(self.switch_frame, text="Switch", anchor="w", bg="#404040", fg="white", font=("Arial bold", 10))
+        switch_title.pack(anchor="w")
         self.switch_labels = []
         for i in range(1, 5):  # 1부터 4까지 반복
             switch_value = getattr(self.info, f'switch{i}')  # self.info.switch1, self.info.switch2 등을 가져옴
