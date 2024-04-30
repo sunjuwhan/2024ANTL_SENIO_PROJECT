@@ -34,7 +34,8 @@ class SocketView():
         while True : 
             try:
                 frame=self.__video_model.get_send_frame()  #46081
-                print(type(frame))
+                print(len(frame))
+                print(frame.shape)
                 _, encoded_frame=cv2.imencode('.jpg',frame)
                 s=encoded_frame.tobytes()
                 for i in range(20):
