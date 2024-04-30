@@ -58,8 +58,7 @@ class VideoModel():
     
     
     
-    def get_cap(self):
-        return self.__cap
+ 
     def split_image(self, num_slices):
         slice_height = self.__frame.shape[0] // num_slices
         slices = []

@@ -8,7 +8,6 @@ import pyrealsense2.pyrealsense2 as rs
 class CameraController():
     def __init__(self,model:VideoModel,pilot_model:PilotModel) -> None:
         self.__model=model
-        self.__cap=model.get_cap()
         self.__pilot_model=pilot_model
         self.__picam2=self.__model.get_picam()
         self.__now_mode="gps"
