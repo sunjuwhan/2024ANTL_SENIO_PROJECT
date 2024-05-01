@@ -88,7 +88,7 @@ class class_drone_controller_display:
         # PIL 이미지를 PhotoImage로 변환
         self.photo = ImageTk.PhotoImage(image=resized_image)
         self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
-        self.window.after(10, self.update_video)
+        self.window.after(5, self.update_video)
 
     def update_switches(self):
 
@@ -139,6 +139,9 @@ class class_drone_controller_display:
         y_label = tk.Label(frame, text=f"y: {values['y']}", anchor="w", bg="#404040", fg="white", font=("Arial", 8))
         y_label.pack(anchor="w", padx=(8, 0))
 
+        switch_label = tk.Label(frame, text=f"switch: {'ON' if values['switch'] else 'OFF'}", anchor="w",
+                                bg="#404040", fg="white", font=("Arial", 8))
+        switch_label.pack(anchor="w", padx=(8, 0))
 
 
 
