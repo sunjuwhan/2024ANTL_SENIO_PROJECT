@@ -6,6 +6,8 @@ import threading
 import random
 import string
 from drone_controller.drone_controller_information import *
+import time
+
 class class_drone_controller_display_master:
     def __init__(self, info):
         self.dc_display = None
@@ -70,25 +72,39 @@ class class_drone_controller_display:
         self.log_text_R.pack(anchor="w", padx=8, pady=(4, 0))
 
         self.update_all()
-        self.update_video()
+        self.start_video_update_thread()
         self.window.mainloop()
 
-    def update_all(self):
+    def start_video_update_thread(self):
+        video_thread = threading.Thread(target=self.update_video_thread)
+        video_thread.daemon = True  # Daemonize thread so it will automatically close when the main thread closes
+        video_thread.start()
 
+    def update_video_thread(self):
+        while True:
+            frame = self.info.frame
+            pil_image = Image.fromarray(frame)
+            resized_image = pil_image.resize((640, 480))  # 원하는 크기로 이미지 리사이즈
+
+            # PIL 이미지를 PhotoImage로 변환
+            self.photo = ImageTk.PhotoImage(image=resized_image)
+
+            # 비디오 프레임 업데이트는 GUI 쓰레드에서 직접 호출할 수 없으므로
+            # .after 메서드를 사용하여 GUI 쓰레드에 업데이트 요청을 보냅니다.
+            self.frame_canvas.after(0, self.update_video_gui)
+
+            # 쓰레드를 잠시 대기시켜 CPU 자원 소비를 줄입니다.
+            time.sleep(0.1)
+
+    def update_video_gui(self):
+        # 비디오 캔버스 업데이트
+        self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
+
+    def update_all(self):
         self.update_gps()
         self.update_switches()
         self.update_joystick()
         self.window.after(100, self.update_all)
-
-    def update_video(self):
-        frame = self.info.frame
-        pil_image = Image.fromarray(frame)
-        resized_image = pil_image.resize((640, 480))  # 원하는 크기로 이미지 리사이즈
-
-        # PIL 이미지를 PhotoImage로 변환
-        self.photo = ImageTk.PhotoImage(image=resized_image)
-        self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
-        self.window.after(100, self.update_video)
 
     def update_switches(self):
         for label in self.switch_labels:
@@ -141,8 +157,6 @@ class class_drone_controller_display:
         switch_label = tk.Label(frame, text=f"switch: {'ON' if values['switch'] else 'OFF'}", anchor="w",
                                 bg="#404040", fg="white", font=("Arial", 8))
         switch_label.pack(anchor="w", padx=(8, 0))
-
-
 
 
 if __name__ == "__main__":
