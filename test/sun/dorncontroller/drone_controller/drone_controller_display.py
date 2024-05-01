@@ -53,7 +53,9 @@ class class_drone_controller_display:
 
         self.switch_frame = tk.Frame(self.info_frame, bg="#404040", bd=2, relief=tk.SOLID)  # Box around switch info
         self.switch_frame.pack(anchor="w", padx=8, pady=(4, 0), fill=tk.X)
-
+        switch_title = tk.Label(self.switch_frame, text="Switch", anchor="w", bg="#404040", fg="white",
+                                font=("Arial bold", 10))
+        switch_title.pack(anchor="w")
         self.switch_labels = []
 
         self.joystick_frame_L = tk.Frame(self.info_frame, bg="#404040", bd=2,
@@ -91,8 +93,9 @@ class class_drone_controller_display:
             label.destroy()
 
         self.switch_labels = []
-        for i in range(len(self.info.arr_switch)):
-            switch_label = tk.Label(self.switch_frame, text=f"Switch {i + 1}: {'ON' if self.info.arr_switch[i] == True else 'OFF'}",
+        for i in range(1, 5):  # 1부터 4까지 반복
+            switch_value = getattr(self.info, f'switch{i}')  # self.info.switch1, self.info.switch2 등을 가져옴
+            switch_label = tk.Label(self.switch_frame, text=f"Switch {i}: {switch_value}",
                                     anchor="w", bg="#404040", fg="white", font=("Arial", 8))  # White text color
             switch_label.pack(anchor="w", padx=8)
             self.switch_labels.append(switch_label)
