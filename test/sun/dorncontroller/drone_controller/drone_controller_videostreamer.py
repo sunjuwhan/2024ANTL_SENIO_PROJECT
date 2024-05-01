@@ -35,7 +35,7 @@ class class_Drone_Controller_VideoStreamer:
                 # 바이트 스트링을 numpy 배열로 변환하고 이미지로 디코딩
                 frame = cv2.imdecode(np.frombuffer(picture, dtype=np.uint8), cv2.IMREAD_COLOR)
                 cv2.imshow("frame", frame)
-
+                self.info.frame = frame
                 # 프레임 표시 시간 계산
 
                 # 'q' 키를 누르면 종료
