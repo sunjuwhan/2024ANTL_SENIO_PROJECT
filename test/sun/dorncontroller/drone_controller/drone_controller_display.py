@@ -97,7 +97,7 @@ class class_drone_controller_display:
             # PIL 이미지를 PhotoImage로 변환
             self.photo = ImageTk.PhotoImage(image=resized_image)
             self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
-            time.sleep(0.01)
+            time.sleep(0.05)
 
     def update_gps(self):
         while True:
@@ -108,7 +108,7 @@ class class_drone_controller_display:
             self.longitude_label.config(text=longitude_text)
 
             # Sleep for some time before updating again
-            time.sleep(0.1)
+            time.sleep(1)
 
     def update_switches(self):
         while True:
@@ -124,7 +124,7 @@ class class_drone_controller_display:
                 self.switch_labels.append(switch_label)
 
             # Sleep for some time before updating again
-            time.sleep(0.1)
+            time.sleep(0.3)
 
     def update_joystick(self):
         while True:
@@ -144,7 +144,7 @@ class class_drone_controller_display:
             self.update_joystick_labels(self.joystick_frame_R, "Joystick R", joystick_values_R)
 
             # Sleep for some time before updating again
-            time.sleep(0.1)
+            time.sleep(0.3)
 
     def update_joystick_labels(self, frame, name, values):
         for label in frame.winfo_children():
