@@ -89,7 +89,7 @@ class class_drone_controller_display:
         self.photo = ImageTk.PhotoImage(image=resized_image)
         self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
         self.window.after(100, self.update_all)
-        
+
     def update_switches(self):
         for label in self.switch_labels:
             label.destroy()
