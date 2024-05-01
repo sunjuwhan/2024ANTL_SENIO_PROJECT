@@ -88,7 +88,7 @@ class class_drone_controller_display:
         # PIL 이미지를 PhotoImage로 변환
         self.photo = ImageTk.PhotoImage(image=resized_image)
         self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
-        self.window.after(100, self.update_all)
+        self.window.after(10, self.update_video)
 
     def update_switches(self):
         for label in self.switch_labels:
