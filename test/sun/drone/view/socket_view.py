@@ -34,11 +34,16 @@ class SocketView():
         while True : 
             try:
                 frame=self.__video_model.get_send_frame()  #46081
-                print(len(frame))
-                print(frame.shape)
+                now_mode=self.__pilot_mode.get_data()[1]
+                size_of_send=0
+                if now_mode=="gps":
+                    size_of_send=20
+                else:
+                    size_of_send=5
+                    
                 _, encoded_frame=cv2.imencode('.jpg',frame)
                 s=encoded_frame.tobytes()
-                for i in range(20):
+                for i in range(size_of_send):
                     self.video_socket.sendto(bytes([i]) +s[i*46080:(i+1) *46080], (IP_CONTROLLER, PORT_CONTROLLER))
 
             except Exception as e:
