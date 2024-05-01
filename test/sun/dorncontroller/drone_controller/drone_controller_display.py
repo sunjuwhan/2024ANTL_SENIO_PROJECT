@@ -71,9 +71,14 @@ class class_drone_controller_display:
         self.log_text_R = tk.Text(self.info_frame, width=22, height=7, bg="#1c1c1c", fg="white", font=("Arial", 8))
         self.log_text_R.pack(anchor="w", padx=8, pady=(4, 0))
 
-        self.update_all()
-        self.start_video_update_thread()
+        self.start_threads()
         self.window.mainloop()
+
+    def start_threads(self):
+        self.start_video_update_thread()
+        self.start_gps_update_thread()
+        self.start_switches_update_thread()
+        self.start_joystick_update_thread()
 
     def start_video_update_thread(self):
         video_thread = threading.Thread(target=self.update_video_thread)
@@ -94,17 +99,38 @@ class class_drone_controller_display:
             self.frame_canvas.after(0, self.update_video_gui)
 
             # 쓰레드를 잠시 대기시켜 CPU 자원 소비를 줄입니다.
-            time.sleep(0.01)
+            time.sleep(0.1)
 
     def update_video_gui(self):
         # 비디오 캔버스 업데이트
         self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
 
-    def update_all(self):
-        self.update_gps()
-        self.update_switches()
-        self.update_joystick()
-        self.window.after(100, self.update_all)
+    def start_gps_update_thread(self):
+        gps_thread = threading.Thread(target=self.update_gps_thread)
+        gps_thread.daemon = True
+        gps_thread.start()
+
+    def update_gps_thread(self):
+        while True:
+            self.update_gps()
+            time.sleep(1)  # 1초마다 업데이트
+
+    def update_gps(self):
+        latitude_text = f"Latitude: {self.info.drone_latitude:.5f}"
+        longitude_text = f"Longitude: {self.info.drone_longitude:.5f}"
+
+        self.latitude_label.config(text=latitude_text)
+        self.longitude_label.config(text=longitude_text)
+
+    def start_switches_update_thread(self):
+        switches_thread = threading.Thread(target=self.update_switches_thread)
+        switches_thread.daemon = True
+        switches_thread.start()
+
+    def update_switches_thread(self):
+        while True:
+            self.update_switches()
+            time.sleep(1)  # 1초마다 업데이트
 
     def update_switches(self):
         for label in self.switch_labels:
@@ -118,12 +144,15 @@ class class_drone_controller_display:
             switch_label.pack(anchor="w", padx=8)
             self.switch_labels.append(switch_label)
 
-    def update_gps(self):
-        latitude_text = f"Latitude: {self.info.drone_latitude:.5f}"
-        longitude_text = f"Longitude: {self.info.drone_longitude:.5f}"
+    def start_joystick_update_thread(self):
+        joystick_thread = threading.Thread(target=self.update_joystick_thread)
+        joystick_thread.daemon = True
+        joystick_thread.start()
 
-        self.latitude_label.config(text=latitude_text)
-        self.longitude_label.config(text=longitude_text)
+    def update_joystick_thread(self):
+        while True:
+            self.update_joystick()
+            time.sleep(1)  # 1초마다 업데이트
 
     def update_joystick(self):
         # Simulate joystick data
