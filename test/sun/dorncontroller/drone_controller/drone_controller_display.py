@@ -70,10 +70,11 @@ class class_drone_controller_display:
         self.log_text_R.pack(anchor="w", padx=8, pady=(4, 0))
 
         self.update_all()
+        self.update_video()
         self.window.mainloop()
 
     def update_all(self):
-        self.update_video()
+
         self.update_gps()
         self.update_switches()
         self.update_joystick()
@@ -87,6 +88,7 @@ class class_drone_controller_display:
         # PIL 이미지를 PhotoImage로 변환
         self.photo = ImageTk.PhotoImage(image=resized_image)
         self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
+        self.window.after(1, self.update_all)
 
     def update_switches(self):
         for label in self.switch_labels:
