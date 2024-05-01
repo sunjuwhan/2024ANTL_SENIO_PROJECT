@@ -88,20 +88,19 @@ class class_drone_controller_display:
         # PIL 이미지를 PhotoImage로 변환
         self.photo = ImageTk.PhotoImage(image=resized_image)
         self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
-        self.window.after(5, self.update_video)
+        self.window.after(10, self.update_video)
 
     def update_switches(self):
-
-        new_labels = []
-        for i in range(1, 5):  # 1부터 4까지 반복
-            switch_value = getattr(self.info, f'switch{i}')  # self.info.switch1, self.info.switch2 등을 가져옴
-            new_labels = tk.Label(self.switch_frame, text=f"Switch {i}: {switch_value}",
-                                    anchor="w", bg="#404040", fg="white", font=("Arial", 8))  # White text color
-            new_labels.pack(anchor="w", padx=8)
-            self.switch_labels.append(new_labels)
         for label in self.switch_labels:
             label.destroy()
-        self.switch_labels = new_labels
+
+        self.switch_labels = []
+        for i in range(1, 5):  # 1부터 4까지 반복
+            switch_value = getattr(self.info, f'switch{i}')  # self.info.switch1, self.info.switch2 등을 가져옴
+            switch_label = tk.Label(self.switch_frame, text=f"Switch {i}: {switch_value}",
+                                    anchor="w", bg="#404040", fg="white", font=("Arial", 8))  # White text color
+            switch_label.pack(anchor="w", padx=8)
+            self.switch_labels.append(switch_label)
 
     def update_gps(self):
         latitude_text = f"Latitude: {self.info.drone_latitude:.5f}"
