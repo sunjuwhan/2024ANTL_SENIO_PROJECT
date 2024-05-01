@@ -94,7 +94,7 @@ class class_drone_controller_display:
             self.frame_canvas.after(0, self.update_video_gui)
 
             # 쓰레드를 잠시 대기시켜 CPU 자원 소비를 줄입니다.
-            time.sleep(0.1)
+            time.sleep(0.01)
 
     def update_video_gui(self):
         # 비디오 캔버스 업데이트
