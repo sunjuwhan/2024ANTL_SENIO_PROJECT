@@ -5,7 +5,7 @@ import numpy
 from drone_controller.drone_controller_information import *
 AP_IP="192.168.32.1"
 PORT=8005
-MY_IP="192.168.50.237"
+MY_IP="192.168.50.47"
 BUFFER_SIZE=46081
 class class_Drone_Controller_VideoStreamer:
     def __init__(self, info:class_Drone_Controller_Information):
