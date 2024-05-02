@@ -60,5 +60,5 @@ class class_Drone_Controller_System:
     def run_drone_controller_system(self):
         # controllerSwitch = drone_controller_switch.class_Drone_Controller_Switch(self)
         self.start_Drone_Controller()
-        while True:
-            self.print_system_log()
+        #while True:
+        #    self.print_system_log()

@@ -69,15 +69,12 @@ class class_drone_controller_display:
         self.log_text_R = tk.Text(self.info_frame, width=22, height=7, bg="#1c1c1c", fg="white", font=("Arial", 8))
         self.log_text_R.pack(anchor="w", padx=8, pady=(4, 0))
 
-        self.update_all()
-        self.window.mainloop()
-
-    def update_all(self):
-        self.update_video()
         self.update_gps()
         self.update_switches()
         self.update_joystick()
-        self.window.after(100, self.update_all)
+        self.update_video()
+        self.window.mainloop()
+
 
     def update_video(self):
         frame = self.info.frame
@@ -87,6 +84,7 @@ class class_drone_controller_display:
         # PIL 이미지를 PhotoImage로 변환
         self.photo = ImageTk.PhotoImage(image=resized_image)
         self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
+        self.window.after(50, self.update_video)
 
     def update_switches(self):
         for label in self.switch_labels:
@@ -99,6 +97,7 @@ class class_drone_controller_display:
                                     anchor="w", bg="#404040", fg="white", font=("Arial", 8))  # White text color
             switch_label.pack(anchor="w", padx=8)
             self.switch_labels.append(switch_label)
+        self.window.after(500, self.update_switches)
 
     def update_gps(self):
         latitude_text = f"Latitude: {self.info.drone_latitude:.5f}"
@@ -106,6 +105,7 @@ class class_drone_controller_display:
 
         self.latitude_label.config(text=latitude_text)
         self.longitude_label.config(text=longitude_text)
+        self.window.after(2000, self.update_gps)
 
     def update_joystick(self):
         # Simulate joystick data
@@ -122,6 +122,7 @@ class class_drone_controller_display:
 
         self.update_joystick_labels(self.joystick_frame_L, "Joystick L", joystick_values_L)
         self.update_joystick_labels(self.joystick_frame_R, "Joystick R", joystick_values_R)
+        self.window.after(300, self.update_joystick)
 
     def update_joystick_labels(self, frame, name, values):
         for label in frame.winfo_children():
