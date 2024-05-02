@@ -23,7 +23,7 @@ class CameraController():
 
         # RGB & Depth
         #self.config.enable_stream(rs.stream.depth, 320, 240, rs.format.z16, 30)
-        self.config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+        self.config.enable_stream(rs.stream.color, 640, 480, rs.format.rgb8, 30)
     def run_fpv_cam(self):
         self.__picam2.start()  #picamera 시작한다.
         while True:

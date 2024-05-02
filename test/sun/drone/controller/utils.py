@@ -10,13 +10,15 @@ class Image_Manager:
         self.width = 0
         self.height = 0
         self.init_flag = False
-        
     # 이번 루프에서 프레임 특징
     def recog_image(self, frame):
         self.frame = frame
         #self.frame = cv2.flip(self.frame, 0)
         #self.frame= cv2.flip(self.frame, 1)
-        cv2_im_rgb = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)
+
+        #cv2_im_rgb = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)  주석 처리
+
+        cv2_im_rgb=self.frame
         pil_im = Image.fromarray(cv2_im_rgb)
         # 최초에 한번만 연산
         if not self.init_flag:
@@ -52,23 +54,18 @@ class Image_Manager:
         text1 = 'FPS: {}'.format(dur)
         self.frame = cv2.putText(self.frame, text1, (10, 20),FONT, 0.7, (0, 0, 255), 2)
         #cv2. 영상에 FPS 띄우기
-
         #아래는 대충 사각형으로 오브젝트를 감싸는 내용
         for obj in objs:
             x0, y0, x1, y1 = list(obj.bbox)
             x0, y0, x1, y1 = int(x0*width), int(y0*height), int(x1*width), int(y1*height)
             percent = int(100 * obj.score)
-            
             if (percent>=60):
                 box_color, text_color, thickness=(0,255,0), (0,255,0),2
             elif (percent<60 and percent>40):
                 box_color, text_color, thickness=(0,0,255), (0,0,255),2
             else:
                 box_color, text_color, thickness=(255,0,0), (255,0,0),1
-                
-        
             text3 = '{}% {}'.format(percent, labels.get(obj.id, obj.id)) #얼마나 일치하는지 표시
-        
             self.frame = cv2.rectangle(self.frame, (x0, y0), (x1, y1), box_color, thickness)
             self.frame = cv2.putText(self.frame, text3, (x0, y1-5),FONT, 0.5, text_color, thickness)
         return 
