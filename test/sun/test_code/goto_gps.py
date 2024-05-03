@@ -15,7 +15,7 @@ from mavsdk.offboard import (OffboardError, PositionNedYaw)
 from threading import Thread
 from math import radians, sin, cos, sqrt, atan2, degrees
 sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-sock.bind(("192.168.232.137",8080))
+sock.bind(("192.168.232.138",8080))
 class joystick:
     def __init__(self) -> None:
         self.__yaw=None
