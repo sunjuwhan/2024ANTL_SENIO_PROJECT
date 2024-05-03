@@ -4,7 +4,7 @@ from model.pilot_model import *
 from model.video_mode import *
 import threading
 import numpy as np
-import pyrealsense2 as rs
+import pyrealsense2.pyrealsense2 as rs
 class CameraController():
     def __init__(self,model:VideoModel,pilot_model:PilotModel) -> None:
         self.__model=model
