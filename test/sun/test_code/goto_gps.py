@@ -226,7 +226,6 @@ async def run():
 def run_socket():
     while True:
         data=sock.recv(1024).decode().split(' ')
-        print(data)
         joystick_model.set_joystick(data[0],data[1],data[2],data[3],data[4])
 if __name__ == "__main__":
     # Run the asyncio loop
