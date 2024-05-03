@@ -32,10 +32,10 @@ from drone_controller.drone_controller_information import *
 class class_Drone_Controller_Switch:
     def __init__(self, info):
         self.info = info
-        self.switch1_pin = 23  # BCM 핀 번호
+        self.switch1_pin = 27  # BCM 핀 번호
         self.switch2_pin = 17
-        self.switch3_pin = 12
-        self.switch4_pin = 16
+        self.switch3_pin = 16
+        self.switch4_pin = 26
 
         # GPIO 디바이스 초기화
         self.chip = gpiod.Chip('gpiochip4')  # 사용하는 GPIO 칩의 이름에 따라 변경할 수 있음
