@@ -10,17 +10,19 @@ import sys
 
 
 #HOST='165.229.185.195'
-server_port=65433
+server_port=8080
 HOST='192.168.50.71'
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind((HOST,server_port))
+sock.listen(1)
+client_sock,addr=sock.accept()
 
 HOST_2='192.168.232.137'
-PORT_2=8080
-sock_2=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+PORT_2=8000
 
+sock_2=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 while True:
-    data,addr=sock.recvfrom(100)
+    data,addr=client_sock.recvfrom(100)
     print(data)
     sock_2.sendto(data,(HOST_2,PORT_2))
