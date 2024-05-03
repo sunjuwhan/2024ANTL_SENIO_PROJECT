@@ -117,13 +117,13 @@ async def run():
             print("-- Global position estimate OK")
             break
         
-    #print("-- Arming")
-    #await drone.action.arm()
-    #await asyncio.sleep(5)
+    print("-- Arming")
+    await drone.action.arm()
+    await asyncio.sleep(5)
     print("--takeoff")
 
-    #await drone.action.takeoff()
-    #await asyncio.sleep(5)
+    await drone.action.takeoff()
+    await asyncio.sleep(5)
     #try:
     #    await drone.manual_control.set_manual_control_input(
     #    float(0), float(0), float(0.5), float(0)
