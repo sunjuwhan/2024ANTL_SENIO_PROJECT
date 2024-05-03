@@ -6,7 +6,7 @@ IP_DRONE="192.168.50.63"    #자기 자신 ip주소 즉 button 값들을 받아�
 PORT_DRONE=8080
 
 
-IP_CONTROLLER="192.168.50.47"   #컨트롤러 ip
+IP_CONTROLLER="192.168.50.237"   #컨트롤러 ip
 
 #IP_CONTROLLER="192.168.32.1"   #컨트롤러 ip
 #192.168.50.52
