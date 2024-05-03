@@ -15,7 +15,7 @@ from mavsdk.offboard import (OffboardError, PositionNedYaw)
 from threading import Thread
 from math import radians, sin, cos, sqrt, atan2, degrees
 sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-sock.bind(("192.168.232.138",8080))
+sock.bind(("192.168.232.138",8000))
 class joystick:
     def __init__(self) -> None:
         self.__yaw=None
@@ -226,7 +226,6 @@ async def run():
 def run_socket():
     while True:
         data=sock.recv(1024).decode().split(' ')
-        print(data)
         joystick_model.set_joystick(data[0],data[1],data[2],data[3],data[4])
 if __name__ == "__main__":
     # Run the asyncio loop
