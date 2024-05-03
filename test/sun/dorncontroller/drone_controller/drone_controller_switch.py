@@ -32,14 +32,14 @@ from drone_controller.drone_controller_information import *
 class class_Drone_Controller_Switch:
     def __init__(self, info):
         self.info = info
-        self.switch1_pin = 13  # GPIO 핀 번호
-        self.switch2_pin = 11
-        self.switch3_pin = 36
-        self.switch4_pin = 37
+        self.switch1_pin = 23  # BCM 핀 번호
+        self.switch2_pin = 17
+        self.switch3_pin = 12
+        self.switch4_pin = 16
 
         # GPIO 디바이스 초기화
         self.chip = gpiod.Chip('gpiochip4')  # 사용하는 GPIO 칩의 이름에 따라 변경할 수 있음
-        self.lines = [self.chip.get_line(pin) for pin in [self.switch1_pin, self.switch2_pin, self.switch3_pin, self.switch4_pin]]
+        self.lines = [self.chip.get_line(offset) for offset in [self.switch1_pin, self.switch2_pin, self.switch3_pin, self.switch4_pin]]
         for line in self.lines:
             line.request(consumer='drone_controller', type=gpiod.LINE_REQ_DIR_IN)
 
