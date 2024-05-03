@@ -38,7 +38,7 @@ class class_Drone_Controller_Switch:
         self.switch4_pin = 37
 
         # GPIO 디바이스 초기화
-        self.chip = gpiod.Chip('gpiochip0')  # 사용하는 GPIO 칩의 이름에 따라 변경할 수 있음
+        self.chip = gpiod.Chip('gpiochip4')  # 사용하는 GPIO 칩의 이름에 따라 변경할 수 있음
         self.lines = [self.chip.get_line(pin) for pin in [self.switch1_pin, self.switch2_pin, self.switch3_pin, self.switch4_pin]]
         for line in self.lines:
             line.request(consumer='drone_controller', type=gpiod.LINE_REQ_DIR_IN)
