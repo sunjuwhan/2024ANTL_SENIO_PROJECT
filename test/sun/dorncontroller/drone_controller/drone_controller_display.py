@@ -6,7 +6,6 @@ import threading
 import random
 import string
 from drone_controller.drone_controller_information import *
-
 class class_drone_controller_display_master:
     def __init__(self, info):
         self.dc_display = None
@@ -14,7 +13,6 @@ class class_drone_controller_display_master:
 
     def run_display(self):
         self.dc_display = class_drone_controller_display(self.info)
-        self.dc_display.start_display()
 
 class class_drone_controller_display:
     def __init__(self, info):
@@ -74,24 +72,19 @@ class class_drone_controller_display:
         self.update_gps()
         self.update_switches()
         self.update_joystick()
+        self.update_video()
         self.window.mainloop()
 
-    def start_display(self):
-        # Start the thread for updating video
-        self.video_thread = threading.Thread(target=self.update_video)
-        self.video_thread.daemon = True
-        self.video_thread.start()
 
     def update_video(self):
-        while True:
-            frame = self.info.frame
-            pil_image = Image.fromarray(frame)
-            resized_image = pil_image.resize((640, 480))  # 원하는 크기로 이미지 리사이즈
+        frame = self.info.frame
+        pil_image = Image.fromarray(frame)
 
-            # PIL 이미지를 PhotoImage로 변환
-            self.photo = ImageTk.PhotoImage(image=resized_image)
-            self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
-            self.window.after(50)  # Delay
+
+        # PIL 이미지를 PhotoImage로 변환
+        self.photo = ImageTk.PhotoImage(image=pil_image)
+        self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
+        self.window.after(50, self.update_video)
 
     def update_switches(self):
         for label in self.switch_labels:
@@ -148,6 +141,8 @@ class class_drone_controller_display:
                                 bg="#404040", fg="white", font=("Arial", 8))
         switch_label.pack(anchor="w", padx=(8, 0))
 
+
+
+
 if __name__ == "__main__":
-    dc_display = class_drone_controller_display_master(class_Drone_Controller_Information())
-    dc_display.run_display()
+    dc_display = class_drone_controller_display(class_Drone_Controller_Information())
