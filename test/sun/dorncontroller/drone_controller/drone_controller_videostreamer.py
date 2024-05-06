@@ -37,6 +37,12 @@ class class_Drone_Controller_VideoStreamer:
                 # 바이트 스트링을 numpy 배열로 변환하고 이미지로 디코딩
                 try:
                     frame = cv2.imdecode(np.frombuffer(picture, dtype=np.uint8), cv2.IMREAD_COLOR)
+
+# 이미지를 640x480 크기로 변환합니다.
+                    frame_resized = cv2.resize(frame, (640, 480))
+
+# 변환된 이미지를 화면에 표시합니다.
+                    cv2.imshow('Resized Image', frame_resized)
                     self.info.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 #self.info.frame = frame
                 # 프레임 표시 시간 계산
