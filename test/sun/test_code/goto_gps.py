@@ -161,6 +161,7 @@ async def run():
     flag_mode=None
     while True:
         try:
+            print("gps start")
             asyncio.ensure_future(get_gps(drone,gps_mode))
         except Exception as e:
             print(e)
