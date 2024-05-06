@@ -158,6 +158,7 @@ async def run():
     flag_mode=None
     while True:
         mode="gps"
+        print(mode)
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
         if mode=="manual":
             try:
