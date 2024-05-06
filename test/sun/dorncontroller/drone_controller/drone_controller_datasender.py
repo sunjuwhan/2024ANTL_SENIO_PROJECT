@@ -15,8 +15,8 @@ class class_drone_controller_datasender:
         self.target_port = PORT# port
         while True:
             try:
-                self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.socket.connect((self.target_ip, self.target_port))
+                #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                #self.socket.connect((self.target_ip, self.target_port))
                 break
             except:
                 continue
@@ -24,8 +24,8 @@ class class_drone_controller_datasender:
     def send_joystick_data(self, data):
         try:
             # 데이터를 직렬화하고 전송
-            self.socket.sendto(data.encode(),(self.target_ip,self.target_port))
-            self.info.arm_data=self.socket.recv(30).decode()  #다시 전달받아
+            #self.socket.sendto(data.encode(),(self.target_ip,self.target_port))
+            #self.info.arm_data=self.socket.recv(30).decode()  #다시 전달받아
             pass
         except Exception as e:
             print(f"Error sending joystick data: {e}")
