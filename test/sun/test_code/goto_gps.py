@@ -246,6 +246,6 @@ def run_socket():
         joystick_model.set_joystick(data[0],data[1],data[2],data[3],data[4])
 if __name__ == "__main__":
     # Run the asyncio loop
-    socket_trhead=Thread(target=run_socket)
-    socket_trhead.start()
+    #socket_trhead=Thread(target=run_socket)
+    #socket_trhead.start()
     asyncio.run(run())
