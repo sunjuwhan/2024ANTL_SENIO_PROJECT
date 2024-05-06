@@ -16,7 +16,7 @@ class Image_Manager:
         #self.frame = cv2.flip(self.frame, 0)
         #self.frame= cv2.flip(self.frame, 1)
 
-        #cv2_im_rgb = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)  주석 처리
+        cv2_im_rgb = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB) # 주석 처리
 
         cv2_im_rgb=self.frame
         pil_im = Image.fromarray(cv2_im_rgb)
