@@ -233,9 +233,7 @@ async def run():
                 except Exception as e:
                     pass
 async def get_gps(drone,drone_model:GpsModel):
-    print("start")
     async for position in drone.telemetry.position():
-        print(position)
         drone_model.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
                                     position.relative_altitude_m)  #relative
 def run_socket():
