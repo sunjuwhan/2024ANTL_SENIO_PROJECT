@@ -167,7 +167,6 @@ async def run():
     flag_mode=None
     while True:
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
-        mode="gps"
         if mode=="manual":
             try:
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
@@ -231,8 +230,7 @@ async def run():
             now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
             now_height=gps_mode.get_gps()[3]
             while True:
-                #gps_mod_now=joystick_model.get_joystick()[4]
-                gps_mod_now="gps"
+                gps_mod_now=joystick_model.get_joystick()[4]
                 if(gps_mod_now!="gps"):
                     break
                 try:
