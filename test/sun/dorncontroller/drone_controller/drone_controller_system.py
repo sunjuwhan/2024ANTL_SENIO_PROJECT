@@ -35,7 +35,7 @@ class class_Drone_Controller_System:
         thread_VideoStream.start()
         thread_dataSender.start()
         thread_switch.start()
-        #thread_display.start()
+        thread_display.start()
         #self.display=class_drone_controller_display(self.info)
 
     def print_system_log(self):
