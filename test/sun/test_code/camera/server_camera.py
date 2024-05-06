@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import time
 
-UDP_IP = "192.168.50.63"
+UDP_IP = "192.168.50.15"
 UDP_PORT = 9505
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
