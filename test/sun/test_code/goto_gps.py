@@ -227,7 +227,7 @@ async def run():
                 if(gps_mod_now!="gps"):
                     break
                 try:
-                    print(now_latitude,now_latitude)
+                    #print(now_latitude,now_latitude)
                     await drone.action.goto_location(now_latitude,now_longitude,now_height,0)
                     await asyncio.sleep(3)
                 except Exception as e:
