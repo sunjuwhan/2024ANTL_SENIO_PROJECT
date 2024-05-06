@@ -158,7 +158,7 @@ async def run():
     flag_mode=None
     while True:
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
-        #mode="gps"
+        mode="gps"
         if mode=="manual":
             try:
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
