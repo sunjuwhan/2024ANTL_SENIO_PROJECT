@@ -92,6 +92,7 @@ from math import radians, sin, cos, sqrt, atan2
 # print("x축으로 {:.2f} 미터, y축으로 {:.2f} 미터 이동해야 합니다.".format(x_distance, y_distance))
 joystick_model=joystick()
 async def get_gps(drone,drone_model:GpsModel) :
+    print("start")
     async for position in drone.telemetry.position():
         print(position.latitude_deg)
         drone_model.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
