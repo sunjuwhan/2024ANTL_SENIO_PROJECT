@@ -20,8 +20,8 @@ class class_Drone_Controller_VideoStreamer:
         frames = [b'' for _ in range(20)]
 
         while True:
-            size=0
             
+            size=0
             if self.info.now_mode=="manual":
                 size=5
             else:
@@ -34,12 +34,14 @@ class class_Drone_Controller_VideoStreamer:
                     picture += frames[i]  # 모든 프레임 데이터를 하나로 합침
 
                 # 바이트 스트링을 numpy 배열로 변환하고 이미지로 디코딩
-                frame = cv2.imdecode(np.frombuffer(picture, dtype=np.uint8), cv2.IMREAD_COLOR)
-                print(len(frame))
-                cv2.imshow("frame", frame)
-                self.info.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                try:
+                    frame = cv2.imdecode(np.frombuffer(picture, dtype=np.uint8), cv2.IMREAD_COLOR)
+                    cv2.imshow("frame", frame)
+                    self.info.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 #self.info.frame = frame
                 # 프레임 표시 시간 계산
+                except Exception as e:
+                    print(e)
 
                 # 'q' 키를 누르면 종료
                 if cv2.waitKey(1) & 0xFF == ord('q'):
