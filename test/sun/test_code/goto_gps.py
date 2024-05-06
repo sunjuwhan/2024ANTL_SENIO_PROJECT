@@ -115,6 +115,15 @@ async def run():
             print("-- Global position estimate OK")
             break
         
+        
+        
+    print("Fetching amsl altitude at home location....")
+    async for terrain_info in drone.telemetry.home():
+        absolute_altitude = terrain_info.absolute_altitude_m
+        break
+    
+    flying_alt = absolute_altitude + 20.0
+    
     print("-- Arming")
     await drone.action.arm()
     await asyncio.sleep(5)
@@ -227,8 +236,8 @@ async def run():
                 if(gps_mod_now!="gps"):
                     break
                 try:
-                    #print(now_latitude,now_latitude)
-                    await drone.action.goto_location(now_latitude,now_longitude,now_height,0)
+                    print(now_latitude,now_latitude)
+                    await drone.action.goto_location(now_latitude,now_longitude,flying_alt,0)
                     await asyncio.sleep(3)
                 except Exception as e:
                     pass
