@@ -160,8 +160,10 @@ async def run():
     # #여기까지 움직였다고 치고
     flag_mode=None
     while True:
-        
-        asyncio.ensure_future(get_gps(drone,gps_mode))
+        try:
+            asyncio.ensure_future(get_gps(drone,gps_mode))
+        except Exception as e:
+            print(e)
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
         mode="gps"
         if mode=="manual":
