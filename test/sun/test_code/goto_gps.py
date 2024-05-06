@@ -122,7 +122,7 @@ async def run():
         absolute_altitude = terrain_info.absolute_altitude_m
         break
     
-    flying_alt = absolute_altitude + 20.0
+    flying_alt = absolute_altitude + 5.0
     
     print("-- Arming")
     await drone.action.arm()
