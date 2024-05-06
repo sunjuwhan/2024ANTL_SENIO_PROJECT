@@ -167,11 +167,11 @@ async def run():
     flag_mode=None
     while True:
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
+        print(yaw,throttle,roll,pitch,mode)
         if mode=="manual":
             try:
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
             except Exception as e:
-                
                 await drone.manual_control.set_manual_control_input(0.0,0.0,0.5,0.0)
                 print(e)
         elif mode=="arm":
