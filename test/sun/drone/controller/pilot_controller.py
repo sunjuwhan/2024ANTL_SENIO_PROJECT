@@ -82,28 +82,27 @@ class PilotController:
                 now_latitude =self.__gps_model.get_gps()[0]
                 now_longitude=self.__gps_model.get_gps()[1]
                 now_height=self.__gps_model.get_gps()[3]
-                try:
-                    await self.__drone.get_drone().offboard.set_position_ned(PositionNedYaw(0.0,0.0,0.0,0.0))  #setting 하는 곳 
-                    await self.__drone.get_drone().offboard.start() #순서 바꿔봤음
-                except OffboardError as error:
-                    print(f"Starting offboard mode failed \
-                    with error code: {error._result.result}")
-                    await self.__drone.get_drone().action.land()
-                y=0
-                x=0
+                # try:
+                #     await self.__drone.get_drone().offboard.set_position_ned(PositionNedYaw(0.0,0.0,0.0,0.0))  #setting 하는 곳 
+                #     await self.__drone.get_drone().offboard.start() #순서 바꿔봤음
+                # except OffboardError as error:
+                #     print(f"Starting offboard mode failed \
+                #     with error code: {error._result.result}")
+                #     await self.__drone.get_drone().action.land()
+                #y=0
+                #x=0
                 while True:
                     (a,chk_now_mode)=self.__pilot_model.get_data()
                     if(chk_now_mode!="gps"):
-                        try:
-                            await self.__drone.get_drone().offboard.stop()
-                            await asyncio.sleep(1)
-                            print("Success stop offboard")
-                        except Exception as e:
-                            print(e)
-                    await self.__drone.get_drone().offboard.set_position_ned(PositionNedYaw
-                        (self.__gps_model.get_direction(self.__gps_model.get_gps()[0],self.__gps_model.get_gps()[1],now_latitude,now_longitude)[1], 
-                        self.__gps_model.get_direction(self.__gps_model.get_gps()[0],self.__gps_model.get_gps()[1],now_latitude,now_longitude)[0], -5.0,0.0)) 
-                    #높이는 -5로 고정하고 
-                    await asyncio.sleep(5)
-                    x,y=self.__gps_model.get_direction(self.__gps_model.get_gps()[0],self.__gps_model.get_gps()[1],now_latitude,now_longitude)
-                    print(f"x 축으로 {x}  만큼 y축으로 {y} 만큼 움직여야합니다.")
+                        #try:
+                        #    await self.__drone.get_drone().offboard.stop()
+                        #    await asyncio.sleep(1)
+                        #    print("Success stop offboard")
+                        #except Exception as e:
+                        #    print(e)
+                        break 
+                    try:
+                        await self.__drone.get_drone().action.goto_location(now_latitude,now_longitude,0.0,0)
+                        await asyncio.sleep(3)
+                    except Exception as e:
+                        print(e)

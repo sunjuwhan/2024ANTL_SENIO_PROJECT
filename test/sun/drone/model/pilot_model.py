@@ -5,6 +5,7 @@ from mavsdk import System
 class Drone:
     def __init__(self) -> None:
         self.antl_drone = None
+        self.flying_alt=None
     async def make_drone(self):
         self.antl_drone=System()
         print("wating connect drone")
@@ -29,7 +30,11 @@ class Drone:
             
         except Exception as e:
             print(e)
-            
+        print("Fetching amsl altitude at home location....")
+        async for terrain_info in self.antl_drone.telemetry.home():
+            absolute_altitude = terrain_info.absolute_altitude_m
+            break
+        self.flying_alt=absolute_altitude+3.0
         #print("-- Arming")
         #await self.antl_drone.action.arm()
         #await asyncio.sleep(1)
