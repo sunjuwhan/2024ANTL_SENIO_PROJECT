@@ -30,11 +30,11 @@ class class_Drone_Controller_System:
         thread_switch=Thread(target=self.switch.runSwitch)
         #thread_display = Thread(target=self.display.run_display)
 
-        thread_Joystick_Left.start()
-        thread_Joystick_Right.start()
+        #thread_Joystick_Left.start()
+        #thread_Joystick_Right.start()
         thread_VideoStream.start()
         thread_dataSender.start()
-        thread_switch.start()
+        #thread_switch.start()
         #thread_display.start()
         #self.display=class_drone_controller_display(self.info)
 
