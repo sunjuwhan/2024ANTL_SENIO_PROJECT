@@ -157,6 +157,7 @@ async def run():
     # #여기까지 움직였다고 치고
     flag_mode=None
     while True:
+        mode="gps"
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
         if mode=="manual":
             try:
