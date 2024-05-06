@@ -6,6 +6,8 @@ import threading
 import random
 import string
 from drone_controller.drone_controller_information import *
+
+
 class class_drone_controller_display_master:
     def __init__(self, info):
         self.dc_display = None
@@ -13,6 +15,7 @@ class class_drone_controller_display_master:
 
     def run_display(self):
         self.dc_display = class_drone_controller_display(self.info)
+
 
 class class_drone_controller_display:
     def __init__(self, info):
@@ -75,7 +78,6 @@ class class_drone_controller_display:
         self.update_video()
         self.window.mainloop()
 
-
     def update_video(self):
         frame = self.info.frame
         pil_image = Image.fromarray(frame)
@@ -87,17 +89,9 @@ class class_drone_controller_display:
         self.window.after(50, self.update_video)
 
     def update_switches(self):
-        for label in self.switch_labels:
-            label.destroy()
-
-        self.switch_labels = []
         for i in range(1, 5):  # 1부터 4까지 반복
             switch_value = getattr(self.info, f'switch{i}')  # self.info.switch1, self.info.switch2 등을 가져옴
-            switch_label = tk.Label(self.switch_frame, text=f"Switch {i}: {switch_value}",
-                                    anchor="w", bg="#404040", fg="white", font=("Arial", 8))  # White text color
-            switch_label.pack(anchor="w", padx=8)
-            self.switch_labels.append(switch_label)
-        self.window.after(500, self.update_switches)
+            self.switch_labels[i-1].config(text=f"Switch {i}: {switch_value}")
 
     def update_gps(self):
         latitude_text = f"Latitude: {self.info.drone_latitude:.5f}"
@@ -125,8 +119,8 @@ class class_drone_controller_display:
         self.window.after(300, self.update_joystick)
 
     def update_joystick_labels(self, frame, name, values):
-        for label in frame.winfo_children():
-            label.destroy()
+        for widget in frame.winfo_children():
+            widget.destroy()
 
         joystick_label = tk.Label(frame, text=name, anchor="w", bg="#404040", fg="white", font=("Arial bold", 10))
         joystick_label.pack(anchor="w")
@@ -140,8 +134,6 @@ class class_drone_controller_display:
         switch_label = tk.Label(frame, text=f"switch: {'ON' if values['switch'] else 'OFF'}", anchor="w",
                                 bg="#404040", fg="white", font=("Arial", 8))
         switch_label.pack(anchor="w", padx=(8, 0))
-
-
 
 
 if __name__ == "__main__":
