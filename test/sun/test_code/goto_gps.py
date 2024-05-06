@@ -222,7 +222,8 @@ async def run():
             now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
             now_height=gps_mode.get_gps()[3]
             while True:
-                gps_mod_now=joystick_model.get_joystick()[4]
+                #gps_mod_now=joystick_model.get_joystick()[4]
+                gps_mod_now="gps"
                 if(gps_mod_now!="gps"):
                     break
                 try:
