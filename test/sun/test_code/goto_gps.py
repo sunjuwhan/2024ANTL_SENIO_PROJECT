@@ -167,7 +167,6 @@ async def run():
     flag_mode=None
     while True:
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
-        print(yaw,throttle,roll,pitch,mode)
         if mode=="manual":
             try:
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
@@ -249,6 +248,6 @@ def run_socket():
         joystick_model.set_joystick(data[0],data[1],data[2],data[3],data[4])
 if __name__ == "__main__":
     # Run the asyncio loop
-    #socket_trhead=Thread(target=run_socket)
-    #socket_trhead.start()
+    socket_trhead=Thread(target=run_socket)
+    socket_trhead.start()
     asyncio.run(run())
