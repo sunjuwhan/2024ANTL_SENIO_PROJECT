@@ -144,6 +144,11 @@ async def run():
     #    print("-- Disarming")
     #    await drone.action.disarm()
     #    return
+    try:
+        print("gps start")
+        asyncio.ensure_future(get_gps(drone,gps_mode))
+    except Exception as e:
+        print(e)
 
 
     #asyncio.ensure_future(get_gps(drone,gps_mode))
@@ -160,13 +165,8 @@ async def run():
     # #여기까지 움직였다고 치고
     flag_mode=None
     while True:
-        try:
-            print("gps start")
-            asyncio.ensure_future(get_gps(drone,gps_mode))
-        except Exception as e:
-            print(e)
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
-        mode="gps"
+        #mode="gps"
         if mode=="manual":
             try:
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
