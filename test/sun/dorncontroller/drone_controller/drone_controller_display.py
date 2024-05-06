@@ -3,8 +3,8 @@ import cv2
 import tkinter as tk
 from PIL import Image, ImageTk
 import threading
-import random
-import string
+
+import time
 from drone_controller.drone_controller_information import *
 class class_drone_controller_display_master:
     def __init__(self, info):
@@ -20,7 +20,10 @@ class class_drone_controller_display:
         self.window = tk.Tk()
         self.window.title("Flight Controller Display")
         self.window.geometry("800x480")  # Set window size to 800x480
-
+        # 새로운 스레드를 생성하여 update_video 메서드를 실행합니다.
+        self.video_thread = threading.Thread(target=self.update_video_thread)
+        self.video_thread.daemon = True  # 데몬 스레드로 설정하여 메인 스레드 종료 시 함께 종료됩니다.
+        self.video_thread.start()
         # Load an example image initially
         self.info.frame = cv2.imread('/home/pi/2024ANTL_SENIO_PROJECT/img/2024_ANTL_Drone.png')
 
@@ -75,6 +78,11 @@ class class_drone_controller_display:
         self.update_video()
         self.window.mainloop()
 
+    def update_video_thread(self):
+        while True:
+            # update_video 메서드를 호출합니다.
+            self.update_video()
+            time.sleep(0.1)  # 0.1초마다 호출하도록 설정합니다.
 
     def update_video(self):
         frame = self.info.frame
