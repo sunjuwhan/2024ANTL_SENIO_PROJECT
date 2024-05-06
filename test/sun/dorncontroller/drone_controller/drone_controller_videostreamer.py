@@ -39,7 +39,7 @@ class class_Drone_Controller_VideoStreamer:
                     frame = cv2.imdecode(np.frombuffer(picture, dtype=np.uint8), cv2.IMREAD_COLOR)
 
 # 이미지를 640x480 크기로 변환합니다.
-                    #frame_resized = cv2.resize(frame, (640, 480))
+                    frame_resized = cv2.resize(frame, (640, 480))
 
 # 변환된 이미지를 화면에 표시합니다.
                     #cv2.imshow('Resized Image', frame_resized)
