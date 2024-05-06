@@ -30,7 +30,6 @@ class class_Drone_Controller_VideoStreamer:
             self.info.now_mode="manual"
             data, addr = self.socket.recvfrom(46081)  # 각 패킷은 46081바이트
             frames[data[0]] = data[1:46081]  # 수신된 프레임 데이터 저장
-            print(data[0], size)
             if data[0] == size-1:  # 모든 패킷을 다 받았을 때
                 for i in range(size):
                     picture += frames[i]  # 모든 프레임 데이터를 하나로 합침
@@ -38,7 +37,6 @@ class class_Drone_Controller_VideoStreamer:
                 # 바이트 스트링을 numpy 배열로 변환하고 이미지로 디코딩
                 try:
                     frame = cv2.imdecode(np.frombuffer(picture, dtype=np.uint8), cv2.IMREAD_COLOR)
-                    cv2.imshow("frame", frame)
                     self.info.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 #self.info.frame = frame
                 # 프레임 표시 시간 계산
