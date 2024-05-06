@@ -27,7 +27,6 @@ class class_Drone_Controller_VideoStreamer:
             else:
                 size=20
             picture = b''
-            self.info.now_mode="manual"
             data, addr = self.socket.recvfrom(46081)  # 각 패킷은 46081바이트
             frames[data[0]] = data[1:46081]  # 수신된 프레임 데이터 저장
             if data[0] == size-1:  # 모든 패킷을 다 받았을 때

@@ -33,6 +33,7 @@ class class_drone_controller_datasender:
     def run_data_sender(self):
         while True:
             mode=""
+            self.info.arm_data="arm"
             if self.info.switch1==1:  #내가 시동을 걸었어
                 if self.info.arm_data=="off":
                     mode="arm"
