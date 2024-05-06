@@ -4,7 +4,7 @@ import time
 import numpy as np
 from picamera2 import Picamera2
 UDP_IP = "192.168.50.15"
-UDP_PORT = 9505
+UDP_PORT = 8005
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
