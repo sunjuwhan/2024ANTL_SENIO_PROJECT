@@ -1,6 +1,5 @@
 import spidev
 import time
-from drone_controller.drone_controller_information import *
 
 
 class class_Drone_Controller_Joystick:
