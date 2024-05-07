@@ -1,35 +1,31 @@
 import spidev
 import time
+from drone_controller.drone_controller_information import *
 
-# SPI 장치 설정
-spi = spidev.SpiDev()
-spi.open(0, 0)  # SPI 포트 0, 장치 0에 연결된 MCP3008에 연결된 경우
 
-# MCP3008을 사용하여 아날로그 값을 디지털로 읽는 함수
-def read_adc(channel):
-    # MCP3008은 0 ~ 7 사이의 채널을 가지고 있음
-    if channel > 7 or channel < 0:
-        return -1
-    # SPI 데이터 전송
-    adc = spi.xfer2([1, (8 + channel) << 4, 0])
-    # 디지털 값을 계산하여 반환
-    data = ((adc[1] & 3) << 8) + adc[2]
-    return data
+class class_Drone_Controller_Joystick:
+    def __init__(self):
+        self.spi = spidev.SpiDev()
+        self.spi.open(0, 0)
+        self.spi.max_speed_hz = 1000000
+        self.x_channel = 1
+        self.y_channel = 2
+        self.switch_channel = 0
 
-try:
+
+    def read_channel(self, channel):
+        adc = self.spi.xfer2([1, (8 + channel) << 4, 0])
+        data = ((adc[1] & 3) << 8) + adc[2]
+        return data
+
+
+    def read_position(self):
+        x_pos = self.read_channel(self.x_channel)
+        y_pos = self.read_channel(self.y_channel)
+        switch_val = self.read_channel(self.switch_channel)
+        print("x: {}, y: {}, sw:{}".format(x_pos,y_pos,switch_val))
+
+if __name__=="__main__":
+    dc_joystick = class_Drone_Controller_Joystick()
     while True:
-        # X 및 Y 축의 아날로그 값을 읽음
-        x_value = read_adc(0)
-        y_value = read_adc(1)
-
-        # 값을 출력하거나 다른 작업 수행
-        print("X 값:", x_value)
-        print("Y 값:", y_value)
-
-        # 작업 간 딜레이
-        time.sleep(0.1)
-
-except KeyboardInterrupt:
-    print("프로그램 종료")
-finally:
-    spi.close()  # SPI 연결 종료
+        dc_joystick.read_channel()
