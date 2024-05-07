@@ -27,4 +27,4 @@ class class_Drone_Controller_Joystick:
 if __name__=="__main__":
     dc_joystick = class_Drone_Controller_Joystick()
     while True:
-        dc_joystick.read_channel()
+        dc_joystick.read_position()
