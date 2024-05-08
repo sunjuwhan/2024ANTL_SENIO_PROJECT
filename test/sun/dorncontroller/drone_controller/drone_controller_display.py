@@ -23,9 +23,9 @@ class class_drone_controller_display:
         self.window.title("Flight Controller Display")
         self.window.geometry("800x480")  # Set window size to 800x480
         # 새로운 스레드를 생성하여 update_video 메서드를 실행합니다.
-        self.video_thread = threading.Thread(target=self.update_video_thread)
-        self.video_thread.daemon = True  # 데몬 스레드로 설정하여 메인 스레드 종료 시 함께 종료됩니다.
-        self.video_thread.start()
+        #self.video_thread = threading.Thread(target=self.update_video_thread)
+        #self.video_thread.daemon = True  # 데몬 스레드로 설정하여 메인 스레드 종료 시 함께 종료됩니다.
+        #self.video_thread.start()
         # Load an example image initially
         self.info.frame = cv2.imread('/home/pi/2024ANTL_SENIO_PROJECT/img/2024_ANTL_Drone.png')
 
