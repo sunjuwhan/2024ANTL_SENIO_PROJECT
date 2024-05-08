@@ -14,12 +14,13 @@ class class_drone_controller_display_master:
 
     def run_display(self):
         self.dc_display = class_drone_controller_display(self.info)
-        self.info.display = self.dc_display
+
 
 
 class class_drone_controller_display:
     def __init__(self, info):
         self.info = info
+        self.info.display = self
         self.window = tk.Tk()
         self.window.title("Flight Controller Display")
         self.window.geometry("800x480")  # Set window size to 800x480
@@ -90,7 +91,6 @@ class class_drone_controller_display:
     def update_video(self, frame):
         #frame = self.info.frame
         pil_image = Image.fromarray(frame)
-
 
         # PIL 이미지를 PhotoImage로 변환
         self.photo = ImageTk.PhotoImage(image=pil_image)
