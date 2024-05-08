@@ -18,7 +18,6 @@ class class_Drone_Controller_VideoStreamer:
         return np.vstack(slices)
     def receive_video(self):
         frames = [b'' for _ in range(20)]
-        print("recvec")
         while True:
             
             size=0
@@ -27,7 +26,7 @@ class class_Drone_Controller_VideoStreamer:
             else:
                 size=20
             picture = b''
-            self.info.now_mode="manual"
+            #self.info.now_mode="manual"
             data, addr = self.socket.recvfrom(46081)  # 각 패킷은 46081바이트
             frames[data[0]] = data[1:46081]  # 수신된 프레임 데이터 저장
             if data[0] == size-1:  # 모든 패킷을 다 받았을 때
@@ -39,12 +38,12 @@ class class_Drone_Controller_VideoStreamer:
                     frame = cv2.imdecode(np.frombuffer(picture, dtype=np.uint8), cv2.IMREAD_COLOR)
 
 # 이미지를 640x480 크기로 변환합니다.
-                    frame_resized = cv2.resize(frame, (640, 480))
-
+                    if self.info.now_mode=="manual":
+                        frame= cv2.resize(frame, (640, 480))
 # 변환된 이미지를 화면에 표시합니다.
                     #cv2.imshow('Resized Image', frame_resized)
                     #self.info.frame = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2RGB)
-                    self.info.display.dc_display.update_video(frame_resized)
+                    self.info.display.dc_display.update_video(frame)
                 #self.info.frame = frame
                 # 프레임 표시 시간 계산
                 except Exception as e:
