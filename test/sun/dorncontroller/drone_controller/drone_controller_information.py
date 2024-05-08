@@ -24,3 +24,4 @@ class class_Drone_Controller_Information:
         self.drone_latitude = 35.830622286686854
         self.drone_longitude = 128.7544099722211
         self.now_mode="manual"
+        self.display = None

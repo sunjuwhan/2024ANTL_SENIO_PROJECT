@@ -10,9 +10,11 @@ class class_drone_controller_display_master:
     def __init__(self, info):
         self.dc_display = None
         self.info = info
+        self.info.display = self
 
     def run_display(self):
         self.dc_display = class_drone_controller_display(self.info)
+
 
 class class_drone_controller_display:
     def __init__(self, info):
@@ -75,24 +77,24 @@ class class_drone_controller_display:
         self.update_gps()
         self.update_switches()
         self.update_joystick()
-        self.update_video()
+        #self.update_video()
         self.window.mainloop()
 
-    def update_video_thread(self):
-        while True:
-            # update_video 메서드를 호출합니다.
-            self.update_video()
-            time.sleep(0.1)  # 0.1초마다 호출하도록 설정합니다.
+    #def update_video_thread(self):
+    #    while True:
+    #        # update_video 메서드를 호출합니다.
+    #        self.update_video()
+    #        time.sleep(0.1)  # 0.1초마다 호출하도록 설정합니다.
 
-    def update_video(self):
-        frame = self.info.frame
+    def update_video(self, frame):
+        #frame = self.info.frame
         pil_image = Image.fromarray(frame)
 
 
         # PIL 이미지를 PhotoImage로 변환
         self.photo = ImageTk.PhotoImage(image=pil_image)
         self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
-        self.window.after(10, self.update_video)
+        #self.window.after(10, self.update_video)
 
     def update_switches(self):
         for label in self.switch_labels:
