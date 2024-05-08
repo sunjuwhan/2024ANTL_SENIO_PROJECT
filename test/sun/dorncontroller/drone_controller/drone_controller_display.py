@@ -10,10 +10,11 @@ class class_drone_controller_display_master:
     def __init__(self, info):
         self.dc_display = None
         self.info = info
-        self.info.display = self
+
 
     def run_display(self):
         self.dc_display = class_drone_controller_display(self.info)
+        self.info.display = self.dc_display
 
 
 class class_drone_controller_display:

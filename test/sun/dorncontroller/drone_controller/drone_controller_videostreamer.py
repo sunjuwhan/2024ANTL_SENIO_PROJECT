@@ -43,7 +43,7 @@ class class_Drone_Controller_VideoStreamer:
 # 변환된 이미지를 화면에 표시합니다.
                     #cv2.imshow('Resized Image', frame_resized)
                     #self.info.frame = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2RGB)
-                    self.info.display.dc_display.update_video(frame)
+                    self.info.display.update_video(frame)
                 #self.info.frame = frame
                 # 프레임 표시 시간 계산
                 except Exception as e:
