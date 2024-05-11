@@ -11,7 +11,7 @@ COMPUTER_IP="192.168.50.71"
 class class_drone_controller_datasender:
     def __init__(self, info:class_Drone_Controller_Information):
         self.info = info
-        self.target_ip = AP_IP# 드론 IP 주소   ap 192.168.32.3    drone 192.168.50.63
+        self.target_ip = DRONE_IP# 드론 IP 주소   ap 192.168.32.3    drone 192.168.50.63
         self.target_port = PORT# port
         while True:
             try:
@@ -28,8 +28,8 @@ class class_drone_controller_datasender:
             recv_data=self.socket.recv(100).decode().split(' ')
             #self.info.arm_data=self.socket.recv(100).decode()  #다시 전달받아
             self.info.arm_data=recv_data[0]
-            self.info.drone_latitude=recv_data[1]
-            self.info.drone_longitude=recv_data[2]
+            self.info.drone_latitude=float(recv_data[1])
+            self.info.drone_longitude=float(recv_data[2])
             
         except Exception as e:
             print(f"Error sending joystick data: {e}")
