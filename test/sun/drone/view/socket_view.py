@@ -62,7 +62,6 @@ class SocketView():
                     latitude=str(self.__gps_model.get_gps()[0])
                     longitude=str(self.__gps_model.get_gps()[1])
                     mode_gps=self.__pilot_mode.get_drone_state()+' '+latitude+' '+longitude
-                    print(mode_gps)
                     #여기서는 이제 사진 출력에 해당하는 결과 까지 다 담아서 보내야지 
                     self.__client_socket.send(mode_gps.encode())
                 except Exception as e:
