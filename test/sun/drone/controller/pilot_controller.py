@@ -29,7 +29,7 @@ class PilotController:
             (key,mode)=self.__pilot_model.get_data()
             (yaw,throttle,roll,pitch)=key.get_key()
             #print(mode,"  ",yaw,throttle,roll,pitch)
-            #asyncio.ensure_future(self.get_gps())
+            asyncio.ensure_future(self.get_gps())
             if (mode=="arm"):
                 try:
                     if self.flag_arm!="arm":

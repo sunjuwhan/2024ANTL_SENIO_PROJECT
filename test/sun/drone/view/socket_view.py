@@ -5,25 +5,25 @@ from threading import *
 from model.pilot_model import *
 from model.video_mode import *
 from view.constant import *
+from model.gps_model import *
 import socket
 import time
 import cv2
 from picamera2 import Picamera2
 class SocketView():
-    def __init__(self,model:PilotModel,video:VideoModel) -> None:
+    def __init__(self,model:PilotModel,video:VideoModel,gps:GpsModel) -> None:
         self.video_socket=None
         self.pilot_socket=None
         self.__pilot_mode=model
         self.__video_model=video
         self.__client_socket=None 
+        self.__gps_model=gps
     def make_socket(self):
         self.video_socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        #self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.pilot_socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         try:
             self.pilot_socket.bind((IP_DRONE,PORT_DRONE))   #여기는 내가 받아야하니까 내 주소 drone주소
             self.pilot_socket.listen(1)
-            #self.pilot_socket.listen(1)
             self.__client_socket,clien_address=self.pilot_socket.accept()
             print("make_socket end")
         except Exception as e:
@@ -36,20 +36,17 @@ class SocketView():
                 frame=self.__video_model.get_send_frame()  #46081
                 now_mode=self.__pilot_mode.get_data()[1]
                 size_of_send=0
+
                 if now_mode=="gps":
                     size_of_send=20
                 else:
                     size_of_send=5
-                    
                 _, encoded_frame=cv2.imencode('.jpg',frame)
                 s=encoded_frame.tobytes()
                 for i in range(size_of_send):
                     self.video_socket.sendto(bytes([i]) +s[i*46080:(i+1) *46080], (IP_CONTROLLER, PORT_CONTROLLER))
-
             except Exception as e:
                 print(e)
-            
-        
             
     def __data_recv(self):
         while True:
@@ -62,16 +59,22 @@ class SocketView():
                 #data 를 interface인 pilot_mode에다가 저장해주고
                 self.__pilot_mode.set_data(key_data,mode_data) 
                 try:
-                    data=self.__pilot_mode.get_drone_state()
-                    data="arm"
+                    if mode_data=="manual":
+                        data="m"
+                        data=data+" "+self.__pilot_mode.get_drone_state()
+                        latitude=self.__gps_model.get_gps()[0]
+                        longitude=self.__gps_model.get_gps()[1]
+                        data=data+' '+latitude+' '+longitude
+                    elif mode_data=="gps":
+                        data="g"
+                        data=data+" "
+                        #여기서는 이제 사진 출력에 해당하는 결과 까지 다 담아서 보내야지 
                     self.__client_socket.send(data.encode())
                 except Exception as e:
-                    #print(e)
-                    pass
+                    print(e)
             except Exception as e:
-                #print("receve dead")
-                #print(e)
-                pass
+                print("receve dead")
+                print(e)
             
     def run(self):
         try:

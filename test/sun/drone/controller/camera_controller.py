@@ -5,6 +5,7 @@ from model.video_mode import *
 import threading
 import numpy as np
 import pyrealsense2.pyrealsense2 as rs
+
 class CameraController():
     def __init__(self,model:VideoModel,pilot_model:PilotModel) -> None:
         self.__model=model
@@ -20,10 +21,9 @@ class CameraController():
         pipeline_profile = self.config.resolve(pipeline_wrapper)
         device = pipeline_profile.get_device()
         device_product_line = str(device.get_info(rs.camera_info.product_line))
-
-        # RGB & Depth
-        #self.config.enable_stream(rs.stream.depth, 320, 240, rs.format.z16, 30)
+        #bgr
         self.config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+
     def run_fpv_cam(self):
         self.__picam2.start()  #picamera 시작한다.
         while True:
@@ -37,7 +37,6 @@ class CameraController():
             self.__model.set_send_frame(frame)  #보내야할 찐도베이 frame이고
                 
     def run_object_cam(self):
-        
         raw_frame=None
         self.pipeline.start(self.config)
         while True:
@@ -60,7 +59,7 @@ class CameraController():
             recv_mode="manual"
             if self.__now_mode=="gps" and recv_mode=="manual":
                 self.__model.set_end_flag(True)
-                time.sleep(1)
+                time.sleep(0.3)
                 self.__now_mode="manual"
                 self.__model.now_mode="manual"
                 thread_fpv=threading.Thread(target=self.run_fpv_cam)
@@ -68,12 +67,10 @@ class CameraController():
                 thread_fpv.start()
             elif self.__now_mode=="manual" and recv_mode=="gps":
                 self.__model.set_end_flag(True)
-                time.sleep(1)
+                time.sleep(0.3)
                 print("swap camera") 
                 self.__now_mode="gps"
                 self.__model.now_mode="gps"
                 thread_gps=threading.Thread(target=self.run_object_cam)
                 self.__model.set_end_flag(False)
                 thread_gps.start()
-                
-  

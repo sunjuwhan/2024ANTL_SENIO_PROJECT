@@ -11,7 +11,7 @@ class Main():
         self.__camera_model=model.VideoModel()
         self.__gps_model=model.GpsModel()
         self.__controller=controller.MasterController(self.__pilot_model,self.__camera_model,self.__gps_model)
-        self.__view= view.SocketView(self.__pilot_model,self.__camera_model)
+        self.__view= view.SocketView(self.__pilot_model,self.__camera_model,self.__gps_model)
         self.__object=controller.ObjectController(self.__camera_model)
     def run(self):
         print("run object Detecter ")

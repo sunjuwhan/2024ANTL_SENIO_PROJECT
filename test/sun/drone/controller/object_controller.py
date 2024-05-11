@@ -29,9 +29,7 @@ class ObjectController:
         #반복되는 핵심 와일문
         time.sleep(7)        
         while True:
-            # 일시정지 상태
-            if self.__video_model.now_mode=="manual":
-                #print("stop")
+            if self.__video_model.now_mode=="manual":  #manual 모드이면 일시정지 해주고
                 continue
 
             start_time = time.time()            
