@@ -64,4 +64,5 @@ class class_drone_controller_datasender:
             self.info.now_mode=mode
             self.info.joystick_data=joystick_data
             # 조이스틱 값 TCP 전송
+            print(joystick_data)
             self.send_joystick_data(joystick_data)

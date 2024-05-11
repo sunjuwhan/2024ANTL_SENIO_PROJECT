@@ -22,6 +22,7 @@ class Drone:
             if health.is_global_position_ok and health.is_home_position_ok:
                 print("-- Global position state is good enough for flying.")
                 break
+            
         try:
             await self.antl_drone.manual_control.set_manual_control_input
             (float(0), float(0), float(0.5), float(0))
@@ -55,13 +56,11 @@ class Key:#
         self.__pitch = 0
         self.__roll = 0
     ##set
-
     def set_key(self,yaw,throttle,pitch,roll):
         self.__yaw=yaw
         self.__throttle=throttle
         self.__pitch=pitch
         self.__roll=roll
-
     ##get
     def get_key(self):
         return (self.__yaw,self.__throttle,self.__roll,self.__pitch)
