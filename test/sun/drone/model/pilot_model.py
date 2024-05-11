@@ -35,6 +35,8 @@ class Drone:
             absolute_altitude = terrain_info.absolute_altitude_m
             break
         self.flying_alt=absolute_altitude+1.0
+        print('======================self.flying alt')
+        print(self.flying_alt)
         #print("-- Arming")
         #await self.antl_drone.action.arm()
         #await asyncio.sleep(1)

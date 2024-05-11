@@ -19,12 +19,9 @@ class PilotController:
     def __recv_data(self,key,mode): #master 부터 recv해서 드론 컨트롤 하는 부분 
         self.__pilot_model.set_data(key,mode)
     async def get_gps(self) :
-        print("start gps gps gps gps gps gps gpspgpspgpsspgsp") 
         async for position in self.__drone.get_drone().telemetry.position():
             self.__gps_model.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
                                      position.relative_altitude_m)
-            print("+======================",end=" ")
-            print(position.latitude_deg,"   ",position.longitude_deg)
     async def run(self):
         time.sleep(3)
         while True:
