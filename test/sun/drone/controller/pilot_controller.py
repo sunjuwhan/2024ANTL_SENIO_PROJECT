@@ -34,7 +34,7 @@ class PilotController:
                     if self.flag_arm!="arm":
                         print("-- Arming")
                         await self.__drone.get_drone().action.arm()
-                        await asyncio.sleep(3)
+                        await asyncio.sleep(5)
                         self.__pilot_model.set_drone_state("arm")
                         print("-- success Arming") 
                         self.flag_arm="arm"
