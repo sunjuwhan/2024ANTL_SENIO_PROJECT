@@ -58,18 +58,15 @@ class SocketView():
                 mode_data=data[4]
                 #data 를 interface인 pilot_mode에다가 저장해주고
                 self.__pilot_mode.set_data(key_data,mode_data) 
+                
+                
+                
                 try:
-                    if mode_data=="manual":
-                        data="m"
-                        data=data+" "+self.__pilot_mode.get_drone_state()
-                        latitude=self.__gps_model.get_gps()[0]
-                        longitude=self.__gps_model.get_gps()[1]
-                        data=data+' '+latitude+' '+longitude
-                    elif mode_data=="gps":
-                        data="g"
-                        data=data+" "
-                        #여기서는 이제 사진 출력에 해당하는 결과 까지 다 담아서 보내야지 
-                    self.__client_socket.send(data.encode())
+                    latitude=self.__gps_model.get_gps()[0]
+                    longitude=self.__gps_model.get_gps()[1]
+                    mode_gps=self.__pilot_mode.get_drone_state()+' '+latitude+' '+longitude
+                    #여기서는 이제 사진 출력에 해당하는 결과 까지 다 담아서 보내야지 
+                    self.__client_socket.send(mode_gps.encode())
                 except Exception as e:
                     print(e)
             except Exception as e:

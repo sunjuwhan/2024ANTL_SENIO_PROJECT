@@ -71,8 +71,25 @@ class PilotController:
             #        print(e)
             elif (mode=="manual"):
                 try:
-                    if throttle==1.0:
-                       throttle=0.8 
+                    if(throttle>0.7):
+                        throttle=0.7
+                        
+                        
+                    if(pitch>0.5):
+                        pitch=0.5
+                    elif pitch<-0.5:
+                        pitch=-0.5
+                   
+                    if yaw>0.5:
+                        yaw=0.5
+                    elif yaw<-0.5:
+                        yaw=-0.5
+                        
+                    if roll >0.5:
+                        roll=0.5
+                    elif roll<-0.5:
+                        roll=-0.5 
+                    
                     await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
                 except Exception as e:
                     await self.__drone.get_drone().manual_control.set_manual_control_input(0.0,0.0,0.5,0.0)
@@ -102,7 +119,7 @@ class PilotController:
                         #    print(e)
                         break 
                     try:
-                        await self.__drone.get_drone().action.goto_location(now_latitude,now_longitude,0.0,0)
+                        await self.__drone.get_drone().action.goto_location(now_latitude,now_longitude,self.__drone.flying_alt,0)
                         await asyncio.sleep(3)
                     except Exception as e:
                         print(e)

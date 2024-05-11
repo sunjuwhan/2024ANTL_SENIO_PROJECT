@@ -25,15 +25,19 @@ class class_drone_controller_datasender:
         try:
             # 데이터를 직렬화하고 전송
             self.socket.sendto(data.encode(),(self.target_ip,self.target_port))
-            self.info.arm_data=self.socket.recv(30).decode()  #다시 전달받아
-            pass
+            recv_data=self.socket.recv(100).decode().split(' ')
+            #self.info.arm_data=self.socket.recv(100).decode()  #다시 전달받아
+            self.info.arm_data=recv_data[0]
+            self.info.drone_latitude=recv_data[1]
+            self.info.drone_longitude=recv_data[2]
+            
         except Exception as e:
             print(f"Error sending joystick data: {e}")
 
     def run_data_sender(self):
         while True:
             mode=""
-            self.info.arm_data="arm"
+            #self.info.arm_data="arm"  테스트 할때 사용하던ㄷ것
             if self.info.switch1==1:  #내가 시동을 걸었어
                 if self.info.arm_data=="off":
                     mode="arm"
