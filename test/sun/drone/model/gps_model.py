@@ -1,10 +1,10 @@
 from math import radians, sin, cos, sqrt, atan2
 class GpsModel:
     def __init__(self) -> None:
-        self.__latitude_deg=None #위도
-        self.__longitude_deg=None #경도
-        self.__absolute_altitude=None  
-        self.__relative_altitude=None  #실제 높이 
+        self.__latitude_deg=0.0 #위도
+        self.__longitude_deg=0.0#경도
+        self.__absolute_altitude=0.0
+        self.__relative_altitude=0.0#실제 높이 
     def set_gps(self,latitude,longitude,absolute,relative):
         self.__latitude_deg=latitude
         self.__longitude_deg=longitude
