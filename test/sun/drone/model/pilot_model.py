@@ -7,12 +7,15 @@ class Drone:
         self.antl_drone = None
         self.flying_alt=None
     async def make_drone(self):
+        
         self.antl_drone=System()
         print("wating connect drone")
         await self.antl_drone.connect(system_address="serial:///dev/ttyAMA0")
+        
         print("Start connect") 
         #await self.antl_drone.connect(system_address="udp://:14540")
         print("Wating for drone to connect...")  #drone connect 
+        
         async for state in self.antl_drone.core.connection_state():
             if state.is_connected:
                 print(f"-- Connected to drone!")
@@ -22,20 +25,20 @@ class Drone:
             if health.is_global_position_ok and health.is_home_position_ok:
                 print("-- Global position state is good enough for flying.")
                 break
-            
         try:
             await self.antl_drone.manual_control.set_manual_control_input
             (float(0), float(0), float(0.5), float(0))
-            
             print("good")
             
         except Exception as e:
             print(e)
         print("Fetching amsl altitude at home location....")
+        
         async for terrain_info in self.antl_drone.telemetry.home():
             absolute_altitude = terrain_info.absolute_altitude_m
             break
-        self.flying_alt=absolute_altitude+1.0
+        
+        self.flying_alt=absolute_altitude
         print('======================self.flying alt')
         print(self.flying_alt)
         #print("-- Arming")
@@ -91,6 +94,7 @@ class PilotModel:
         return 
     def set_drone_state(self,state):
         self.__drone_state=state
+        
     def get_drone_state(self):
         return self.__drone_state
         
