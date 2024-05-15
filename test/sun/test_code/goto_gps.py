@@ -20,7 +20,6 @@ sock.listen(1)
 client_sock,addr=sock.accept()
 
 
-
 class joystick:
     def __init__(self) -> None:
         self.__yaw=None
@@ -51,7 +50,13 @@ class GpsModel:
 
     def get_gps(self):
         return(self.__latitude_deg,self.__longitude_deg,self.__absolute_altitude,self.__relative_altitude)
-    
+class recv_Data:
+    def __init__(self) -> None:
+        self.recv_data="init" 
+        
+        
+recv_class=recv_Data() 
+        
 def get_direction(start_lat, start_lon, end_lat, end_lon):
     # 위도와 경도의 차이 계산
     dlat = end_lat - start_lat
@@ -102,7 +107,6 @@ async def run():
     
     """ Does Offboard control using position NED coordinates. """
 
-    drone_state="init"
     drone = System()
     gps_mode=GpsModel()
     await drone.connect(system_address="udp://:14540")
@@ -178,7 +182,7 @@ async def run():
         print(joystick_model.get_joystick())
         if mode=="manual":
             try:
-                drone_state="manual"
+                recv_class.recv_data="manual"
                 if(throttle>0.7):
                     throttle=0.7
                     
@@ -200,8 +204,8 @@ async def run():
             print("-- Arming")
             await drone.action.arm()
             await asyncio.sleep(5)
-            drone_state="arm"
-        elif mode=="disarm" and drone_state!="init":
+            recv_class.recv_data="arm"
+        elif mode=="disarm" and recv_class.recv_data!="init":
             try:
                 print("--disarm lan")
                 await drone.action.land()
@@ -209,13 +213,13 @@ async def run():
                 print("succes landing and disarm")
                 await drone.action.disarm()
                 await asyncio.sleep(5)
-                drone_state="disarm" 
+                recv_class.recv_data="disarm" 
             except Exception as e:
                 print(e)
         elif mode=="land":
             print('land')
             await drone.action.land()
-            drone_state="land"
+            recv_class.recv_data="land"
             await asyncio.sleep(5)
         # elif mode=="gps":
         #     now_latitude=gps_mode.get_gps()[0]
@@ -256,7 +260,7 @@ async def run():
             now_latitude=gps_mode.get_gps()[0]
             now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
             now_height=gps_mode.get_gps()[3]
-            drone_state="gps"
+            recv_class.recv_data="gps"
             while True:
                 gps_mod_now=joystick_model.get_joystick()[4]
                 if(gps_mod_now!="gps"):
@@ -275,7 +279,7 @@ def run_socket():
     while True:
         data=client_sock.recv(1024).decode().split(' ')
         joystick_model.set_joystick(data[0],data[1],data[2],data[3],data[4])
-        client_sock.send(drone_state.encode())
+        client_sock.send(recv_class.recv_data.encode())
 if __name__ == "__main__":
     # Run the asyncio loop
     socket_trhead=Thread(target=run_socket)
