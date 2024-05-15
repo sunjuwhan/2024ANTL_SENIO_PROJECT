@@ -136,20 +136,20 @@ async def run():
     #flying_alt = absolute_altitude + 5.0
     
     flying_alt = 12.0+ 5.0
-    #print("-- Arming")
-    #await drone.action.arm()
-    #await asyncio.sleep(5)
-    #print("--takeoff")
+    print("-- Arming")
+    await drone.action.arm()
+    await asyncio.sleep(5)
+    print("--takeoff")
 
-    #await drone.action.takeoff()
-    #await asyncio.sleep(5)
-    #try:
-    #    await drone.manual_control.set_manual_control_input(
-    #    float(0), float(0), float(0.5), float(0)
-    #)
-    #    print("good")
-    #except Exception as e:
-    #    print(e)    
+    await drone.action.takeoff()
+    await asyncio.sleep(5)
+    try:
+        await drone.manual_control.set_manual_control_input(
+        float(0), float(0), float(0.5), float(0)
+    )
+        print("good")
+    except Exception as e:
+        print(e)    
     #print("-- Setting initial setpoint")  #아 현재 위치를 setting 하는 작업이구나 그러면 현재 위치를 0,0,0,0 이라고 setpoint를 찍는거네 
     #await drone.offboard.set_position_ned(PositionNedYaw(0.0, 0.0, 0.0, 0.0))
 
