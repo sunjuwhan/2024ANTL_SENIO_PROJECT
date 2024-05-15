@@ -128,14 +128,13 @@ async def run():
         
         
         
-    #print("Fetching amsl altitude at home location....")
-    #async for terrain_info in drone.telemetry.home():
-    #    absolute_altitude = terrain_info.absolute_altitude_m
-    #    break
+    print("Fetching amsl altitude at home location....")
+    async for terrain_info in drone.telemetry.home():
+        absolute_altitude = terrain_info.absolute_altitude_m
+        break
     
-    #flying_alt = absolute_altitude + 5.0
+    flying_alt = absolute_altitude + 5.0
     
-    flying_alt = 12.0+ 5.0
     print("-- Arming")
     await drone.action.arm()
     await asyncio.sleep(5)
