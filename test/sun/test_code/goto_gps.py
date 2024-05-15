@@ -20,8 +20,6 @@ sock.listen(1)
 client_sock,addr=sock.accept()
 
 
-drone_state="init"
-
 
 class joystick:
     def __init__(self) -> None:
@@ -101,8 +99,10 @@ joystick_model=joystick()
         
         
 async def run():
+    
     """ Does Offboard control using position NED coordinates. """
 
+    drone_state="init"
     drone = System()
     gps_mode=GpsModel()
     await drone.connect(system_address="udp://:14540")
