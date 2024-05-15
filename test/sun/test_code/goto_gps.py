@@ -275,6 +275,7 @@ def run_socket():
     while True:
         data=client_sock.recv(1024).decode().split(' ')
         joystick_model.set_joystick(data[0],data[1],data[2],data[3],data[4])
+        print("send_data",drone_state)
         client_sock.send(drone_state.encode())
 if __name__ == "__main__":
     # Run the asyncio loop
