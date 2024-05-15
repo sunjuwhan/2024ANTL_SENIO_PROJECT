@@ -279,7 +279,8 @@ def run_socket():
     while True:
         data=client_sock.recv(1024).decode().split(' ')
         joystick_model.set_joystick(data[0],data[1],data[2],data[3],data[4])
-        client_sock.send(recv_class.recv_data.encode())
+        send_Data="arm"
+        client_sock.send(send_Data.encode())
 if __name__ == "__main__":
     # Run the asyncio loop
     socket_trhead=Thread(target=run_socket)
