@@ -41,7 +41,7 @@ class class_drone_controller_datasender:
             mode=""
             #self.info.arm_data="arm"  테스트 할때 사용하던ㄷ것
             if self.info.switch1==1:  #내가 시동을 걸었어
-                if self.info.arm_data=="off":
+                if self.info.arm_data=="init":
                     mode="arm"
                 elif self.info.arm_data=="disarm":
                     mode="arm"
