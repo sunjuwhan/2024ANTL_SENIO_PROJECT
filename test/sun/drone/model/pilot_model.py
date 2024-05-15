@@ -73,7 +73,7 @@ class PilotModel:
     def __init__(self):
         self.__key = Key()
         self.__mode = 0
-        self.__drone_state="off"
+        self.__drone_state="init"
     def set_mode(self, mode):  
         self.__mode = mode
         return

@@ -48,7 +48,6 @@ class class_drone_controller_datasender:
                     if self.info.switch3==True:
                         if self.info.arm_data=="land":  #이미 착륙이 완료 되었을수도 있잖아.
                             mode="disarm"  #바로 자동으로 시동을 끄게끔 해주는거지
-                            continue
                         else: 
                             mode="land" 
                     else:  #switch 3 번이 꺼져있어그러면 다음 단게로 넘어갈수있어
@@ -56,10 +55,8 @@ class class_drone_controller_datasender:
                             mode="manual"
                         elif self.info.switch4==False:
                             mode="gps"
-                            
             elif self.info.switch1==0:
-                if self.info.arm_data=="land":
-                    mode="disarm"
+                mode="disarm"
             joystick_data = f"{self.info.joystick_Left_x} {self.info.joystick_Left_y} {self.info.joystick_Right_x} {self.info.joystick_Right_y} {mode}" 
             self.info.now_mode=mode
             self.info.joystick_data=joystick_data

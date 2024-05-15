@@ -18,13 +18,15 @@ class PilotController:
     
     def __recv_data(self,key,mode): #master 부터 recv해서 드론 컨트롤 하는 부분 
         self.__pilot_model.set_data(key,mode)
+        
     async def get_gps(self) :
+        
         async for position in self.__drone.get_drone().telemetry.position():
             self.__gps_model.set_gps(position.latitude_deg,position.longitude_deg,position.absolute_altitude_m,
                                      position.relative_altitude_m)
     async def run(self):
-        time.sleep(3)
         
+        time.sleep(3)
         asyncio.ensure_future(self.get_gps())
         st_latitude,st_longitude=self.__gps_model.get_gps()[0:2]
         self.__gps_model.set_start_gps(st_latitude,st_longitude)
@@ -66,15 +68,17 @@ class PilotController:
                 except Exception as e:
                     print(e)
                     
-            #elif( mode=="disarm"):
-            #    try:
-            #        print("--disarm")
-            #        await self.__drone.get_drone().action.disarm()
-            #        await   asyncio.sleep(5)
-            #        self.__pilot_model.set_drone_state("off")
-
-            #    except Exception as e:
-            #        print(e)
+            elif( mode=="disarm" and self.__pilot_model.get_drone_state()!="init"): #맨처음 init일때는 할필요는 없고 나중에 이제 다른 모드일때 끄는거지
+                try:
+                    print("--disarm land")
+                    await self.__drone.get_drone().action.land()
+                    await asyncio.sleep(5)
+                    print("sucess landing and disarm")
+                    await self.__drone.get_drone().action.disarm()
+                    await   asyncio.sleep(5)
+                    self.__pilot_model.set_drone_state("off")
+                except Exception as e:
+                    print(e)
             
             elif (mode=="manual"):
                 self.flag_arm="manual"

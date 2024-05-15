@@ -14,8 +14,15 @@ from mavsdk import System
 from mavsdk.offboard import (OffboardError, PositionNedYaw)
 from threading import Thread
 from math import radians, sin, cos, sqrt, atan2, degrees
-sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 sock.bind(("192.168.232.138",8000))
+sock.listen(1)
+client_sock,addr=sock.accept()
+
+
+drone_state="init"
+
+
 class joystick:
     def __init__(self) -> None:
         self.__yaw=None
@@ -124,13 +131,13 @@ async def run():
     
     flying_alt = absolute_altitude + 5.0
     
-    print("-- Arming")
-    await drone.action.arm()
-    await asyncio.sleep(5)
-    print("--takeoff")
+    #print("-- Arming")
+    #await drone.action.arm()
+    #await asyncio.sleep(5)
+    #print("--takeoff")
 
-    await drone.action.takeoff()
-    await asyncio.sleep(5)
+    #await drone.action.takeoff()
+    #await asyncio.sleep(5)
     #try:
     #    await drone.manual_control.set_manual_control_input(
     #    float(0), float(0), float(0.5), float(0)
@@ -169,6 +176,20 @@ async def run():
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
         if mode=="manual":
             try:
+                drone_state="manual"
+                if(throttle>0.7):
+                    throttle=0.7
+                    
+                if(pitch>0.5):
+                    pitch=0.5
+                elif pitch<-0.5:
+                    pitch=-0.5
+                
+                if roll >0.5:
+                    roll=0.5
+                elif roll<-0.5:
+                    roll=-0.5 
+                    
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
             except Exception as e:
                 await drone.manual_control.set_manual_control_input(0.0,0.0,0.5,0.0)
@@ -177,17 +198,22 @@ async def run():
             print("-- Arming")
             await drone.action.arm()
             await asyncio.sleep(5)
-        elif mode=="takeoff":
-            print("takeoff")
-            await drone.action.takeoff()
-            await asyncio.sleep(5)
-        elif mode=="disarm":
-            print("disarm")
-            await drone.action.disarm()
-            await asyncio.sleep(5)
+            drone_state="arm"
+        elif mode=="disarm" and drone_state!="init":
+            try:
+                print("--disarm lan")
+                await drone.action.land()
+                await asyncio.sleep(5) 
+                print("succes landing and disarm")
+                await drone.action.disarm()
+                await asyncio.sleep(5)
+                drone_state="disarm" 
+            except Exception as e:
+                print(e)
         elif mode=="land":
             print('land')
             await drone.action.land()
+            drone_state="land"
             await asyncio.sleep(5)
         # elif mode=="gps":
         #     now_latitude=gps_mode.get_gps()[0]
@@ -228,6 +254,7 @@ async def run():
             now_latitude=gps_mode.get_gps()[0]
             now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
             now_height=gps_mode.get_gps()[3]
+            drone_state="gps"
             while True:
                 gps_mod_now=joystick_model.get_joystick()[4]
                 if(gps_mod_now!="gps"):
@@ -244,8 +271,9 @@ async def get_gps(drone,drone_model:GpsModel):
                                     position.relative_altitude_m)  #relative
 def run_socket():
     while True:
-        data=sock.recv(1024).decode().split(' ')
+        data=client_sock.recv(1024).decode().split(' ')
         joystick_model.set_joystick(data[0],data[1],data[2],data[3],data[4])
+        client_sock.send(drone_state.encode())
 if __name__ == "__main__":
     # Run the asyncio loop
     socket_trhead=Thread(target=run_socket)
