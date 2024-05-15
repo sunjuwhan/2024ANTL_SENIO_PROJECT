@@ -38,5 +38,5 @@ while True:
     
     
     arm_data=recv_data[0]
-    print(data,arm_data)
+    print(data)
     client_sock.send(arm_data.encode())
