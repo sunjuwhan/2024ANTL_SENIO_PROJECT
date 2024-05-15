@@ -28,9 +28,11 @@ class class_drone_controller_datasender:
             recv_data=self.socket.recv(100).decode().split(' ')
             #self.info.arm_data=self.socket.recv(100).decode()  #다시 전달받아
             self.info.arm_data=recv_data[0]
-            self.info.drone_latitude=float(recv_data[1])
-            self.info.drone_longitude=float(recv_data[2])
-            
+            #self.info.drone_latitude=float(recv_data[1])
+            #self.info.drone_longitude=float(recv_data[2])
+            self.info.drone_latitude=float(1)
+            self.info.drone_longitude=float(1)
+
         except Exception as e:
             print(f"Error sending joystick data: {e}")
 
