@@ -185,15 +185,15 @@ async def run():
                 if(throttle>0.7):
                     throttle=0.7
                     
-                if(pitch>0.5):
-                    pitch=0.5
-                elif pitch<-0.5:
-                    pitch=-0.5
+                if(pitch>0.7):
+                    pitch=0.7
+                elif pitch<-0.7:
+                    pitch=-0.7
                 
-                if roll >0.5:
-                    roll=0.5
-                elif roll<-0.5:
-                    roll=-0.5 
+                if roll >0.7:
+                    roll=0.7
+                elif roll<-0.7:
+                    roll=-0.7
                     
                 await drone.manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
             except Exception as e:

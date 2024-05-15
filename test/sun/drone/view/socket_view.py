@@ -68,7 +68,8 @@ class SocketView():
                     data=self.__pilot_mode.get_drone_state()+' '+str(0.00)+' '+str(0.00)
                     self.__client_socket.send(data.encode())
             except Exception as e:
-                print("receve dead")
+                
+                print("recvee  dead  comback 명령 실행")
                 key_data=[0.0,0.0,0.0,0.0] 
                 mode_data="comback"
                 self.__pilot_mode.set_data(key_data,mode_data)
