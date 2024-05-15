@@ -175,6 +175,7 @@ async def run():
     flag_mode=None
     while True:
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
+        print(joystick_model.get_joystick())
         if mode=="manual":
             try:
                 drone_state="manual"
