@@ -5,13 +5,19 @@ class GpsModel:
         self.__longitude_deg=0.0#경도
         self.__absolute_altitude=0.0
         self.__relative_altitude=0.0#실제 높이 
+        self.__start_latitude=0.0
+        self.__start_longitude=0.0
+        
     def set_gps(self,latitude,longitude,absolute,relative):
         self.__latitude_deg=latitude
         self.__longitude_deg=longitude
         self.__absolute_altitude=absolute
         self.__relative_altitude=relative
-        
-
+    def set_start_gps(self,latitude,longitude):
+        self.__start_latitude=latitude
+        self.__start_longitude=longitude
+    def get_start_gps(self):
+        return self.__start_latitude,self.__start_longitude
     def get_gps(self):
         return(self.__latitude_deg,self.__longitude_deg,self.__absolute_altitude,self.__relative_altitude)
     

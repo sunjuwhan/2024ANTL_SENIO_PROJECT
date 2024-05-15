@@ -24,11 +24,15 @@ class PilotController:
                                      position.relative_altitude_m)
     async def run(self):
         time.sleep(3)
+        
+        asyncio.ensure_future(self.get_gps())
+        st_latitude,st_longitude=self.__gps_model.get_gps()[0:2]
+        self.__gps_model.set_start_gps(st_latitude,st_longitude)
         while True:
             (key,mode)=self.__pilot_model.get_data()
             (yaw,throttle,roll,pitch)=key.get_key()
             #print(mode,"  ",yaw,throttle,roll,pitch)
-            asyncio.ensure_future(self.get_gps())
+            
             if (mode=="arm"):
                 try:
                     if self.flag_arm!="arm":
@@ -40,6 +44,7 @@ class PilotController:
                         self.flag_arm="arm"
                 except Exception as e:
                     print(e)
+                    
             elif (mode=="takeoff") :
                 try:
                     print("--  Takeoff")
@@ -48,6 +53,7 @@ class PilotController:
                     print(" --sucesse takeoff") 
                 except Exception as e:
                     print(e)
+                    
             elif (mode=="land"):
                 try:
                     if self.flag_arm!="land":
@@ -59,6 +65,7 @@ class PilotController:
                         self.flag_arm=="land" 
                 except Exception as e:
                     print(e)
+                    
             #elif( mode=="disarm"):
             #    try:
             #        print("--disarm")
@@ -68,11 +75,13 @@ class PilotController:
 
             #    except Exception as e:
             #        print(e)
+            
             elif (mode=="manual"):
+                self.flag_arm="manual"
                 try:
+                    
                     if(throttle>0.7):
                         throttle=0.7
-                        
                         
                     if(pitch>0.5):
                         pitch=0.5
@@ -95,6 +104,8 @@ class PilotController:
                     await asyncio.sleep(0.1)
                     print(e)
             elif (mode=="gps") : #gps mode
+                print("strat_gps") 
+                self.flag_arm="gps"
                 now_latitude =self.__gps_model.get_gps()[0]
                 now_longitude=self.__gps_model.get_gps()[1]
                 now_height=self.__gps_model.get_gps()[3]
@@ -122,3 +133,9 @@ class PilotController:
                         await asyncio.sleep(3)
                     except Exception as e:
                         print(e)
+            elif (mode=="comback"):
+                try:
+                    await self.__drone.get_drone().action.goto_location(st_latitude,st_longitude,self.__drone.flying_alt-3,0)
+                    await asyncio.sleep(10)
+                except Exception as e:
+                    print(e)

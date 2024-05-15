@@ -38,7 +38,7 @@ class Drone:
             absolute_altitude = terrain_info.absolute_altitude_m
             break
         
-        self.flying_alt=absolute_altitude
+        self.flying_alt=absolute_altitude+3
         print('======================self.flying alt')
         print(self.flying_alt)
         #print("-- Arming")

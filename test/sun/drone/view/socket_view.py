@@ -30,7 +30,7 @@ class SocketView():
             print("make_socket Error here")
             print(e)
     def __data_send(self): #이미지 전송할 함수
-        time.sleep(3)
+        time.sleep(5)
         while True : 
             try:
                 frame=self.__video_model.get_send_frame()  #46081
@@ -69,6 +69,9 @@ class SocketView():
                     self.__client_socket.send(data.encode())
             except Exception as e:
                 print("receve dead")
+                key_data=[0.0,0.0,0.0,0.0] 
+                mode_data="comback"
+                self.__pilot_mode.set_data(key_data,mode_data)
                 print(e)
             
     def run(self):
