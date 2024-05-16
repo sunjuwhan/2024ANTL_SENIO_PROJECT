@@ -53,6 +53,7 @@ class PilotController:
             elif (mode=="takeoff") :
                 try:
                     print("--  Takeoff")
+                    await self.__drone.get_drone().action.set_takeoff_altitude(3.0)
                     await self.__drone.get_drone().action.takeoff()
                     await asyncio.sleep(3)
                     print(" --sucesse takeoff") 
@@ -74,12 +75,9 @@ class PilotController:
             elif( mode=="disarm" and self.__pilot_model.get_drone_state()!="init"): #맨처음 init일때는 할필요는 없고 나중에 이제 다른 모드일때 끄는거지
                 try:
                     print("--disarm land")
-                    await self.__drone.get_drone().action.land()
+                    await self.__drone.get_drone().action.kill()
                     await asyncio.sleep(5)
-                    print("sucess landing and disarm")
-                    await self.__drone.get_drone().action.disarm()
-                    await   asyncio.sleep(5)
-                    self.__pilot_model.set_drone_state("off")
+                    self.__pilot_model.set_drone_state("init")
                 except Exception as e:
                     print(e)
             
@@ -90,20 +88,15 @@ class PilotController:
                     if(throttle>0.7):
                         throttle=0.7
                         
-                    if(pitch>0.5):
-                        pitch=0.5
-                    elif pitch<-0.5:
-                        pitch=-0.5
+                    if(pitch>0.75):
+                        pitch=0.75
+                    elif pitch<-0.75:
+                        pitch=-0.75
                    
-                    if yaw>0.5:
-                        yaw=0.5
-                    elif yaw<-0.5:
-                        yaw=-0.5
-                        
-                    if roll >0.5:
-                        roll=0.5
-                    elif roll<-0.5:
-                        roll=-0.5 
+                    if roll >0.75:
+                        roll=0.75
+                    elif roll<-0.75:
+                        roll=-0.75
                     
                     await self.__drone.get_drone().manual_control.set_manual_control_input(pitch,roll,throttle,yaw)
                 except Exception as e:

@@ -207,11 +207,8 @@ async def run():
         elif mode=="disarm" and recv_class.recv_data!="init":
             try:
                 print("--disarm lan")
-                await drone.action.land()
-                await asyncio.sleep(5) 
-                print("succes landing and disarm")
-                await drone.action.disarm()
-                await asyncio.sleep(5)
+                await drone.action.kill()
+                await asyncio.sleep(3)
                 recv_class.recv_data="disarm" 
             except Exception as e:
                 print(e)
