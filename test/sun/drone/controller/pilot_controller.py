@@ -43,6 +43,9 @@ class PilotController:
                         await asyncio.sleep(5)
                         self.__pilot_model.set_drone_state("arm")
                         print("-- success Arming") 
+                        await self.__drone.get_drone().action.takeoff()
+                        await asyncio.sleep(3)
+                        print("success Takeoff")
                         self.flag_arm="arm"
                 except Exception as e:
                     print(e)
