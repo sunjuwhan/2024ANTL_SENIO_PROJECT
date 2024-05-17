@@ -102,7 +102,7 @@ from math import radians, sin, cos, sqrt, atan2
 # print("x축으로 {:.2f} 미터, y축으로 {:.2f} 미터 이동해야 합니다.".format(x_distance, y_distance))
 joystick_model=joystick()
 async def run_text(drone):
-    async for st_text in drone.telemtry.status_text():
+    async for st_text in drone.telemetry.status_text():
         print("CUSTOM StatusText:  ",st_text)
         
 async def run():
@@ -268,6 +268,9 @@ async def run():
                     if count==0:
                         print(now_latitude,now_latitude)
                         await drone.action.goto_location(now_latitude,now_longitude,flying_alt,0)
+                        while True:
+                            print('waiting gps_mode')
+                            await asyncio.sleep(1)
                         count+=1
                     else:
                         pass
