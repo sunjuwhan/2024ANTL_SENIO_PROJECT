@@ -32,13 +32,14 @@ class Drone:
             
         except Exception as e:
             print(e)
+            
+            
         print("Fetching amsl altitude at home location....")
-        
         async for terrain_info in self.antl_drone.telemetry.home():
             absolute_altitude = terrain_info.absolute_altitude_m
             break
         
-        self.flying_alt=absolute_altitude+3
+        self.flying_alt=absolute_altitude+6
         print('======================self.flying alt')
         print(self.flying_alt)
         #print("-- Arming")

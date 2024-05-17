@@ -133,6 +133,7 @@ class PilotController:
                         await asyncio.sleep(3)
                     except Exception as e:
                         print(e)
+                        
             elif (mode=="comback"):
                 try:
                     await self.__drone.get_drone().action.goto_location(st_latitude,st_longitude,self.__drone.flying_alt-3,0)
