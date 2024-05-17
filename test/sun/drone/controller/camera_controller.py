@@ -56,12 +56,7 @@ class CameraController():
         time.sleep(3)
         while True:
             recv_mode=self.__pilot_model.get_data()[1] #현재 모드를 가져와서 변경됨을 확인한다.
-<<<<<<< Updated upstream
             if self.__now_mode=="gps" and recv_mode=="manual":  
-=======
-            #recv_mode="manual"
-            if self.__now_mode=="gps" and recv_mode=="manual":
->>>>>>> Stashed changes
                 self.__model.set_end_flag(True)
                 time.sleep(0.3)
                 self.__now_mode="manual"

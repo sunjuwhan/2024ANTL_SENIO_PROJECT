@@ -181,7 +181,6 @@ async def run():
     flag_mode=None
     while True:
         yaw,throttle,roll,pitch,mode=joystick_model.get_joystick() 
-        print(joystick_model.get_joystick())
         if mode=="manual":
             try:
                 recv_class.recv_data="manual"
@@ -269,7 +268,6 @@ async def run():
                     if count==0:
                         print(now_latitude,now_latitude)
                         await drone.action.goto_location(now_latitude,now_longitude,flying_alt,0)
-                        await asyncio.sleep(3)
                         count+=1
                     else:
                         pass
