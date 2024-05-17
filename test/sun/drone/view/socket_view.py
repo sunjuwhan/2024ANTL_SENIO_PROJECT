@@ -9,7 +9,7 @@ from model.gps_model import *
 import socket
 import time
 #import cv2
-from picamera2 import Picamera2
+#from picamera2 import Picamera2
 class SocketView():
     def __init__(self,model:PilotModel,video,gps:GpsModel) -> None:
         self.video_socket=None
