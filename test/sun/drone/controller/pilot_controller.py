@@ -130,7 +130,7 @@ class PilotController:
                             await self.__drone.get_drone().action.goto_location(now_latitude,now_longitude,self.__drone.flying_alt,0)
                             await asyncio.sleep(3)
                             print("drone hold mode")
-                            await self.__drone.get_drone().action.hold()
+                            #await self.__drone.get_drone().action.hold()
                             await asyncio.sleep(1)
                             count+=1
                         else:
