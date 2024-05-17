@@ -268,9 +268,9 @@ async def run():
                     if count==0:
                         print(now_latitude,now_latitude)
                         await drone.action.goto_location(now_latitude,now_longitude,flying_alt,0)
-                        while True:
-                            print('waiting gps_mode')
-                            await asyncio.sleep(1)
+                        await asyncio.sleep(4)
+                        await drone.action.hold()
+                        await asyncio.sleep(1)
                         count+=1
                     else:
                         pass

@@ -10,7 +10,8 @@ class Drone:
         
         self.antl_drone=System()
         print("wating connect drone")
-        await self.antl_drone.connect(system_address="serial:///dev/ttyAMA0")
+        #await self.antl_drone.connect(system_address="serial:///dev/ttyAMA0")
+        await self.antl_drone.connect(system_address="udp://:14540")
         
         print("Start connect") 
         #await self.antl_drone.connect(system_address="udp://:14540")
