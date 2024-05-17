@@ -101,7 +101,9 @@ from math import radians, sin, cos, sqrt, atan2
 # print("두 지점 간의 각도는 {:.2f} 도입니다.".format(bearing))
 # print("x축으로 {:.2f} 미터, y축으로 {:.2f} 미터 이동해야 합니다.".format(x_distance, y_distance))
 joystick_model=joystick()
-        
+async def run_text(drone):
+    async for st_text in drone.telemtry.status_text():
+        print("CUSTOM StatusText:  ",st_text)
         
 async def run():
     
@@ -119,6 +121,7 @@ async def run():
         
         
     asyncio.ensure_future(get_gps(drone,gps_mode))
+    asyncio.ensure_future(run_text(drone))
     
     print("Waiting for drone to have a global position estimate...")
     async for health in drone.telemetry.health():
@@ -253,6 +256,7 @@ async def run():
         #     gps 모드로 들어오면 현재 위치 받아서  저장한다음에 이제 계속 이위치로 가야해 언제까지? 모드가 바뀔때까지
         #     """
         elif mode=="gps":
+            count=0
             now_latitude=gps_mode.get_gps()[0]
             now_longitude=gps_mode.get_gps()[1]  #현재 위치 받아와서
             now_height=gps_mode.get_gps()[3]
@@ -262,9 +266,13 @@ async def run():
                 if(gps_mod_now!="gps"):
                     break
                 try:
-                    print(now_latitude,now_latitude)
-                    await drone.action.goto_location(now_latitude,now_longitude,flying_alt,0)
-                    await asyncio.sleep(3)
+                    if count==0:
+                        print(now_latitude,now_latitude)
+                        await drone.action.goto_location(now_latitude,now_longitude,flying_alt,0)
+                        await asyncio.sleep(3)
+                        count+=1
+                    else:
+                        pass
                 except Exception as e:
                     pass
 async def get_gps(drone,drone_model:GpsModel):
