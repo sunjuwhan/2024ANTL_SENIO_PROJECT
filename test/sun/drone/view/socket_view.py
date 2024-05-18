@@ -3,15 +3,15 @@ from view.constant import *
 from socket import *
 from threading import *
 from model.pilot_model import *
-#from model.video_mode import *
+from model.video_mode import *
 from view.constant import *
 from model.gps_model import *
 import socket
 import time
-#import cv2
-#from picamera2 import Picamera2
+import cv2
+from picamera2 import Picamera2
 class SocketView():
-    def __init__(self,model:PilotModel,video,gps:GpsModel) -> None:
+    def __init__(self,model:PilotModel,video:VideoModel,gps:GpsModel) -> None:
         self.video_socket=None
         self.pilot_socket=None
         self.__pilot_mode=model
@@ -79,9 +79,9 @@ class SocketView():
         try:
             print("making thread")
             self.make_socket()
-            #send_thread=Thread(target=self.__data_send)
+            send_thread=Thread(target=self.__data_send)
             recv_thread=Thread(target=self.__data_recv)
-            #send_thread.start()
+            send_thread.start()
             recv_thread.start()
             print("socket thread started")
         except:
