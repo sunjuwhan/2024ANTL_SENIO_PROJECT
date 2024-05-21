@@ -1,9 +1,8 @@
 import gpiod
 import time
-from drone_controller.drone_controller_information import *
 class class_Drone_Controller_Switch:
-    def __init__(self, info):
-        self.info = info
+    def __init__(self):
+
         self.switch1_pin = 27  # BCM 핀 번호
         self.switch2_pin = 17
         self.switch3_pin = 16
@@ -16,14 +15,14 @@ class class_Drone_Controller_Switch:
     def runSwitch(self):
         while True:
             # 현재 스위치 상태 읽기
-            self.info.switch1 = True if self.lines[0].get_value() == 1 else False    #왼쪽위
-            self.info.switch2 = True if self.lines[1].get_value() == 1 else False    #왼쪽 아래
-            self.info.switch3 = True if self.lines[2].get_value() == 1 else False   #오른쪽 위
-            self.info.switch4 = True if self.lines[3].get_value() == 1 else False  #오른쪽 아래
-            print("switch1: {}".format(self.info.switch1))
-            print("switch2: {}".format(self.info.switch2))
-            print("switch3: {}".format(self.info.switch3))
-            print("switch4: {}".format(self.info.switch4))
+            switch1 = True if self.lines[0].get_value() == 1 else False    #왼쪽위
+            switch2 = True if self.lines[1].get_value() == 1 else False    #왼쪽 아래
+            switch3 = True if self.lines[2].get_value() == 1 else False   #오른쪽 위
+            switch4 = True if self.lines[3].get_value() == 1 else False  #오른쪽 아래
+            print("switch1: {}".format(switch1))
+            print("switch2: {}".format(switch2))
+            print("switch3: {}".format(switch3))
+            print("switch4: {}".format(switch4))
             time.sleep(0.3)
 
 if __name__ == "__main__":
