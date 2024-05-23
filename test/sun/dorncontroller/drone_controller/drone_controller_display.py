@@ -89,13 +89,10 @@ class class_drone_controller_display:
     #        time.sleep(0.1)  # 0.1초마다 호출하도록 설정합니다.
 
     def update_video(self, frame):
-        #frame = self.info.frame
         pil_image = Image.fromarray(frame)
-
-        # PIL 이미지를 PhotoImage로 변환
         self.photo = ImageTk.PhotoImage(image=pil_image)
         self.frame_canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
-        self.window.after(10, self.update_video)
+        #self.window.after(10, self.update_video)
 
     def update_switches(self):
         for label in self.switch_labels:
